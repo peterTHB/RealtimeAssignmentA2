@@ -4,8 +4,14 @@
 // RMIT University, COSC1226: Real-Time Rendering and 3D Game Programming
 //-----------------------------------------------------------------------------
 #pragma once
+#include <string>
+#include <iostream>
+#include <glad/glad.h>
+#include <sdl/SDL.h>
+#include <stb/stb_image.h>
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
+#include <glm/gtc/type_ptr.hpp>
 
 static const glm::vec3 DEFAULT_POSITION = glm::vec3(0.0f, 0.0f, 0.0f);
 static const glm::vec3 DEFAULT_FRONT    = glm::vec3(0.0f, 0.0f, -1.0f);
@@ -52,6 +58,19 @@ public:
     float m_StrafeSpeed{ DEFAULT_STRAFE_SPEED };
     float m_TurnSpeed{ DEFAULT_TURN_SPEED };
     float m_TiltSpeed{ DEFAULT_TILT_SPEED };
+
+    // Personal Implementation
+    void Mouse_Callback(float xRel, float yRel);
+    void LockCamera();
+    virtual void SetCameraPos(glm::vec3 cameraPos);
+    virtual glm::vec3* GetCameraPos();
+    virtual glm::vec3* GetCameraFront();
+    virtual glm::vec3* GetCameraUp();
+    virtual const float* GetCameraSpeed();
+    virtual float* GetDeltaTime();
+    float cameraSpeed = 5.0f;
+    float deltaTime = 0.0f;
+    float lastFrame = 0.0f;
 
 private:
     void UpdateVectors() {

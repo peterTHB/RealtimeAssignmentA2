@@ -12,6 +12,11 @@ int MainApp::Init()
         return err;
     }
 
+    SDL_GL_SetAttribute(SDL_GL_CONTEXT_PROFILE_MASK, SDL_GL_CONTEXT_PROFILE_CORE);
+    SDL_SetRelativeMouseMode(SDL_TRUE);
+    SDL_GetWindowSize(m_SDLWindow, &m_WindowWidth, &m_WindowHeight);
+    SDL_WarpMouseInWindow(m_SDLWindow, m_WindowWidth, m_WindowHeight);
+
     // Setup projection matrix and viewport transform. 
     // These won't need to change as we're not worrying about screen size changes for this assignment
     m_ProjectionMatrix = glm::perspective(glm::radians(60.0f), (float)m_WindowWidth / (float)m_WindowHeight, 0.1f, 100.0f);
@@ -146,12 +151,51 @@ bool MainApp::Tick()
 void MainApp::CheckInput()
 {
     SDL_Event e;
-    if (SDL_PollEvent(&e)) {
+
+    glm::vec3 cameraPos = *m_Camera->GetCameraPos();
+    glm::vec3 cameraFront = *m_Camera->GetCameraFront();
+    glm::vec3 cameraUp = *m_Camera->GetCameraUp();
+    float cameraDeltaTime = *m_Camera->GetDeltaTime();
+    const float cameraSpeed = *m_Camera->GetCameraSpeed() * cameraDeltaTime;
+    float xRel = 0;
+    float yRel = 0;
+
+    while (SDL_PollEvent(&e) != 0) {
         switch (e.type) {
             case SDL_QUIT: m_QuitApp = true; break;
+
+            case SDL_MOUSEMOTION:
+                xRel = e.motion.xrel;
+                yRel = e.motion.yrel;
+                m_Camera->Mouse_Callback(xRel, yRel);
+                break;
+
             case SDL_KEYDOWN:
                 switch (e.key.keysym.sym) {
                     case SDLK_ESCAPE: m_QuitApp = true; break;
+
+                    // Camera Controls
+                    case SDLK_w:
+                        cameraPos += cameraSpeed * cameraFront;
+                        m_Camera->SetCameraPos(cameraPos);
+                        break;
+
+                    case SDLK_s:
+                        cameraPos -= cameraSpeed * cameraFront;
+                        m_Camera->SetCameraPos(cameraPos);
+                        break;
+
+                    case SDLK_a:
+                        cameraPos -= glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+                        m_Camera->SetCameraPos(cameraPos);
+                        break;
+
+                    case SDLK_d:
+                        cameraPos += glm::normalize(glm::cross(cameraFront, cameraUp)) * cameraSpeed;
+                        m_Camera->SetCameraPos(cameraPos);
+                        break;
+
+                    /*case SDLK_ESCAPE: m_QuitApp = true; break;
                     case SDLK_w: m_MovingForward = true; break;
                     case SDLK_s: m_MovingBackward = true; break;
                     case SDLK_a: m_StrafingLeft = true; break;
@@ -159,21 +203,21 @@ void MainApp::CheckInput()
                     case SDLK_LEFT: m_TurningLeft = true; break;
                     case SDLK_RIGHT: m_TurningRight = true; break;
                     case SDLK_UP: m_TiltingUp = true; break;
-                    case SDLK_DOWN: m_TiltingDown = true; break;
+                    case SDLK_DOWN: m_TiltingDown = true; break;*/
                 }
                 break;
-            case SDL_KEYUP:
-                switch (e.key.keysym.sym) {
-                    case SDLK_w: m_MovingForward = false; break;
-                    case SDLK_s: m_MovingBackward = false; break;
-                    case SDLK_a: m_StrafingLeft = false; break;
-                    case SDLK_d: m_StrafingRight = false; break;
-                    case SDLK_LEFT: m_TurningLeft = false; break;
-                    case SDLK_RIGHT: m_TurningRight = false; break;
-                    case SDLK_UP: m_TiltingUp = false; break;
-                    case SDLK_DOWN: m_TiltingDown = false; break;
-                }
-                break;
+            //case SDL_KEYUP:
+            //    switch (e.key.keysym.sym) {
+            //        case SDLK_w: m_MovingForward = false; break;
+            //        case SDLK_s: m_MovingBackward = false; break;
+            //        case SDLK_a: m_StrafingLeft = false; break;
+            //        case SDLK_d: m_StrafingRight = false; break;
+            //        case SDLK_LEFT: m_TurningLeft = false; break;
+            //        case SDLK_RIGHT: m_TurningRight = false; break;
+            //        case SDLK_UP: m_TiltingUp = false; break;
+            //        case SDLK_DOWN: m_TiltingDown = false; break;
+            //    }
+            //    break;
         }
     }
 }
@@ -181,14 +225,14 @@ void MainApp::CheckInput()
 void MainApp::UpdateState(unsigned int td_milli)
 {
     // Update camera position based on keybard state checked earlier and saved
-    if (m_MovingForward == true) m_Camera->MoveForward(td_milli);
-    if (m_MovingBackward == true) m_Camera->MoveBackward(td_milli);
-    if (m_TurningLeft == true) m_Camera->TurnLeft(td_milli);
-    if (m_TurningRight == true) m_Camera->TurnRight(td_milli);
-    if (m_StrafingLeft == true) m_Camera->StrafeLeft(td_milli);
-    if (m_StrafingRight == true) m_Camera->StrafeRight(td_milli);
-    if (m_TiltingUp == true) m_Camera->TiltUp(td_milli);
-    if (m_TiltingDown == true) m_Camera->TiltDown(td_milli);
+    //if (m_MovingForward == true) m_Camera->MoveForward(td_milli);
+    //if (m_MovingBackward == true) m_Camera->MoveBackward(td_milli);
+    //if (m_TurningLeft == true) m_Camera->TurnLeft(td_milli);
+    //if (m_TurningRight == true) m_Camera->TurnRight(td_milli);
+    //if (m_StrafingLeft == true) m_Camera->StrafeLeft(td_milli);
+    //if (m_StrafingRight == true) m_Camera->StrafeRight(td_milli);
+    //if (m_TiltingUp == true) m_Camera->TiltUp(td_milli);
+    //if (m_TiltingDown == true) m_Camera->TiltDown(td_milli);
 
     // Update directional camera to align with camera forward direction
     m_LightingModel->GetLight(0)->Direction = m_Camera->m_Front;
@@ -196,7 +240,6 @@ void MainApp::UpdateState(unsigned int td_milli)
     // Setup Model and View matrices
     m_ModelMatrix = glm::mat4(1.0f);
     m_ViewMatrix = m_Camera->GetViewMatrix();
-
 }
 
 void MainApp::RenderFrame()

@@ -15,14 +15,6 @@ struct RTRFace_t {
     unsigned int v0, v1, v2;
 };
 
-struct RTRMaterial_t
-{
-    glm::vec3 Ambient;
-    glm::vec3 Diffuse;
-    glm::vec3 Specular;
-    float Shininess;
-};
-
 //-----------------------------------------------------------------------------
 class RTRObject
 {
