@@ -14,6 +14,10 @@
 #include "RTRObject.h"
 #include "Console.h"
 
+#include <vector>
+#include "RTRPhysicsEngine.h"
+#include "RTRRenderer.h"
+
 class MainApp : public RTRApp
 {
 public:
@@ -50,4 +54,8 @@ private:
     void CheckInput();
     void UpdateState(unsigned int td_milli);
     void RenderFrame();
+
+    std::vector<RTRShader*> ShaderVector;
+    RTRPhysicsEngine* m_RTRPhysicsEngine{ nullptr };
+    RTRRenderer* m_RTRRenderer{ nullptr };
 };

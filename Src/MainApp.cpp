@@ -34,6 +34,9 @@ int MainApp::Init()
         return -1;
     }
 
+    //ShaderVector.push_back(m_DefaultShader);
+    //ShaderVector.push_back(m_PlasmaShader);
+
     // Create and initialise camera
     m_Camera = new RTRCamera(glm::vec3(1.5, 2.0, 10.0), glm::vec3(0.0, 1.0, 0.0));
 
@@ -123,6 +126,9 @@ int MainApp::Init()
     // Create and initialise the debug console/overlay
     m_Console = new Console();
     m_Console->Init();
+
+    m_RTRPhysicsEngine = new RTRPhysicsEngine();
+    m_RTRRenderer = new RTRRenderer();
 
     return 0;
 }
@@ -244,38 +250,16 @@ void MainApp::UpdateState(unsigned int td_milli)
 
 void MainApp::RenderFrame()
 {
-    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    m_RTRRenderer->SetUp();
 
-    // Render the plasma cube using the plasma shader
-    glUseProgram(m_PlasmaShader->GetId());
-    m_PlasmaShader->SetFloat("u_CurTime", (float)m_CurTime);
-    m_PlasmaShader->SetFloat("u_TimeDelta", (float)m_TimeDelta);
-    m_PlasmaShader->SetMat4("u_ModelMatrix", m_ModelMatrix);
-    m_PlasmaShader->SetMat4("u_ViewMatrix", m_ViewMatrix);
-    m_PlasmaShader->SetMat4("u_ProjectionMatrix", m_ProjectionMatrix);
-    m_PlasmaShader->SetCamera("u_Camera", *m_Camera);
-    m_PlasmaShader->SetLightingModel(*m_LightingModel);
-    m_PlasmaCube->Render(m_PlasmaShader);
+    // Plasma cube
+    m_RTRRenderer->RenderWithShaders(m_PlasmaShader, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix, 
+        m_PlasmaCube, m_Camera, m_LightingModel, m_CurTime, m_TimeDelta, false);
+    // Default cube
+    m_RTRRenderer->RenderWithShaders(m_DefaultShader, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+        m_Cube, m_Camera, m_LightingModel, m_CurTime, m_TimeDelta, true);
 
-    // Render the shaded cube using the default blinn-phong shader
-    glUseProgram(m_DefaultShader->GetId());
-    m_DefaultShader->SetFloat("u_CurTime", (float)m_CurTime);
-    m_DefaultShader->SetFloat("u_TimeDelta", (float)m_TimeDelta);
-    //m_DefaultShader->SetMat4("u_ModelMatrix", m_ModelMatrix);
-    m_DefaultShader->SetMat4("u_ViewMatrix", m_ViewMatrix);
-    m_DefaultShader->SetMat4("u_ProjectionMatrix", m_ProjectionMatrix);
-    m_DefaultShader->SetCamera("u_Camera", *m_Camera);
-    m_DefaultShader->SetLightingModel(*m_LightingModel);
-
-    m_ModelMatrix = glm::translate(m_ModelMatrix, glm::vec3(3.0, 0.0, 0.0));
-    m_DefaultShader->SetMat4("u_ModelMatrix", m_ModelMatrix);
-    m_Cube->Render(m_DefaultShader);
-    
-    // Print out all debug info
-    m_Console->Render("DEBUG", m_FPS,
-        m_Camera->m_Position.x, m_Camera->m_Position.y, m_Camera->m_Position.z,
-        m_Camera->m_Yaw, m_Camera->m_Pitch);
+    m_RTRRenderer->DebugInfo(m_Console, m_FPS, m_Camera);
 
     // Swap buffers
     SDL_GL_SwapWindow(m_SDLWindow);

@@ -78,3 +78,20 @@ void RTRCube::Init()
     };
     RTRObject::Init();
 }
+
+void RTRSphere::Init()
+{
+
+}
+
+void RTRBlock::Init()
+{
+}
+
+void RTRCylinder::Init()
+{
+}
+
+void RTRPrism::Init()
+{
+}

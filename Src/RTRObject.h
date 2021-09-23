@@ -47,3 +47,35 @@ public:
     virtual void Init();
     virtual const char* GetName() { return "RTRCube"; }
 };
+
+class RTRSphere : public RTRObject {
+public:
+    RTRSphere() : RTRObject() {}
+    ~RTRSphere() {}
+    virtual void Init();
+    virtual const char* GetName() { return "RTRSphere"; }
+};
+
+class RTRBlock : public RTRObject {
+public:
+    RTRBlock() : RTRObject() {}
+    ~RTRBlock() {}
+    virtual void Init();
+    virtual const char* GetName() { return "RTRBlock"; }
+};
+
+class RTRCylinder : public RTRObject {
+public:
+    RTRCylinder() : RTRObject() {}
+    ~RTRCylinder() {}
+    virtual void Init();
+    virtual const char* GetName() { return "RTRCylinder"; }
+};
+
+class RTRPrism : public RTRObject {
+public:
+    RTRPrism() : RTRObject() {}
+    ~RTRPrism() {}
+    virtual void Init();
+    virtual const char* GetName() { return "RTRPrism"; }
+};
