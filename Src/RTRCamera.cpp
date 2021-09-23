@@ -29,6 +29,12 @@ void RTRCamera::LockCamera()
     }
 }
 
+void RTRCamera::ResetPosition() {
+    m_Position = glm::vec3(0.0, 8.0, 10.0);
+    m_Pitch = -35.0f;
+    m_Yaw = 270.0f;
+}
+
 void RTRCamera::SetCameraPos(glm::vec3 cameraPos)
 {
     this->m_Position = cameraPos;

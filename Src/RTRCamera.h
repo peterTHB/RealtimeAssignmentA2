@@ -17,8 +17,8 @@ static const glm::vec3 DEFAULT_POSITION = glm::vec3(0.0f, 0.0f, 0.0f);
 static const glm::vec3 DEFAULT_FRONT    = glm::vec3(0.0f, 0.0f, -1.0f);
 static const glm::vec3 DEFAULT_UP       = glm::vec3(0.0f, 1.0f, 0.0f);
 static const glm::vec3 DEFAULT_RIGHT    = glm::vec3(1.0f, 0.0f, 0.0f);
-static const float DEFAULT_YAW          = -90.0f;        // degrees
-static const float DEFAULT_PITCH        = 0.0f;          // degrees
+static const float DEFAULT_YAW          = 270.0f;        // degrees -90.0f
+static const float DEFAULT_PITCH        = -35.0f;        // degrees 0.0f
 static const float DEFAULT_MOVE_SPEED   = 4.0f;          // units per second
 static const float DEFAULT_STRAFE_SPEED = 4.0f;          // units per second
 static const float DEFAULT_TURN_SPEED   = 60.0f;         // degrees per second
@@ -60,8 +60,9 @@ public:
     float m_TiltSpeed{ DEFAULT_TILT_SPEED };
 
     // Personal Implementation
-    void Mouse_Callback(float xRel, float yRel);
-    void LockCamera();
+    virtual void Mouse_Callback(float xRel, float yRel);
+    virtual void LockCamera();
+    virtual void ResetPosition();
     virtual void SetCameraPos(glm::vec3 cameraPos);
     virtual glm::vec3* GetCameraPos();
     virtual glm::vec3* GetCameraFront();

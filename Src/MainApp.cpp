@@ -38,7 +38,7 @@ int MainApp::Init()
     //ShaderVector.push_back(m_PlasmaShader);
 
     // Create and initialise camera
-    m_Camera = new RTRCamera(glm::vec3(1.5, 2.0, 10.0), glm::vec3(0.0, 1.0, 0.0));
+    m_Camera = new RTRCamera(glm::vec3(0.0, 8.0, 10.0), glm::vec3(0.0, 1.0, 0.0));
 
     // Create and initialise lighting model
     m_LightingModel = new RTRLightingModel();
