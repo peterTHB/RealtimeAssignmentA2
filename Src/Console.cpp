@@ -45,6 +45,7 @@ void Console::Render(const char *title, int fps, float pos_x, float pos_y, float
     gltSetText(s_glt_text, m_String);
     gltColor(0.5f, 0.5f, 0.5f, 1.0f);
     gltDrawText2D(s_glt_text, 10, 10, 2.0);
+
     gltEndDraw();
     glUseProgram(0);
 }

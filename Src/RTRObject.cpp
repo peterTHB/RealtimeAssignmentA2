@@ -39,8 +39,7 @@ void RTRObject::Render(RTRShader *shader)
 {
     shader->SetMaterial("u_ObjectMaterial", m_Material);
     glBindVertexArray(m_VertexArray);
-    glDrawElements(GL_TRIANGLES, m_NumFaces * 3, GL_UNSIGNED_INT, 0);
-    //glDrawArrays(GL_TRIANGLES, 0, m_NumVertices);
+    glDrawArrays(GL_TRIANGLES, 0, m_NumVertices);
     glBindVertexArray(0);
 }
 
@@ -56,26 +55,34 @@ void RTRObject::End()
 //-----------------------------------------------------------------------------
 void RTRCube::Init()
 {
-    m_NumVertices = 8;
-    m_NumFaces = 12;
+    m_NumVertices = 36;
+    m_NumFaces = 2;
+
     m_VertexPoints = new RTRPoint_t[]{
-        { -1, -1,  1 },
-        {  1, -1,  1 },
-        {  1,  1,  1 },
-        { -1,  1,  1 },
-        {  1, -1, -1 },
-        { -1, -1, -1 },
-        { -1,  1, -1 },
-        {  1,  1, -1 }
+        // Right
+        { 1.0f, -1.0f, 1.0f }, { 1.0f, -1.0f, -1.0f }, { 1.0f, 1.0f, -1.0f },
+        { 1.0f, 1.0f, 1.0f }, { 1.0f, -1.0f, 1.0f }, { 1.0f, 1.0f, -1.0f },
+        // Left
+        { -1.0f, -1.0f, -1.0f }, { -1.0f, -1.0f, 1.0f }, { -1.0f, 1.0f, 1.0f },
+        { -1.0f, 1.0f, -1.0f }, { -1.0f, -1.0f, -1.0f }, { -1.0f, 1.0f, 1.0f },
+        // Top
+        { -1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, -1.0f },
+        { -1.0f, 1.0f, -1.0f }, { -1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, -1.0f },
+        // Bottom
+        { -1.0f, -1.0f, -1.0f }, { 1.0f, -1.0f, -1.0f }, { 1.0f, -1.0f, 1.0f },
+        { -1.0f, -1.0f, 1.0f }, { -1.0f, -1.0f, -1.0f }, { 1.0f, -1.0f, 1.0f },
+        // Front
+        { -1.0f, -1.0f, 1.0f }, { 1.0f, -1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f },
+        { -1.0f, 1.0f, 1.0f }, { -1.0f, -1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f },
+        // Back
+        { 1.0f, -1.0f, -1.0f }, { -1.0f, -1.0f, -1.0f }, { -1.0f, 1.0f, -1.0f },
+        { 1.0f, 1.0f, -1.0f }, { 1.0f, -1.0f, -1.0f }, { -1.0f, 1.0f, -1.0f }
     };
+
     m_Faces = new RTRFace_t[]{
-        { 1, 4, 7 }, { 1, 7, 2 },   // +x
-        { 5, 0, 3 }, { 5, 3, 6 },   // -x
-        { 3, 2, 7 }, { 3, 7, 6 },   // +y
-        { 5, 4, 1 }, { 5, 1, 0 },   // -y
-        { 0, 1, 2 }, { 0, 2, 3 },   // +z
-        { 4, 5, 6 }, { 4, 6, 7 }    // -z
+        { 0, 1, 2 }, {0, 2, 3}
     };
+
     RTRObject::Init();
 }
 

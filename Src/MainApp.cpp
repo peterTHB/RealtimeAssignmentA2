@@ -38,7 +38,7 @@ int MainApp::Init()
     //ShaderVector.push_back(m_PlasmaShader);
 
     // Create and initialise camera
-    m_Camera = new RTRCamera(glm::vec3(0.0, 8.0, 10.0), glm::vec3(0.0, 1.0, 0.0));
+    m_Camera = new RTRCamera(glm::vec3(0.0, 11.0, 13.0), glm::vec3(0.0, 1.0, 0.0));
 
     // Create and initialise lighting model
     m_LightingModel = new RTRLightingModel();
@@ -117,11 +117,12 @@ int MainApp::Init()
 
     // Create two cube objects
     // You might want to maintain a vector of objects for your assignment
+    // Static Pinball machine and related objects
     m_Cube = new RTRCube();
     m_Cube->Init();
     
-    m_PlasmaCube = new RTRCube();
-    m_PlasmaCube->Init();
+    //m_PlasmaCube = new RTRCube();
+    //m_PlasmaCube->Init();
 
     // Create and initialise the debug console/overlay
     m_Console = new Console();
@@ -136,7 +137,7 @@ int MainApp::Init()
 void MainApp::Done()
 {
     m_Cube->End(); delete m_Cube;
-    m_PlasmaCube->End(); delete m_PlasmaCube;
+    //m_PlasmaCube->End(); delete m_PlasmaCube;
     m_Console->End(); delete m_Console;
     delete m_PlasmaShader;
     delete m_DefaultShader;
@@ -201,45 +202,17 @@ void MainApp::CheckInput()
                         m_Camera->SetCameraPos(cameraPos);
                         break;
 
-                    /*case SDLK_ESCAPE: m_QuitApp = true; break;
-                    case SDLK_w: m_MovingForward = true; break;
-                    case SDLK_s: m_MovingBackward = true; break;
-                    case SDLK_a: m_StrafingLeft = true; break;
-                    case SDLK_d: m_StrafingRight = true; break;
-                    case SDLK_LEFT: m_TurningLeft = true; break;
-                    case SDLK_RIGHT: m_TurningRight = true; break;
-                    case SDLK_UP: m_TiltingUp = true; break;
-                    case SDLK_DOWN: m_TiltingDown = true; break;*/
+                    case SDLK_r:
+                        m_Camera->ResetPosition();
+                        break;
                 }
                 break;
-            //case SDL_KEYUP:
-            //    switch (e.key.keysym.sym) {
-            //        case SDLK_w: m_MovingForward = false; break;
-            //        case SDLK_s: m_MovingBackward = false; break;
-            //        case SDLK_a: m_StrafingLeft = false; break;
-            //        case SDLK_d: m_StrafingRight = false; break;
-            //        case SDLK_LEFT: m_TurningLeft = false; break;
-            //        case SDLK_RIGHT: m_TurningRight = false; break;
-            //        case SDLK_UP: m_TiltingUp = false; break;
-            //        case SDLK_DOWN: m_TiltingDown = false; break;
-            //    }
-            //    break;
         }
     }
 }
 
 void MainApp::UpdateState(unsigned int td_milli)
 {
-    // Update camera position based on keybard state checked earlier and saved
-    //if (m_MovingForward == true) m_Camera->MoveForward(td_milli);
-    //if (m_MovingBackward == true) m_Camera->MoveBackward(td_milli);
-    //if (m_TurningLeft == true) m_Camera->TurnLeft(td_milli);
-    //if (m_TurningRight == true) m_Camera->TurnRight(td_milli);
-    //if (m_StrafingLeft == true) m_Camera->StrafeLeft(td_milli);
-    //if (m_StrafingRight == true) m_Camera->StrafeRight(td_milli);
-    //if (m_TiltingUp == true) m_Camera->TiltUp(td_milli);
-    //if (m_TiltingDown == true) m_Camera->TiltDown(td_milli);
-
     // Update directional camera to align with camera forward direction
     m_LightingModel->GetLight(0)->Direction = m_Camera->m_Front;
 
@@ -253,11 +226,11 @@ void MainApp::RenderFrame()
     m_RTRRenderer->SetUp();
 
     // Plasma cube
-    m_RTRRenderer->RenderWithShaders(m_PlasmaShader, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix, 
-        m_PlasmaCube, m_Camera, m_LightingModel, m_CurTime, m_TimeDelta, false);
+    //m_RTRRenderer->RenderWithShaders(m_PlasmaShader, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix, 
+    //    m_PlasmaCube, m_Camera, m_LightingModel, m_CurTime, m_TimeDelta, false);
     // Default cube
     m_RTRRenderer->RenderWithShaders(m_DefaultShader, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
-        m_Cube, m_Camera, m_LightingModel, m_CurTime, m_TimeDelta, true);
+        m_Cube, m_Camera, m_LightingModel, m_CurTime, m_TimeDelta);
 
     m_RTRRenderer->DebugInfo(m_Console, m_FPS, m_Camera);
 
