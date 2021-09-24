@@ -24,18 +24,12 @@ int MainApp::Init()
 
     // Create two shaders
     // You might want to maintain a vector of all shaders you will use in your assignment
-    m_DefaultShader = new RTRShader();
-    if (m_DefaultShader->Load("Src/RTRDefault.vert", "Src/RTRDefault.frag", "Src/RTRDefault.geom") != 0) {
-        return -1;
-    }
-
-    m_PlasmaShader = new RTRShader();
-    if (m_PlasmaShader->Load("Src/RTRPlasma.vert", "Src/RTRPlasma.frag") != 0) {
+    m_PinballStaticShader = new RTRShader();
+    if (m_PinballStaticShader->Load("Src/RTRDefault.vert", "Src/RTRDefault.frag", "Src/RTRDefault.geom") != 0) {
         return -1;
     }
 
     //ShaderVector.push_back(m_DefaultShader);
-    //ShaderVector.push_back(m_PlasmaShader);
 
     // Create and initialise camera
     m_Camera = new RTRCamera(glm::vec3(0.0, 11.0, 13.0), glm::vec3(0.0, 1.0, 0.0));
@@ -118,11 +112,20 @@ int MainApp::Init()
     // Create two cube objects
     // You might want to maintain a vector of objects for your assignment
     // Static Pinball machine and related objects
-    m_Cube = new RTRCube();
-    m_Cube->Init();
-    
-    //m_PlasmaCube = new RTRCube();
-    //m_PlasmaCube->Init();
+    m_BottomPlane = new RTRCube();
+    m_BottomPlane->Init();
+
+    m_TopBar = new RTRCube();
+    m_TopBar->Init();
+
+    m_BottomBar = new RTRCube();
+    m_BottomBar->Init();
+
+    m_LeftBar = new RTRCube();
+    m_LeftBar->Init();
+
+    m_RightBar = new RTRCube();
+    m_RightBar->Init();
 
     // Create and initialise the debug console/overlay
     m_Console = new Console();
@@ -136,11 +139,13 @@ int MainApp::Init()
 
 void MainApp::Done()
 {
-    m_Cube->End(); delete m_Cube;
-    //m_PlasmaCube->End(); delete m_PlasmaCube;
+    m_BottomPlane->End(); delete m_BottomPlane;
+    m_TopBar->End(); delete m_TopBar;
+    m_BottomBar->End(); delete m_BottomBar;
+    m_LeftBar->End(); delete m_LeftBar;
+    m_RightBar->End(); delete m_RightBar;
     m_Console->End(); delete m_Console;
-    delete m_PlasmaShader;
-    delete m_DefaultShader;
+    delete m_PinballStaticShader;
     RTRApp::Done();
 }
 
@@ -225,12 +230,46 @@ void MainApp::RenderFrame()
 {
     m_RTRRenderer->SetUp();
 
-    // Plasma cube
-    //m_RTRRenderer->RenderWithShaders(m_PlasmaShader, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix, 
-    //    m_PlasmaCube, m_Camera, m_LightingModel, m_CurTime, m_TimeDelta, false);
-    // Default cube
-    m_RTRRenderer->RenderWithShaders(m_DefaultShader, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
-        m_Cube, m_Camera, m_LightingModel, m_CurTime, m_TimeDelta);
+    // Bottom Plane
+    glm::vec3 bottomPlaneTrans = glm::vec3(0.0f, -3.0f, 0.0f);
+    glm::vec3 bottomPlaneScale = glm::vec3(7.0f, 0.25f, 10.0f);
+    glm::vec3 bottomPlaneRotate = glm::vec3(0.0f, 0.0f, 0.0f);
+
+    m_RTRRenderer->RenderWithShaders(m_PinballStaticShader, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+        m_BottomPlane, m_Camera, m_LightingModel, m_CurTime, m_TimeDelta, bottomPlaneTrans, 
+        bottomPlaneScale, bottomPlaneRotate);
+
+    // Top Bar
+    glm::vec3 topBarTrans = glm::vec3(0.0f, -1.75f, -9.75f);
+    glm::vec3 topBarScale = glm::vec3(7.0f, 1.0f, 0.25f);
+    glm::vec3 topBarRotate = glm::vec3(0.0f, 0.0f, 0.0f);
+    m_RTRRenderer->RenderWithShaders(m_PinballStaticShader, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+        m_TopBar, m_Camera, m_LightingModel, m_CurTime, m_TimeDelta, topBarTrans,
+        topBarScale, topBarRotate);
+
+    // Bottom Bar
+    glm::vec3 bottomBarTrans = glm::vec3(0.0f, -1.75f, 9.75f);
+    glm::vec3 bottomBarScale = glm::vec3(7.0f, 1.0f, 0.25f);
+    glm::vec3 bottomBarRotate = glm::vec3(0.0f, 0.0f, 0.0f);
+    m_RTRRenderer->RenderWithShaders(m_PinballStaticShader, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+        m_TopBar, m_Camera, m_LightingModel, m_CurTime, m_TimeDelta, bottomBarTrans,
+        bottomBarScale, bottomBarRotate);
+
+    // Left Bar
+    glm::vec3 leftBarTrans = glm::vec3(-6.75f, -1.75f, 0.0f);
+    glm::vec3 leftBarScale = glm::vec3(0.25f, 1.0f, 9.5f);
+    glm::vec3 leftBarRotate = glm::vec3(0.0f, 0.0f, 0.0f);
+    m_RTRRenderer->RenderWithShaders(m_PinballStaticShader, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+        m_TopBar, m_Camera, m_LightingModel, m_CurTime, m_TimeDelta, leftBarTrans,
+        leftBarScale, leftBarRotate);
+
+    // Right Bar
+    glm::vec3 rightBarTrans = glm::vec3(6.75f, -1.75f, 0.0f);
+    glm::vec3 rightBarScale = glm::vec3(0.25f, 1.0f, 9.5f);
+    glm::vec3 rightBarRotate = glm::vec3(0.0f, 0.0f, 0.0f);
+    m_RTRRenderer->RenderWithShaders(m_PinballStaticShader, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+        m_TopBar, m_Camera, m_LightingModel, m_CurTime, m_TimeDelta, rightBarTrans,
+        rightBarScale, rightBarRotate);
 
     m_RTRRenderer->DebugInfo(m_Console, m_FPS, m_Camera);
 

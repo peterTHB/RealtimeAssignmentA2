@@ -30,12 +30,21 @@ public:
 
 private:
     bool m_QuitApp{ false };
-    RTRShader* m_DefaultShader{ nullptr };
-    RTRShader* m_PlasmaShader{ nullptr };
+    RTRShader* m_PinballStaticShader{ nullptr };
+    
+    //RTRShader* m_PlasmaShader{ nullptr };
+    
     RTRCamera* m_Camera{ nullptr };
     RTRLightingModel* m_LightingModel{ nullptr };
-    RTRObject* m_Cube{ nullptr };
-    RTRObject* m_PlasmaCube{ nullptr };
+    
+    RTRObject* m_BottomPlane{ nullptr };
+    RTRObject* m_TopBar{ nullptr };
+    RTRObject* m_BottomBar{ nullptr };
+    RTRObject* m_LeftBar{ nullptr };
+    RTRObject* m_RightBar{ nullptr };
+
+    /*RTRObject* m_PlasmaCube{ nullptr };*/
+
     Console* m_Console{ nullptr };
 
     bool m_MovingForward{ false };
@@ -56,6 +65,7 @@ private:
     void RenderFrame();
 
     std::vector<RTRShader*> ShaderVector;
+    std::vector<RTRObject*> StaticObjects;
     RTRPhysicsEngine* m_RTRPhysicsEngine{ nullptr };
     RTRRenderer* m_RTRRenderer{ nullptr };
 };

@@ -19,7 +19,7 @@ static const glm::vec3 DEFAULT_UP       = glm::vec3(0.0f, 1.0f, 0.0f);
 static const glm::vec3 DEFAULT_RIGHT    = glm::vec3(1.0f, 0.0f, 0.0f);
 static const float DEFAULT_YAW          = 270.0f;        // degrees -90.0f
 static const float DEFAULT_PITCH        = -50.0f;        // degrees 0.0f
-static const float DEFAULT_MOVE_SPEED   = 4.0f;          // units per second
+static const float DEFAULT_MOVE_SPEED   = 10.0f;          // units per second
 static const float DEFAULT_STRAFE_SPEED = 4.0f;          // units per second
 static const float DEFAULT_TURN_SPEED   = 60.0f;         // degrees per second
 static const float DEFAULT_TILT_SPEED   = 60.0f;         // degrees per second
@@ -61,9 +61,9 @@ public:
     virtual glm::vec3* GetCameraUp();
     virtual const float* GetCameraSpeed();
     virtual float* GetDeltaTime();
-    float cameraSpeed = 5.0f;
-    float deltaTime = 0.0f;
-    float lastFrame = 0.0f;
+    float cameraSpeed{ DEFAULT_MOVE_SPEED };
+    float deltaTime{ 0.0f };
+    float lastFrame{ 0.0f };
 
 private:
     void UpdateVectors() {

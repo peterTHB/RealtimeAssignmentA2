@@ -17,23 +17,24 @@ void RTRRenderer::SetUp() {
     glFrontFace(GL_CCW);
 }
 
-void RTRRenderer::ObjectTransformation(RTRShader* shader, glm::mat4 modelMatrix) {
-    modelMatrix = glm::translate(modelMatrix, glm::vec3(0.0, -3.0, 0.0));
-    modelMatrix = glm::scale(modelMatrix, glm::vec3(5.0f, 0.5f, 10.0f));
+void RTRRenderer::ObjectTransformation(RTRShader* shader, glm::mat4 modelMatrix, glm::vec3 translation, 
+    glm::vec3 scale, glm::vec3 rotation) {
+    modelMatrix = glm::translate(modelMatrix, translation);
+    modelMatrix = glm::scale(modelMatrix, scale);
 
     //float now = SDL_GetTicks();
     //float delta = now - lastTime;
     //lastTime = now;
     //timer += delta;
 
-    //modelMatrix = glm::rotate(modelMatrix, timer / 1000.0f, glm::vec3(1.0f, 1.0f, 0.0f));
+    //modelMatrix = glm::rotate(modelMatrix, timer / 1000.0f, rotation);
 
     shader->SetMat4("u_ModelMatrix", modelMatrix);
 }
 
 void RTRRenderer::RenderWithShaders(RTRShader* shader, glm::mat4 modelMatrix, glm::mat4 viewMatrix,
     glm::mat4 projectionMatrix, RTRObject* object, RTRCamera* camera, RTRLightingModel* lightingModel,
-    int curTime, int timeDelta) {
+    int curTime, int timeDelta, glm::vec3 translation, glm::vec3 scale, glm::vec3 rotation) {
 
     glUseProgram(shader->GetId());
     shader->SetFloat("u_CurTime", (float)curTime);
@@ -43,7 +44,7 @@ void RTRRenderer::RenderWithShaders(RTRShader* shader, glm::mat4 modelMatrix, gl
     shader->SetCamera("u_Camera", *camera);
     shader->SetLightingModel(*lightingModel);
 
-    ObjectTransformation(shader, modelMatrix);
+    ObjectTransformation(shader, modelMatrix, translation, scale, rotation);
 
     object->Render(shader);
 }
