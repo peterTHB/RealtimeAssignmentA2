@@ -54,13 +54,17 @@ private:
 
     Console* m_Console{ nullptr };
 
+    bool m_UsePlunger{ false };
+    float lastTime{ 0 };
+    float timer{ 0 };
+
     glm::mat4 m_ModelMatrix{ 1.0 };
     glm::mat4 m_ViewMatrix{ 1.0 };
     glm::mat4 m_ProjectionMatrix{ 1.0 };
 
     void CheckInput();
     void UpdateState(unsigned int td_milli);
-    void RenderFrame();
+    void RenderFrame(float timeDelta);
 
     std::vector<RTRShader*> ShaderVector;
     std::vector<RTRObject*> StaticPinballObjects;

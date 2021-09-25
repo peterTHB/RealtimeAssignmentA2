@@ -205,7 +205,7 @@ bool MainApp::Tick()
     m_QuitApp = false;
     CheckInput();
     UpdateState(m_TimeDelta);
-    RenderFrame();
+    RenderFrame(m_TimeDelta);
     return m_QuitApp;
 }
 
@@ -261,6 +261,21 @@ void MainApp::CheckInput()
                     case SDLK_r:
                         m_Camera->ResetPosition();
                         break;
+
+                    // Plunger increase tension
+                    case SDLK_UP:
+                        m_UsePlunger = true;
+                        break;
+                }
+                break;
+
+            case SDL_KEYUP:
+                switch (e.key.keysym.sym) {
+                    // Plunger release
+                    case SDLK_UP:
+                        m_UsePlunger = false;
+                        break;
+
                 }
                 break;
         }
@@ -277,7 +292,7 @@ void MainApp::UpdateState(unsigned int td_milli)
     m_ViewMatrix = m_Camera->GetViewMatrix();
 }
 
-void MainApp::RenderFrame()
+void MainApp::RenderFrame(float timeDelta)
 {
     m_RTRRenderer->SetUp();
 
@@ -324,14 +339,14 @@ void MainApp::RenderFrame()
 
     // Side shoot barrier
     glm::vec3 sideShootBarTrans = glm::vec3(5.5f, -1.75f, 1.5f);
-    glm::vec3 sideShootBarScale = glm::vec3(0.25f, 1.0f, 8.5f);
+    glm::vec3 sideShootBarScale = glm::vec3(0.25f, 1.0f, 8.0f);
     glm::vec3 sideShootBarRotate = glm::vec3(1.0f, 0.0f, 0.0f);
     m_RTRRenderer->RenderWithShaders(m_PinballStaticShader, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
         m_TopBar, m_Camera, m_LightingModel, m_CurTime, m_TimeDelta, sideShootBarTrans,
         sideShootBarScale, sideShootBarRotate);
 
     // Pinball Plunger
-    glm::vec3 plungerTrans = glm::vec3(6.125f, -2.5f, 10.4f);
+    glm::vec3 plungerTrans = m_RTRPhysicsEngine->UsePlunger(m_UsePlunger, timeDelta);
     glm::vec3 plungerScale = glm::vec3(0.25f, 0.25f, 1.5f);
     glm::vec3 plungerRotate = glm::vec3(1.0f, 0.0f, 0.0f);
     m_RTRRenderer->RenderWithShaders(m_PinballDynamicShader, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,

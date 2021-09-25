@@ -1,4 +1,5 @@
 ﻿  MainApp.cpp
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\MainApp.cpp(208,17): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
 C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\MainApp.cpp(231,32): warning C4244: '=': conversion from 'Sint32' to 'float', possible loss of data
 C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\MainApp.cpp(232,32): warning C4244: '=': conversion from 'Sint32' to 'float', possible loss of data
   RTRApp.vcxproj -> C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Build\Debug - x64\A2.exe

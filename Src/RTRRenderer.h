@@ -17,8 +17,7 @@ public:
 		int curTime, int timeDelta, glm::vec3 translation, glm::vec3 scale, glm::vec3 rotation);
 	virtual void DebugInfo(Console* console, int FPS, RTRCamera* camera);
 
-	float lastTime;
-	float timer;
-
 private:
+	float lastTime{ 0 };
+	float timer{ 0 };
 };
