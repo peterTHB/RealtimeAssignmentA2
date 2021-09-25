@@ -54,15 +54,11 @@ public:
     RTRSphere() : RTRObject() {}
     ~RTRSphere() {}
     virtual void Init();
+    virtual void Render(RTRShader* shader);
     virtual const char* GetName() { return "RTRSphere"; }
-};
-
-class RTRBlock : public RTRObject {
-public:
-    RTRBlock() : RTRObject() {}
-    ~RTRBlock() {}
-    virtual void Init();
-    virtual const char* GetName() { return "RTRBlock"; }
+    virtual void InitSphere(std::vector<glm::vec3> vertices, std::vector<int> indices);
+    virtual std::vector<glm::vec3> MakeSphereVertices(float radius, int stacks, int slices);
+    virtual std::vector<int> MakeSphereIndex(int stacks, int slices);
 };
 
 class RTRCylinder : public RTRObject {

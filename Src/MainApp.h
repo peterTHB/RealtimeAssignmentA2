@@ -31,6 +31,8 @@ public:
 private:
     bool m_QuitApp{ false };
     RTRShader* m_PinballStaticShader{ nullptr };
+    RTRShader* m_PinballDynamicShader{ nullptr };
+    RTRShader* m_DynamicObjectsShader{ nullptr };
     
     //RTRShader* m_PlasmaShader{ nullptr };
     
@@ -42,19 +44,15 @@ private:
     RTRObject* m_BottomBar{ nullptr };
     RTRObject* m_LeftBar{ nullptr };
     RTRObject* m_RightBar{ nullptr };
+    RTRObject* m_SideShootBar{ nullptr };
+
+    RTRObject* m_Plunger{ nullptr };
+
+    RTRObject* m_Sphere{ nullptr };
 
     /*RTRObject* m_PlasmaCube{ nullptr };*/
 
     Console* m_Console{ nullptr };
-
-    bool m_MovingForward{ false };
-    bool m_MovingBackward{ false };
-    bool m_TurningLeft{ false };
-    bool m_TurningRight{ false };
-    bool m_StrafingLeft{ false };
-    bool m_StrafingRight{ false };
-    bool m_TiltingUp{ false };
-    bool m_TiltingDown{ false };
 
     glm::mat4 m_ModelMatrix{ 1.0 };
     glm::mat4 m_ViewMatrix{ 1.0 };
@@ -65,7 +63,9 @@ private:
     void RenderFrame();
 
     std::vector<RTRShader*> ShaderVector;
-    std::vector<RTRObject*> StaticObjects;
+    std::vector<RTRObject*> StaticPinballObjects;
+    std::vector<RTRObject*> DynamicPinballObjects;
+    std::vector<RTRObject*> DynamicObjects;
     RTRPhysicsEngine* m_RTRPhysicsEngine{ nullptr };
     RTRRenderer* m_RTRRenderer{ nullptr };
 };

@@ -19,6 +19,8 @@ void RTRRenderer::SetUp() {
 
 void RTRRenderer::ObjectTransformation(RTRShader* shader, glm::mat4 modelMatrix, glm::vec3 translation, 
     glm::vec3 scale, glm::vec3 rotation) {
+
+    modelMatrix = glm::rotate(modelMatrix, 6.5f, rotation);
     modelMatrix = glm::translate(modelMatrix, translation);
     modelMatrix = glm::scale(modelMatrix, scale);
 

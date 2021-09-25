@@ -15,11 +15,11 @@ void RTRCamera::Mouse_Callback(float xRel, float yRel) {
 
 void RTRCamera::LockCamera()
 {
-    if (m_Pitch > 90.0f) {
-        m_Pitch = 90.0f;
+    if (m_Pitch > 89.9f) {
+        m_Pitch = 89.9f;
     }
-    if (m_Pitch < -90.0f) {
-        m_Pitch = -90.0f;
+    if (m_Pitch < -89.9f) {
+        m_Pitch = -89.9f;
     }
 
     if (m_Yaw < 0.0) {
