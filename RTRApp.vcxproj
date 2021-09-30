@@ -20,6 +20,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Include\glad\glad.c" />
+    <ClCompile Include="Src\RTRWorld.cpp" />
     <ClCompile Include="Src\RTRPhysicsEngine.cpp" />
     <ClCompile Include="Src\RTRRenderer.cpp" />
     <ClCompile Include="Src\RTRCamera.cpp" />
@@ -31,6 +32,7 @@
     <ClCompile Include="Src\RTRShader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Src\RTRWorld.h" />
     <ClInclude Include="Src\RTRPhysicsEngine.h" />
     <ClInclude Include="Src\RTRRenderer.h" />
     <ClInclude Include="Src\RTRCamera.h" />

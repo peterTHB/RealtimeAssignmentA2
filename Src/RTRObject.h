@@ -20,15 +20,25 @@ struct RTRFace_t {
 class RTRObject
 {
 public:
-    RTRObject() {}
+    RTRObject(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) {
+        m_Position = position;
+        m_Scale = scale;
+        m_Rotation = rotation;
+    }
     ~RTRObject() {}
     virtual void Init();
     virtual void Render(RTRShader* shader);
     virtual void End();
     void SetMaterial(RTRMaterial_t mat) { m_Material = mat; }
     virtual const char* GetName() { return "RTRObject"; }
-    virtual void SetPosition(glm::vec3 position) { m_position = position; };
-    virtual glm::vec3 GetPosition() { return m_position; };
+    virtual void SetPosition(glm::vec3 position) { m_Position = position; };
+    virtual glm::vec3 GetPosition() { return m_Position; };
+    virtual void SetScale(glm::vec3 scale) { m_Scale = scale; };
+    virtual glm::vec3 GetScale() { return m_Scale; };
+    virtual void SetRotation(glm::vec3 rotation) { m_Rotation = rotation; };
+    virtual glm::vec3 GetRotation() { return m_Rotation; };
+    virtual void SetVelocity(float velocity) { m_Velocity = velocity; };
+    virtual float GetVelocity() { return m_Velocity; };
 
 public:
     unsigned int m_NumVertices{ 0 };
@@ -39,14 +49,18 @@ public:
     unsigned int m_VertexBuffer{ 0 };
     unsigned int m_VertexArray{ 0 };
     unsigned int m_FaceElementBuffer{ 0 };
-    glm::vec3 m_position{ 0, 0, 0 };
+    glm::vec3 m_Position{ 0, 0, 0 };
+    glm::vec3 m_Scale{ 0, 0, 0 };
+    glm::vec3 m_Rotation{ 0, 0, 0 };
+    float m_Velocity{ 0 };
 };
 
 //-----------------------------------------------------------------------------
 class RTRCube : public RTRObject
 {
 public:
-    RTRCube() : RTRObject() {}
+    RTRCube(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) : 
+        RTRObject(position, scale, rotation) {}
     ~RTRCube() {}
     virtual void Init();
     virtual const char* GetName() { return "RTRCube"; }
@@ -54,7 +68,8 @@ public:
 
 class RTRSphere : public RTRObject {
 public:
-    RTRSphere() : RTRObject() {}
+    RTRSphere(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) : 
+        RTRObject(position, scale, rotation) {}
     ~RTRSphere() {}
     virtual void Init();
     virtual void Render(RTRShader* shader);
@@ -66,7 +81,8 @@ public:
 
 class RTRCylinder : public RTRObject {
 public:
-    RTRCylinder() : RTRObject() {}
+    RTRCylinder(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) : 
+        RTRObject(position, scale, rotation) {}
     ~RTRCylinder() {}
     virtual void Init();
     virtual const char* GetName() { return "RTRCylinder"; }
@@ -74,7 +90,8 @@ public:
 
 class RTRPrism : public RTRObject {
 public:
-    RTRPrism() : RTRObject() {}
+    RTRPrism(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) : 
+        RTRObject(position, scale, rotation) {}
     ~RTRPrism() {}
     virtual void Init();
     virtual const char* GetName() { return "RTRPrism"; }

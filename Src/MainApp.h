@@ -10,8 +10,7 @@
 #include "RTRApp.h"
 #include "RTRShader.h"
 #include "RTRCamera.h"
-#include "RTRLighting.h"
-#include "RTRObject.h"
+#include "RTRWorld.h"
 #include "Console.h"
 
 #include <vector>
@@ -31,22 +30,13 @@ public:
 private:
     bool m_QuitApp{ false };
     
+    RTRWorld* m_RTRWorld{ nullptr };
     RTRCamera* m_Camera{ nullptr };
-    RTRLightingModel* m_LightingModel{ nullptr };
-    
-    RTRObject* m_BottomPlane{ nullptr };
-    RTRObject* m_TopBar{ nullptr };
-    RTRObject* m_BottomBar{ nullptr };
-    RTRObject* m_LeftBar{ nullptr };
-    RTRObject* m_RightBar{ nullptr };
-    RTRObject* m_SideShootBar{ nullptr };
-
-    RTRObject* m_Plunger{ nullptr };
-
-    RTRObject* m_Sphere{ nullptr };
 
     Console* m_Console{ nullptr };
 
+    bool m_ShootBall{ false };
+    int m_NumBallsShot{ 0 };
     bool m_UsePlunger{ false };
     float lastTime{ 0 };
     float timer{ 0 };
@@ -59,9 +49,6 @@ private:
     void UpdateState(unsigned int td_milli);
     void RenderFrame();
 
-    std::vector<RTRObject*> StaticPinballObjects;
-    std::vector<RTRObject*> DynamicPinballObjects;
-    std::vector<RTRObject*> DynamicObjects;
     RTRPhysicsEngine* m_RTRPhysicsEngine{ nullptr };
     RTRRenderer* m_RTRRenderer{ nullptr };
 };
