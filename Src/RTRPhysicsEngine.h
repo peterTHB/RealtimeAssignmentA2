@@ -12,7 +12,11 @@ class RTRPhysicsEngine {
 public:
 	RTRPhysicsEngine();
 	glm::vec3 UsePlunger(bool usingPlunger, float timer);
+	virtual float GetPower();
+	virtual void ResetPower();
+	virtual void Done();
 
 private:
 	float plungerZTrans{ 0 };
+	float power{ 0 };
 };

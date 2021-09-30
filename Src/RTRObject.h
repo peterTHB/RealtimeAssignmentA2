@@ -27,6 +27,8 @@ public:
     virtual void End();
     void SetMaterial(RTRMaterial_t mat) { m_Material = mat; }
     virtual const char* GetName() { return "RTRObject"; }
+    virtual void SetPosition(glm::vec3 position) { m_position = position; };
+    virtual glm::vec3 GetPosition() { return m_position; };
 
 public:
     unsigned int m_NumVertices{ 0 };
@@ -37,6 +39,7 @@ public:
     unsigned int m_VertexBuffer{ 0 };
     unsigned int m_VertexArray{ 0 };
     unsigned int m_FaceElementBuffer{ 0 };
+    glm::vec3 m_position{ 0, 0, 0 };
 };
 
 //-----------------------------------------------------------------------------

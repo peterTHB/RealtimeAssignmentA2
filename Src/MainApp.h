@@ -30,11 +30,6 @@ public:
 
 private:
     bool m_QuitApp{ false };
-    RTRShader* m_PinballStaticShader{ nullptr };
-    RTRShader* m_PinballDynamicShader{ nullptr };
-    RTRShader* m_DynamicObjectsShader{ nullptr };
-    
-    //RTRShader* m_PlasmaShader{ nullptr };
     
     RTRCamera* m_Camera{ nullptr };
     RTRLightingModel* m_LightingModel{ nullptr };
@@ -50,8 +45,6 @@ private:
 
     RTRObject* m_Sphere{ nullptr };
 
-    /*RTRObject* m_PlasmaCube{ nullptr };*/
-
     Console* m_Console{ nullptr };
 
     bool m_UsePlunger{ false };
@@ -64,9 +57,8 @@ private:
 
     void CheckInput();
     void UpdateState(unsigned int td_milli);
-    void RenderFrame(float timeDelta);
+    void RenderFrame();
 
-    std::vector<RTRShader*> ShaderVector;
     std::vector<RTRObject*> StaticPinballObjects;
     std::vector<RTRObject*> DynamicPinballObjects;
     std::vector<RTRObject*> DynamicObjects;

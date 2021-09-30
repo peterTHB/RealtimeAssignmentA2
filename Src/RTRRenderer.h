@@ -12,10 +12,16 @@ public:
 	virtual void SetUp();
 	virtual void ObjectTransformation(RTRShader* shader, glm::mat4 modelMatrix, glm::vec3 translation,
 		glm::vec3 scale, glm::vec3 rotation);
-	virtual void RenderWithShaders(RTRShader* shader, glm::mat4 modelMatrix, glm::mat4 viewMatrix,
+	virtual void RenderWithShaders(int shaderPos, glm::mat4 modelMatrix, glm::mat4 viewMatrix,
 		glm::mat4 projectionMatrix, RTRObject* object, RTRCamera* camera, RTRLightingModel* lightingModel,
 		int curTime, int timeDelta, glm::vec3 translation, glm::vec3 scale, glm::vec3 rotation);
 	virtual void DebugInfo(Console* console, int FPS, RTRCamera* camera);
+	virtual void Done();
+
+	std::vector<RTRShader*> ShaderVector;
+	RTRShader* m_PinballStaticShader{ nullptr };
+	RTRShader* m_PinballDynamicShader{ nullptr };
+	RTRShader* m_DynamicObjectsShader{ nullptr };
 
 private:
 	float lastTime{ 0 };

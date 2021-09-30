@@ -22,31 +22,14 @@ int MainApp::Init()
     m_ProjectionMatrix = glm::perspective(glm::radians(60.0f), (float)m_WindowWidth / (float)m_WindowHeight, 0.1f, 100.0f);
     glViewport(0, 0, m_WindowWidth, m_WindowHeight);
 
-    // Create two shaders
-    // You might want to maintain a vector of all shaders you will use in your assignment
-    m_PinballStaticShader = new RTRShader();
-    if (m_PinballStaticShader->Load("Src/RTRDefault.vert", "Src/RTRDefault.frag", "Src/RTRDefault.geom") != 0) {
-        return -1;
-    }
-
-    m_PinballDynamicShader = new RTRShader();
-    if (m_PinballDynamicShader->Load("Src/RTRDefault.vert", "Src/RTRDefault.frag", "Src/RTRDefault.geom") != 0) {
-        return -1;
-    }
-
-    m_DynamicObjectsShader = new RTRShader();
-    if (m_DynamicObjectsShader->Load("Src/RTRDefault.vert", "Src/RTRDefault.frag", "Src/RTRDefault.geom") != 0) {
-        return -1;
-    }
-
-    ShaderVector.push_back(m_PinballStaticShader);
-    ShaderVector.push_back(m_DynamicObjectsShader);
-
     // Create and initialise camera
     m_Camera = new RTRCamera(glm::vec3(0.0, 11.0, 13.0), glm::vec3(0.0, 1.0, 0.0));
 
     // Create and initialise lighting model
     m_LightingModel = new RTRLightingModel();
+
+    m_RTRPhysicsEngine = new RTRPhysicsEngine();
+    m_RTRRenderer = new RTRRenderer();
     
     // Add directional light to follow camera view direction
     m_LightingModel->AddLight({
@@ -153,6 +136,7 @@ int MainApp::Init()
     m_Plunger->Init();
     RTRMaterial_t plungerMat = { {0.1, 0.8, 0.1 }, { 0.4, 0.4, 0.4 }, { 0.7, 0.7, 0.7 }, 64.0 };
     m_Plunger->SetMaterial(plungerMat);
+    m_Plunger->SetPosition(m_RTRPhysicsEngine->UsePlunger(m_UsePlunger, m_TimeDelta));
 
     DynamicPinballObjects.push_back(m_Plunger);
 
@@ -161,15 +145,13 @@ int MainApp::Init()
     m_Sphere->Init();
     RTRMaterial_t sphereMat = { {0.1, 0.1, 0.8 }, { 0.6, 0.6, 0.6 }, { 0.8, 0.8, 0.8 }, 64.0 };
     m_Sphere->SetMaterial(sphereMat);
+    m_Sphere->SetPosition(glm::vec3(6.125f, -2.5f, 8.5f));
 
     DynamicObjects.push_back(m_Sphere);
 
     // Create and initialise the debug console/overlay
     m_Console = new Console();
     m_Console->Init();
-
-    m_RTRPhysicsEngine = new RTRPhysicsEngine();
-    m_RTRRenderer = new RTRRenderer();
 
     return 0;
 }
@@ -189,14 +171,16 @@ void MainApp::Done()
 
     m_Console->End(); delete m_Console;
     
-    delete m_PinballStaticShader;
-    delete m_DynamicObjectsShader;
-    
-    ShaderVector.clear();
     StaticPinballObjects.clear();
     DynamicPinballObjects.clear();
     DynamicObjects.clear();
+
+    m_RTRRenderer->Done();
+    delete m_RTRRenderer;
     
+    m_RTRPhysicsEngine->Done();
+    delete m_RTRPhysicsEngine;
+
     RTRApp::Done();
 }
 
@@ -205,7 +189,7 @@ bool MainApp::Tick()
     m_QuitApp = false;
     CheckInput();
     UpdateState(m_TimeDelta);
-    RenderFrame(m_TimeDelta);
+    RenderFrame();
     return m_QuitApp;
 }
 
@@ -292,7 +276,7 @@ void MainApp::UpdateState(unsigned int td_milli)
     m_ViewMatrix = m_Camera->GetViewMatrix();
 }
 
-void MainApp::RenderFrame(float timeDelta)
+void MainApp::RenderFrame()
 {
     m_RTRRenderer->SetUp();
 
@@ -300,8 +284,7 @@ void MainApp::RenderFrame(float timeDelta)
     glm::vec3 bottomPlaneTrans = glm::vec3(0.0f, -3.0f, 0.0f);
     glm::vec3 bottomPlaneScale = glm::vec3(7.0f, 0.25f, 10.0f);
     glm::vec3 bottomPlaneRotate = glm::vec3(1.0f, 0.0f, 0.0f);
-
-    m_RTRRenderer->RenderWithShaders(m_PinballStaticShader, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+    m_RTRRenderer->RenderWithShaders(0, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
         m_BottomPlane, m_Camera, m_LightingModel, m_CurTime, m_TimeDelta, bottomPlaneTrans, 
         bottomPlaneScale, bottomPlaneRotate);
 
@@ -309,7 +292,7 @@ void MainApp::RenderFrame(float timeDelta)
     glm::vec3 topBarTrans = glm::vec3(0.0f, -1.75f, -9.75f);
     glm::vec3 topBarScale = glm::vec3(7.0f, 1.0f, 0.25f);
     glm::vec3 topBarRotate = glm::vec3(1.0f, 0.0f, 0.0f);
-    m_RTRRenderer->RenderWithShaders(m_PinballStaticShader, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+    m_RTRRenderer->RenderWithShaders(0, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
         m_TopBar, m_Camera, m_LightingModel, m_CurTime, m_TimeDelta, topBarTrans,
         topBarScale, topBarRotate);
 
@@ -317,7 +300,7 @@ void MainApp::RenderFrame(float timeDelta)
     glm::vec3 bottomBarTrans = glm::vec3(0.0f, -1.75f, 9.75f);
     glm::vec3 bottomBarScale = glm::vec3(7.0f, 1.0f, 0.25f);
     glm::vec3 bottomBarRotate = glm::vec3(1.0f, 0.0f, 0.0f);
-    m_RTRRenderer->RenderWithShaders(m_PinballStaticShader, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+    m_RTRRenderer->RenderWithShaders(0, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
         m_TopBar, m_Camera, m_LightingModel, m_CurTime, m_TimeDelta, bottomBarTrans,
         bottomBarScale, bottomBarRotate);
 
@@ -325,7 +308,7 @@ void MainApp::RenderFrame(float timeDelta)
     glm::vec3 leftBarTrans = glm::vec3(-6.75f, -1.75f, 0.0f);
     glm::vec3 leftBarScale = glm::vec3(0.25f, 1.0f, 9.5f);
     glm::vec3 leftBarRotate = glm::vec3(1.0f, 0.0f, 0.0f);
-    m_RTRRenderer->RenderWithShaders(m_PinballStaticShader, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+    m_RTRRenderer->RenderWithShaders(0, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
         m_TopBar, m_Camera, m_LightingModel, m_CurTime, m_TimeDelta, leftBarTrans,
         leftBarScale, leftBarRotate);
 
@@ -333,7 +316,7 @@ void MainApp::RenderFrame(float timeDelta)
     glm::vec3 rightBarTrans = glm::vec3(6.75f, -1.75f, 0.0f);
     glm::vec3 rightBarScale = glm::vec3(0.25f, 1.0f, 9.5f);
     glm::vec3 rightBarRotate = glm::vec3(1.0f, 0.0f, 0.0f);
-    m_RTRRenderer->RenderWithShaders(m_PinballStaticShader, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+    m_RTRRenderer->RenderWithShaders(0, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
         m_TopBar, m_Camera, m_LightingModel, m_CurTime, m_TimeDelta, rightBarTrans,
         rightBarScale, rightBarRotate);
 
@@ -341,23 +324,26 @@ void MainApp::RenderFrame(float timeDelta)
     glm::vec3 sideShootBarTrans = glm::vec3(5.5f, -1.75f, 1.5f);
     glm::vec3 sideShootBarScale = glm::vec3(0.25f, 1.0f, 8.0f);
     glm::vec3 sideShootBarRotate = glm::vec3(1.0f, 0.0f, 0.0f);
-    m_RTRRenderer->RenderWithShaders(m_PinballStaticShader, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+    m_RTRRenderer->RenderWithShaders(0, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
         m_TopBar, m_Camera, m_LightingModel, m_CurTime, m_TimeDelta, sideShootBarTrans,
         sideShootBarScale, sideShootBarRotate);
 
     // Pinball Plunger
-    glm::vec3 plungerTrans = m_RTRPhysicsEngine->UsePlunger(m_UsePlunger, timeDelta);
+    m_Plunger->SetPosition(m_RTRPhysicsEngine->UsePlunger(m_UsePlunger, m_TimeDelta));
+    glm::vec3 plungerTrans = m_Plunger->GetPosition();
     glm::vec3 plungerScale = glm::vec3(0.25f, 0.25f, 1.5f);
     glm::vec3 plungerRotate = glm::vec3(1.0f, 0.0f, 0.0f);
-    m_RTRRenderer->RenderWithShaders(m_PinballDynamicShader, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+    m_RTRRenderer->RenderWithShaders(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
         m_Plunger, m_Camera, m_LightingModel, m_CurTime, m_TimeDelta, plungerTrans,
         plungerScale, plungerRotate);
+
+    if (!m_UsePlunger) m_RTRPhysicsEngine->ResetPower();
     
     // Sphere test
-    glm::vec3 sphereTrans = glm::vec3(6.125f, -2.5f, 8.5f);
+    glm::vec3 sphereTrans = m_Sphere->GetPosition();
     glm::vec3 sphereScale = glm::vec3(0.3f, 0.3f, 0.3f);
     glm::vec3 sphereRotate = glm::vec3(1.0f, 0.0f, 0.0f);
-    m_RTRRenderer->RenderWithShaders(m_DynamicObjectsShader, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+    m_RTRRenderer->RenderWithShaders(2, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
         m_Sphere, m_Camera, m_LightingModel, m_CurTime, m_TimeDelta, sphereTrans,
         sphereScale, sphereRotate);
 
