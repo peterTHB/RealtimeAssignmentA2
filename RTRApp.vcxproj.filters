@@ -100,5 +100,31 @@
     <None Include="Src\RTRPlasma.vert">
       <Filter>Shader Files</Filter>
     </None>
+    <None Include="Src\RTRSkyboxShader.frag">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="Src\RTRSkyboxShader.vert">
+      <Filter>Shader Files</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Src\backSpace.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\bottomSpace.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\frontSpace.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\leftSpace.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\rightSpace.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\topSpace.gif">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

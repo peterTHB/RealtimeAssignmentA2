@@ -7,13 +7,12 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 #include <glm/gtc/type_ptr.hpp>
+#include <vector>
 #include "RTRApp.h"
 #include "RTRShader.h"
 #include "RTRCamera.h"
 #include "RTRWorld.h"
 #include "Console.h"
-
-#include <vector>
 #include "RTRPhysicsEngine.h"
 #include "RTRRenderer.h"
 
