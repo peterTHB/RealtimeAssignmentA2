@@ -11,4 +11,3 @@ void main()
 {    
     FragColor = texture(skybox, fs_in.TexCoords);
 }
-

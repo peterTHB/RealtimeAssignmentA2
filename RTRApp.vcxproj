@@ -44,7 +44,10 @@
     <ClInclude Include="Src\RTRShader.h" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Src\RTRSkyboxS.vert">
+    <None Include="Src\RTRShaderSkybox.frag">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="Src\RTRShaderSkybox.vert">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </None>
     <None Include="Src\RTRDefault.frag">

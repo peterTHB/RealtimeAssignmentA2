@@ -106,7 +106,10 @@
     <None Include="Src\RTRSkyboxShader.vert">
       <Filter>Shader Files</Filter>
     </None>
-    <None Include="Src\RTRSkyboxS.vert">
+    <None Include="Src\RTRShaderSkybox.vert">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="Src\RTRShaderSkybox.frag">
       <Filter>Shader Files</Filter>
     </None>
   </ItemGroup>

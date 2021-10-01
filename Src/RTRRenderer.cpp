@@ -12,7 +12,7 @@ RTRRenderer::RTRRenderer()
     m_DynamicObjectsShader->Load("Src/RTRDefault.vert", "Src/RTRDefault.frag", "Src/RTRDefault.geom");
 
     m_SkyboxShader = new RTRShader();
-    m_SkyboxShader->Load("Src/RTRSkyboxShader.vert", "Src/RTRSkyboxShader.frag");
+    m_SkyboxShader->Load("Src/RTRShaderSkybox.vert", "Src/RTRShaderSkybox.frag");
 
     ShaderVector.push_back(m_PinballStaticShader);
     ShaderVector.push_back(m_PinballDynamicShader);

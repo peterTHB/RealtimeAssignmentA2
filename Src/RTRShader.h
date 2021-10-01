@@ -16,7 +16,9 @@ class RTRShader
 public:
     RTRShader() {}
     ~RTRShader() { if (m_Id != 0) glDeleteProgram(m_Id); }
-    int Load(const char* vert_path, const char* frag_path, const char* geom_path = nullptr);
+    //int Load(const char* vert_path, const char* frag_path, const char* geom_path = nullptr);
+    void Load(const char* vert_path, const char* frag_path, const char* geom_path = nullptr);
+    void CheckCompileErrors(GLuint shader, std::string type);
     unsigned int GetId() const { return m_Id; }
 
 private:
