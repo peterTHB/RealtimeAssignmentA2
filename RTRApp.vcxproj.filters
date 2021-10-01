@@ -106,24 +106,27 @@
     <None Include="Src\RTRSkyboxShader.vert">
       <Filter>Shader Files</Filter>
     </None>
+    <None Include="Src\RTRSkyboxS.vert">
+      <Filter>Shader Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Src\backSpace.gif">
+    <Image Include="Src\backSpace.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Src\bottomSpace.gif">
+    <Image Include="Src\bottomSpace.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Src\frontSpace.gif">
+    <Image Include="Src\frontSpace.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Src\leftSpace.gif">
+    <Image Include="Src\leftSpace.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Src\rightSpace.gif">
+    <Image Include="Src\rightSpace.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Src\topSpace.gif">
+    <Image Include="Src\topSpace.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

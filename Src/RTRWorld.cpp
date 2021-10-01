@@ -4,7 +4,8 @@ RTRWorld::RTRWorld()
 {
     StartLighting();
     StartObjects();
-    cubemapTexture = loadCubeMap(skyboxFaces);
+    // Load Skybox
+    LoadSkyboxVAO();
 }
 
 void RTRWorld::StartLighting()
@@ -142,6 +143,16 @@ void RTRWorld::MakeNewBall() {
     DynamicObjects.push_back(newSphere);
 }
 
+void RTRWorld::LoadSkyboxVAO() {
+    glGenVertexArrays(1, &skyboxVAO);
+    glGenBuffers(1, &skyboxVBO);
+    glBindVertexArray(skyboxVAO);
+    glBindBuffer(GL_ARRAY_BUFFER, skyboxVBO);
+    glBufferData(GL_ARRAY_BUFFER, skyboxVertices.size(), skyboxVertices.data(), GL_STATIC_DRAW);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+}
+
 // from learnopengl
 // Loading skybox
 unsigned int RTRWorld::loadCubeMap(std::vector<std::string> faces) {
@@ -173,6 +184,16 @@ unsigned int RTRWorld::loadCubeMap(std::vector<std::string> faces) {
     glTexParameteri(GL_TEXTURE_CUBE_MAP, GL_TEXTURE_WRAP_R, GL_CLAMP_TO_EDGE);
 
     return textureID;
+}
+
+void RTRWorld::DrawSkybox() {
+    glDepthFunc(GL_LEQUAL);
+    glBindVertexArray(skyboxVAO);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_CUBE_MAP, cubemapTexture);
+    glDrawArrays(GL_TRIANGLES, 0, 36);
+    glBindVertexArray(0);
+    glDepthFunc(GL_LESS);
 }
 
 void RTRWorld::Done() {

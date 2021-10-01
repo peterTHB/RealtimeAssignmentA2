@@ -11,9 +11,13 @@ RTRRenderer::RTRRenderer()
     m_DynamicObjectsShader = new RTRShader();
     m_DynamicObjectsShader->Load("Src/RTRDefault.vert", "Src/RTRDefault.frag", "Src/RTRDefault.geom");
 
+    m_SkyboxShader = new RTRShader();
+    m_SkyboxShader->Load("Src/RTRSkyboxShader.vert", "Src/RTRSkyboxShader.frag");
+
     ShaderVector.push_back(m_PinballStaticShader);
     ShaderVector.push_back(m_PinballDynamicShader);
     ShaderVector.push_back(m_DynamicObjectsShader);
+    ShaderVector.push_back(m_SkyboxShader);
 
     lastTime = 0.0f;
     timer = 0.0f;
@@ -24,7 +28,6 @@ void RTRRenderer::SetUp() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
-    //glDepthFunc(GL_LEQUAL);
 
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
@@ -63,6 +66,13 @@ void RTRRenderer::RenderWithShaders(int shaderPos, glm::mat4 modelMatrix, glm::m
     ObjectTransformation(ShaderVector.at(shaderPos), modelMatrix, translation, scale, rotation);
 
     object->Render(ShaderVector.at(shaderPos));
+}
+
+void RTRRenderer::RenderSkybox(glm::mat4 viewMatrix, glm::mat4 projectionMatrix) {
+    glUseProgram(ShaderVector.at(3)->GetId());
+    ShaderVector.at(3)->SetInt("skybox", 0);
+    ShaderVector.at(3)->SetMat4("u_ViewMatrix", viewMatrix);
+    ShaderVector.at(3)->SetMat4("u_ProjectionMatrix", projectionMatrix);
 }
 
 void RTRRenderer::DebugInfo(Console* console, int FPS, RTRCamera* camera) {

@@ -143,6 +143,7 @@ void MainApp::UpdateState(unsigned int td_milli)
     // Setup Model and View matrices
     m_ModelMatrix = glm::mat4(1.0f);
     m_ViewMatrix = m_Camera->GetViewMatrix();
+    //m_ViewMatrix = glm::mat4(glm::mat3(m_Camera->GetViewMatrix()));
 
     // Shoot currentball in dynamic objects vector
     //if (m_ShootBall) {
@@ -194,6 +195,12 @@ void MainApp::RenderFrame()
     }
 
     m_RTRRenderer->DebugInfo(m_Console, m_FPS, m_Camera);
+
+    // Drawing skybox
+    m_RTRWorld->SetCubeMapTexture(m_RTRWorld->loadCubeMap(m_RTRWorld->GetSkyboxFaces()));
+    glm::mat4 skyboxView = glm::mat4(glm::mat3(m_Camera->GetViewMatrix()));
+    m_RTRRenderer->RenderSkybox(skyboxView, m_ProjectionMatrix);
+    m_RTRWorld->DrawSkybox();
 
     // Swap buffers
     SDL_GL_SwapWindow(m_SDLWindow);
