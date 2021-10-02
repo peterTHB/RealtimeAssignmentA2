@@ -6,6 +6,7 @@
 #pragma once
 #include "RTRLighting.h"
 #include "RTRShader.h"
+#include "stb/stb_image.h"
 #include <vector>
 
 struct RTRPoint_t {

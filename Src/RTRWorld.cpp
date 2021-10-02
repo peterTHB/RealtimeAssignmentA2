@@ -89,49 +89,56 @@ void RTRWorld::StartLighting()
 
 void RTRWorld::StartObjects()
 {
-    // Static Pinball machine and related objects
-    RTRObject* m_BottomPlane = new RTRCube(glm::vec3(0.0f, -3.0f, 0.0f), glm::vec3(7.0f, 0.25f, 10.0f), 
+    // Test Cube
+    RTRObject* m_TestCube = new RTRCube(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f),
         glm::vec3(1.0f, 0.0f, 0.0f));
-    m_BottomPlane->Init();
+    m_TestCube->Init();
 
-    RTRObject* m_TopBar = new RTRCube(glm::vec3(0.0f, -1.75f, -9.75f), glm::vec3(7.0f, 1.0f, 0.25f), 
-        glm::vec3(1.0f, 0.0f, 0.0f));
-    m_TopBar->Init();
+    StaticPinballObjects.push_back(m_TestCube);
 
-    RTRObject* m_BottomBar = new RTRCube(glm::vec3(0.0f, -1.75f, 9.75f), glm::vec3(7.0f, 1.0f, 0.25f), 
-        glm::vec3(1.0f, 0.0f, 0.0f));
-    m_BottomBar->Init();
+    //// Static Pinball machine and related objects
+    //RTRObject* m_BottomPlane = new RTRCube(glm::vec3(0.0f, -3.0f, 0.0f), glm::vec3(7.0f, 0.25f, 10.0f), 
+    //    glm::vec3(1.0f, 0.0f, 0.0f));
+    //m_BottomPlane->Init();
 
-    RTRObject* m_LeftBar = new RTRCube(glm::vec3(-6.75f, -1.75f, 0.0f), glm::vec3(0.25f, 1.0f, 9.5f), 
-        glm::vec3(1.0f, 0.0f, 0.0f));
-    m_LeftBar->Init();
+    //RTRObject* m_TopBar = new RTRCube(glm::vec3(0.0f, -1.75f, -9.75f), glm::vec3(7.0f, 1.0f, 0.25f), 
+    //    glm::vec3(1.0f, 0.0f, 0.0f));
+    //m_TopBar->Init();
 
-    RTRObject* m_RightBar = new RTRCube(glm::vec3(6.75f, -1.75f, 0.0f), glm::vec3(0.25f, 1.0f, 9.5f), 
-        glm::vec3(1.0f, 0.0f, 0.0f));
-    m_RightBar->Init();
+    //RTRObject* m_BottomBar = new RTRCube(glm::vec3(0.0f, -1.75f, 9.75f), glm::vec3(7.0f, 1.0f, 0.25f), 
+    //    glm::vec3(1.0f, 0.0f, 0.0f));
+    //m_BottomBar->Init();
 
-    RTRObject* m_SideShootBar = new RTRCube(glm::vec3(5.5f, -1.75f, 1.5f), glm::vec3(0.25f, 1.0f, 8.0f), 
-        glm::vec3(1.0f, 0.0f, 0.0f));
-    m_SideShootBar->Init();
+    //RTRObject* m_LeftBar = new RTRCube(glm::vec3(-6.75f, -1.75f, 0.0f), glm::vec3(0.25f, 1.0f, 9.5f), 
+    //    glm::vec3(1.0f, 0.0f, 0.0f));
+    //m_LeftBar->Init();
 
-    StaticPinballObjects.push_back(m_BottomPlane);
-    StaticPinballObjects.push_back(m_TopBar);
-    StaticPinballObjects.push_back(m_BottomBar);
-    StaticPinballObjects.push_back(m_LeftBar);
-    StaticPinballObjects.push_back(m_RightBar);
-    StaticPinballObjects.push_back(m_SideShootBar);
+    //RTRObject* m_RightBar = new RTRCube(glm::vec3(6.75f, -1.75f, 0.0f), glm::vec3(0.25f, 1.0f, 9.5f), 
+    //    glm::vec3(1.0f, 0.0f, 0.0f));
+    //m_RightBar->Init();
+
+    //RTRObject* m_SideShootBar = new RTRCube(glm::vec3(5.5f, -1.75f, 1.5f), glm::vec3(0.25f, 1.0f, 8.0f), 
+    //    glm::vec3(1.0f, 0.0f, 0.0f));
+    //m_SideShootBar->Init();
+
+    //StaticPinballObjects.push_back(m_BottomPlane);
+    //StaticPinballObjects.push_back(m_TopBar);
+    //StaticPinballObjects.push_back(m_BottomBar);
+    //StaticPinballObjects.push_back(m_LeftBar);
+    //StaticPinballObjects.push_back(m_RightBar);
+    //StaticPinballObjects.push_back(m_SideShootBar);
 
     // Dynamic pinball objects
-    RTRObject* m_Plunger = new RTRCube(glm::vec3(6.125f, -2.5f, 10.4f), glm::vec3(0.25f, 0.25f, 1.5f), 
-        glm::vec3(1.0f, 0.0f, 0.0f));
-    m_Plunger->Init();
-    RTRMaterial_t plungerMat = { {0.1, 0.8, 0.1 }, { 0.4, 0.4, 0.4 }, { 0.7, 0.7, 0.7 }, 64.0 };
-    m_Plunger->SetMaterial(plungerMat);
+    //RTRObject* m_Plunger = new RTRCube(glm::vec3(6.125f, -2.5f, 10.4f), glm::vec3(0.25f, 0.25f, 1.5f), 
+    //    glm::vec3(1.0f, 0.0f, 0.0f));
+    //m_Plunger->Init();
+    //RTRMaterial_t plungerMat = { {0.1, 0.8, 0.1 }, { 0.4, 0.4, 0.4 }, { 0.7, 0.7, 0.7 }, 64.0 };
+    //m_Plunger->SetMaterial(plungerMat);
 
-    DynamicPinballObjects.push_back(m_Plunger);
+    //DynamicPinballObjects.push_back(m_Plunger);
 
-    // Test sphere
-    MakeNewBall();
+    //// Test sphere
+    //MakeNewBall();
 }
 
 void RTRWorld::MakeNewBall() {
@@ -167,7 +174,6 @@ unsigned int RTRWorld::loadCubeMap(std::vector<std::string> faces) {
         unsigned char* data = stbi_load(faces[i].c_str(), &width, &height, &nrChannels, 0);
         if (data)
         {
-            std::cout << faces[i].c_str() << "/" << width << "/" << height << std::endl;
             glTexImage2D(GL_TEXTURE_CUBE_MAP_POSITIVE_X + i,
                 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data
             );

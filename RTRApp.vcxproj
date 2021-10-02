@@ -82,22 +82,22 @@
     </None>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="Src\backSpace.jpg">
+    <Image Include="Src\Skybox\backSpace.jpg">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Image>
-    <Image Include="Src\bottomSpace.jpg">
+    <Image Include="Src\Skybox\bottomSpace.jpg">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Image>
-    <Image Include="Src\frontSpace.jpg">
+    <Image Include="Src\Skybox\frontSpace.jpg">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Image>
-    <Image Include="Src\leftSpace.jpg">
+    <Image Include="Src\Skybox\leftSpace.jpg">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Image>
-    <Image Include="Src\rightSpace.jpg">
+    <Image Include="Src\Skybox\rightSpace.jpg">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Image>
-    <Image Include="Src\topSpace.jpg">
+    <Image Include="Src\Skybox\topSpace.jpg">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Image>
   </ItemGroup>

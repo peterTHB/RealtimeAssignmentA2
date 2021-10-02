@@ -33,12 +33,12 @@ public:
     unsigned int skyboxVAO, skyboxVBO{ 0 };
 
     std::vector<std::string> skyboxFaces{
-        "Src/rightSpace.jpg",
-        "Src/leftSpace.jpg",
-        "Src/topSpace.jpg",
-        "Src/bottomSpace.jpg",
-        "Src/frontSpace.jpg",
-        "Src/backSpace.jpg"
+        "Src/Skybox/rightSpace.jpg",
+        "Src/Skybox/leftSpace.jpg",
+        "Src/Skybox/topSpace.jpg",
+        "Src/Skybox/bottomSpace.jpg",
+        "Src/Skybox/frontSpace.jpg",
+        "Src/Skybox/backSpace.jpg"
     };
 
     std::vector<float> skyboxVertices{
