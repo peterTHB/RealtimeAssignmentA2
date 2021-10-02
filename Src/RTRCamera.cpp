@@ -1,7 +1,5 @@
 #include "RTRCamera.h"
 
-
-
 void RTRCamera::Mouse_Callback(float xRel, float yRel) {
 
     float sensitivity = 0.05f;

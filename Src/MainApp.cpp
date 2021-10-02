@@ -17,6 +17,8 @@ int MainApp::Init()
     SDL_GetWindowSize(m_SDLWindow, &m_WindowWidth, &m_WindowHeight);
     SDL_WarpMouseInWindow(m_SDLWindow, m_WindowWidth, m_WindowHeight);
 
+    glEnable(GL_DEPTH_TEST);
+
     // Setup projection matrix and viewport transform. 
     // These won't need to change as we're not worrying about screen size changes for this assignment
     m_ProjectionMatrix = glm::perspective(glm::radians(60.0f), (float)m_WindowWidth / (float)m_WindowHeight, 0.1f, 100.0f);
@@ -197,7 +199,6 @@ void MainApp::RenderFrame()
     m_RTRRenderer->DebugInfo(m_Console, m_FPS, m_Camera);
 
     // Drawing skybox
-    m_RTRWorld->SetCubeMapTexture(m_RTRWorld->loadCubeMap(m_RTRWorld->GetSkyboxFaces()));
     glm::mat4 skyboxView = glm::mat4(glm::mat3(m_Camera->GetViewMatrix()));
     m_RTRRenderer->RenderSkybox(skyboxView, m_ProjectionMatrix);
     m_RTRWorld->DrawSkybox();
