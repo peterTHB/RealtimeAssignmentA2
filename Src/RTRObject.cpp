@@ -27,8 +27,10 @@ void RTRObject::Init()
 
     glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
     glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
+    glEnableVertexAttribArray(1);
 
     glGenBuffers(1, &m_FaceElementBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_FaceElementBuffer);
@@ -60,24 +62,25 @@ void RTRCube::Init()
     m_NumFaces = 2;
 
     m_VertexPoints = new RTRPoint_t[]{
+        // Position TexCoords
         // Right
-        { 1.0f, -1.0f, 1.0f }, { 1.0f, -1.0f, -1.0f }, { 1.0f, 1.0f, -1.0f },
-        { 1.0f, 1.0f, 1.0f }, { 1.0f, -1.0f, 1.0f }, { 1.0f, 1.0f, -1.0f },
+        { 1.0f, -1.0f, 1.0f, 1.0f, 0 }, { 1.0f, -1.0f, -1.0f, 0, 0 }, { 1.0f, 1.0f, -1.0f, 0, 1.0f },
+        { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, { 1.0f, -1.0f, 1.0f, 1.0f, 0 }, { 1.0f, 1.0f, -1.0f, 0, 1.0f },
         // Left
-        { -1.0f, -1.0f, -1.0f }, { -1.0f, -1.0f, 1.0f }, { -1.0f, 1.0f, 1.0f },
-        { -1.0f, 1.0f, -1.0f }, { -1.0f, -1.0f, -1.0f }, { -1.0f, 1.0f, 1.0f },
+        { -1.0f, -1.0f, -1.0f, 1.0f, 0 }, { -1.0f, -1.0f, 1.0f, 0, 0 }, { -1.0f, 1.0f, 1.0f, 0, 1.0f },
+        { -1.0f, 1.0f, -1.0f, 1.0f, 1.0f }, { -1.0f, -1.0f, -1.0f, 1.0f, 0 }, { -1.0f, 1.0f, 1.0f, 0, 1.0f },
         // Top
-        { -1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, -1.0f },
-        { -1.0f, 1.0f, -1.0f }, { -1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, -1.0f },
+        { -1.0f, 1.0f, 1.0f, 1.0f, 0 }, { 1.0f, 1.0f, 1.0f, 0, 0  }, { 1.0f, 1.0f, -1.0f, 0, 1.0f },
+        { -1.0f, 1.0f, -1.0f, 1.0f, 1.0f }, { -1.0f, 1.0f, 1.0f, 1.0f, 0 }, { 1.0f, 1.0f, -1.0f, 0, 1.0f  },
         // Bottom
-        { -1.0f, -1.0f, -1.0f }, { 1.0f, -1.0f, -1.0f }, { 1.0f, -1.0f, 1.0f },
-        { -1.0f, -1.0f, 1.0f }, { -1.0f, -1.0f, -1.0f }, { 1.0f, -1.0f, 1.0f },
+        { -1.0f, -1.0f, -1.0f, 1.0f, 0 }, { 1.0f, -1.0f, -1.0f, 0, 0 }, { 1.0f, -1.0f, 1.0f, 0, 1.0f },
+        { -1.0f, -1.0f, 1.0f, 1.0f, 1.0f }, { -1.0f, -1.0f, -1.0f, 1.0f, 0 }, { 1.0f, -1.0f, 1.0f, 0, 1.0f },
         // Front
-        { -1.0f, -1.0f, 1.0f }, { 1.0f, -1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f },
-        { -1.0f, 1.0f, 1.0f }, { -1.0f, -1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f },
+        { -1.0f, -1.0f, 1.0f, 1.0f, 0 }, { 1.0f, -1.0f, 1.0f, 0, 0  }, { 1.0f, 1.0f, 1.0f, 0, 1.0f },
+        { -1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, { -1.0f, -1.0f, 1.0f, 1.0f, 0 }, { 1.0f, 1.0f, 1.0f, 0, 1.0f  },
         // Back
-        { 1.0f, -1.0f, -1.0f }, { -1.0f, -1.0f, -1.0f }, { -1.0f, 1.0f, -1.0f },
-        { 1.0f, 1.0f, -1.0f }, { 1.0f, -1.0f, -1.0f }, { -1.0f, 1.0f, -1.0f }
+        { 1.0f, -1.0f, -1.0f, 1.0f, 0 }, { -1.0f, -1.0f, -1.0f, 0, 0 }, { -1.0f, 1.0f, -1.0f, 0, 1.0f },
+        { 1.0f, 1.0f, -1.0f, 1.0f, 1.0f }, { 1.0f, -1.0f, -1.0f, 1.0f, 0 }, { -1.0f, 1.0f, -1.0f, 0, 1.0f }
     };
 
     m_Faces = new RTRFace_t[]{

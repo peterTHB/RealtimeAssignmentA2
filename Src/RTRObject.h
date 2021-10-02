@@ -10,7 +10,7 @@
 #include <vector>
 
 struct RTRPoint_t {
-    float x, y, z;
+    float x, y, z, tex1, tex2;
 };
 
 struct RTRFace_t {
