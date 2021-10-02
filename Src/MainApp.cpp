@@ -171,30 +171,30 @@ void MainApp::RenderFrame()
             transform, scale, rotation);
     }
 
-    //// For all dynamic pinball objects
-    //glm::vec3 transform = m_RTRWorld->GetDynamicPinballObjects().at(0)->GetPosition();
-    //glm::vec3 scale = m_RTRWorld->GetDynamicPinballObjects().at(0)->GetScale();
-    //glm::vec3 rotation = m_RTRWorld->GetDynamicPinballObjects().at(0)->GetRotation();
+    // For all dynamic pinball objects
+    glm::vec3 transform = m_RTRWorld->GetDynamicPinballObjects().at(0)->GetPosition();
+    glm::vec3 scale = m_RTRWorld->GetDynamicPinballObjects().at(0)->GetScale();
+    glm::vec3 rotation = m_RTRWorld->GetDynamicPinballObjects().at(0)->GetRotation();
 
-    //m_RTRWorld->GetDynamicPinballObjects().at(0)->SetPosition(m_RTRPhysicsEngine->UsePlunger(m_UsePlunger, m_TimeDelta));
+    m_RTRWorld->GetDynamicPinballObjects().at(0)->SetPosition(m_RTRPhysicsEngine->UsePlunger(m_UsePlunger, m_TimeDelta));
 
-    //m_RTRRenderer->RenderWithShaders(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
-    //    m_RTRWorld->GetDynamicPinballObjects().at(0), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta,
-    //    transform, scale, rotation);
+    m_RTRRenderer->RenderWithShaders(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+        m_RTRWorld->GetDynamicPinballObjects().at(0), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta,
+        transform, scale, rotation);
 
-    //if (!m_UsePlunger && !m_ShootBall) m_RTRPhysicsEngine->ResetPower();
+    if (!m_UsePlunger && !m_ShootBall) m_RTRPhysicsEngine->ResetPower();
 
-    //// For all other dynamic objects, i.e: pinball ball
-    //// Have method to make new sphere
-    //for (RTRObject* dynaObject : m_RTRWorld->GetDynamicObjects()) {
-    //    glm::vec3 transform = dynaObject->GetPosition();
-    //    glm::vec3 scale = dynaObject->GetScale();
-    //    glm::vec3 rotation = dynaObject->GetRotation();
+    // For all other dynamic objects, i.e: pinball ball
+    // Have method to make new sphere
+    for (RTRObject* dynaObject : m_RTRWorld->GetDynamicObjects()) {
+        glm::vec3 transform = dynaObject->GetPosition();
+        glm::vec3 scale = dynaObject->GetScale();
+        glm::vec3 rotation = dynaObject->GetRotation();
 
-    //    m_RTRRenderer->RenderWithShaders(2, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
-    //        dynaObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta,
-    //        transform, scale, rotation);
-    //}
+        m_RTRRenderer->RenderWithShaders(2, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+            dynaObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta,
+            transform, scale, rotation);
+    }
 
     m_RTRRenderer->DebugInfo(m_Console, m_FPS, m_Camera);
 

@@ -9,7 +9,10 @@ out vec4 f_FragColor;
 in VertexData {
     vec3 FragPos;
     vec3 Normal;
+    vec2 TexCoord;
 } fs_in;
+
+//in vec2 fragTexCoord;
 
 struct RTRCamera {
     vec3 Position;
@@ -56,6 +59,9 @@ uniform RTRCamera   u_Camera;
 
 uniform float u_CurTime;
 
+uniform sampler2D texture1;
+uniform sampler2D texture2;
+
 void main() 
 {
     //vec3 N = normalize(cross(dFdx(fs_in.FragPos), dFdy(fs_in.FragPos)));
@@ -100,6 +106,8 @@ void main()
         final_color += (ambient + attenuation*(diffuse + specular));
     }
     
-    f_FragColor = vec4(final_color, 1.0);
+    f_FragColor = vec4(final_color, 1.0) * mix(texture(texture1, fs_in.TexCoord), texture(texture2, fs_in.TexCoord), 0.5);
+//    f_FragColor = vec4(final_color, 1.0) * texture(texture1, fs_in.TexCoord);
+//    f_FragColor = vec4(final_color, 1.0);
 }
 

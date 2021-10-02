@@ -106,6 +106,12 @@
     <None Include="Src\RTRSkyboxShader.vert">
       <Filter>Shader Files</Filter>
     </None>
+    <None Include="Src\RTRTexture.vert">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="Src\RTRTexture.frag">
+      <Filter>Shader Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Src\Skybox\backSpace.jpg">
@@ -124,6 +130,18 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Src\Skybox\topSpace.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Textures\DarkWood\Wood067_1K_Color.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Textures\wall.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Textures\MetalStainless\Metal012_1K_Color.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Textures\MetalRough\Metal014_1K_Color.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

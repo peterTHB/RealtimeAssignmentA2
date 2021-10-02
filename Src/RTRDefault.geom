@@ -9,14 +9,21 @@ layout(triangle_strip, max_vertices = 3) out;
 
 in VertexData {
     vec3 FragPos;
+    vec2 TexCoord;
 } gs_in[];
 
 out VertexData {
     vec3 FragPos;
     vec3 Normal;
+    vec2 TexCoord;
 } gs_out;
 
+//in vec2 TexCoord[];
+//out vec2 fragTexCoord;
+
 void main() {
+    gs_out.TexCoord = gs_in[gl_InvocationID].TexCoord;
+
     vec3 a = vec3(gs_in[1].FragPos - gs_in[0].FragPos);
     vec3 b = vec3(gs_in[2].FragPos - gs_in[0].FragPos);
     vec3 normal = normalize(cross(a, b));

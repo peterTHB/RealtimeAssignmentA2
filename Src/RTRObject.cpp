@@ -16,9 +16,10 @@
 // scale, place and animate them with transformation matrices.
 
 //-----------------------------------------------------------------------------
-void RTRObject::Init()
+void RTRObject::Init(std::string textureName, std::string textureName2)
 {
     glGenBuffers(1, &m_VertexBuffer);
+    glActiveTexture(GL_TEXTURE0);
     glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
     glBufferData(GL_ARRAY_BUFFER, m_NumVertices * sizeof(RTRPoint_t), m_VertexPoints, GL_STATIC_DRAW);
 
@@ -35,11 +36,30 @@ void RTRObject::Init()
     glGenBuffers(1, &m_FaceElementBuffer);
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_FaceElementBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_NumFaces * sizeof(RTRFace_t), m_Faces, GL_STATIC_DRAW);
+
+    texture = loadTexture(textureName);
+    texture2 = loadTexture(textureName2);
+
+    /*texture = loadTexture("Src/Textures/wall.jpg");
+    texture2 = loadTexture("Src/Textures/DarkWood/Wood067_1K_Color.png");*/
+    //texture2 = loadTexture("Src/Textures/MetalStainless/Metal012_1K_Color.png");
+    //texture2 = loadTexture("Src/Textures/MetalRough/Metal014_1K_Color.png");
 }
 
-void RTRObject::Render(RTRShader *shader)
+void RTRObject::Render(RTRShader* shader)
 {
     shader->SetMaterial("u_ObjectMaterial", m_Material);
+
+    glUseProgram(shader->GetId());
+    shader->SetInt("texture1", 0);
+    shader->SetInt("texture2", 1);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, texture2);
+
+    glUseProgram(shader->GetId());
     glBindVertexArray(m_VertexArray);
     glDrawArrays(GL_TRIANGLES, 0, m_NumVertices);
     glBindVertexArray(0);
@@ -54,9 +74,40 @@ void RTRObject::End()
     if (m_Faces != nullptr) { delete m_Faces; m_Faces = nullptr; }
 }
 
+unsigned int RTRObject::loadTexture(std::string textureFile)
+{
+    unsigned int texture;
+    glGenTextures(1, &texture);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
+    // set the texture wrapping parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // set texture filtering parameters
+    /*glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+    // load image, create texture and generate mipmaps
+    int width, height, nrChannels;
+    unsigned char* data = stbi_load(textureFile.c_str(), &width, &height, &nrChannels, 0);
+    if (data)
+    {
+        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+        glGenerateMipmap(GL_TEXTURE_2D);
+    }
+    else
+    {
+        std::cout << "Failed to load texture" << std::endl;
+    }
+    stbi_image_free(data);
+
+    return texture;
+}
+
 //-----------------------------------------------------------------------------
 
-void RTRCube::Init()
+void RTRCube::Init(std::string textureName, std::string textureName2)
 {
     m_NumVertices = 36;
     m_NumFaces = 2;
@@ -65,59 +116,75 @@ void RTRCube::Init()
         // Position TexCoords
         // Right
         { 1.0f, -1.0f, 1.0f, 1.0f, 0 }, { 1.0f, -1.0f, -1.0f, 0, 0 }, { 1.0f, 1.0f, -1.0f, 0, 1.0f },
-        { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, { 1.0f, -1.0f, 1.0f, 1.0f, 0 }, { 1.0f, 1.0f, -1.0f, 0, 1.0f },
+        { 1.0f, -1.0f, 1.0f, 1.0f, 0 }, { 1.0f, 1.0f, -1.0f, 0, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f },
         // Left
         { -1.0f, -1.0f, -1.0f, 1.0f, 0 }, { -1.0f, -1.0f, 1.0f, 0, 0 }, { -1.0f, 1.0f, 1.0f, 0, 1.0f },
-        { -1.0f, 1.0f, -1.0f, 1.0f, 1.0f }, { -1.0f, -1.0f, -1.0f, 1.0f, 0 }, { -1.0f, 1.0f, 1.0f, 0, 1.0f },
+        { -1.0f, -1.0f, -1.0f, 1.0f, 0 }, { -1.0f, 1.0f, 1.0f, 0, 1.0f }, { -1.0f, 1.0f, -1.0f, 1.0f, 1.0f },
         // Top
         { -1.0f, 1.0f, 1.0f, 1.0f, 0 }, { 1.0f, 1.0f, 1.0f, 0, 0  }, { 1.0f, 1.0f, -1.0f, 0, 1.0f },
-        { -1.0f, 1.0f, -1.0f, 1.0f, 1.0f }, { -1.0f, 1.0f, 1.0f, 1.0f, 0 }, { 1.0f, 1.0f, -1.0f, 0, 1.0f  },
+        { -1.0f, 1.0f, 1.0f, 1.0f, 0 }, { 1.0f, 1.0f, -1.0f, 0, 1.0f }, { -1.0f, 1.0f, -1.0f, 1.0f, 1.0f },
         // Bottom
         { -1.0f, -1.0f, -1.0f, 1.0f, 0 }, { 1.0f, -1.0f, -1.0f, 0, 0 }, { 1.0f, -1.0f, 1.0f, 0, 1.0f },
-        { -1.0f, -1.0f, 1.0f, 1.0f, 1.0f }, { -1.0f, -1.0f, -1.0f, 1.0f, 0 }, { 1.0f, -1.0f, 1.0f, 0, 1.0f },
+        { -1.0f, -1.0f, -1.0f, 1.0f, 0 }, { 1.0f, -1.0f, 1.0f, 0, 1.0f }, { -1.0f, -1.0f, 1.0f, 1.0f, 1.0f },
         // Front
         { -1.0f, -1.0f, 1.0f, 1.0f, 0 }, { 1.0f, -1.0f, 1.0f, 0, 0  }, { 1.0f, 1.0f, 1.0f, 0, 1.0f },
-        { -1.0f, 1.0f, 1.0f, 1.0f, 1.0f }, { -1.0f, -1.0f, 1.0f, 1.0f, 0 }, { 1.0f, 1.0f, 1.0f, 0, 1.0f  },
+        { -1.0f, -1.0f, 1.0f, 1.0f, 0 }, { 1.0f, 1.0f, 1.0f, 0, 1.0f  }, { -1.0f, 1.0f, 1.0f, 1.0f, 1.0f },
         // Back
         { 1.0f, -1.0f, -1.0f, 1.0f, 0 }, { -1.0f, -1.0f, -1.0f, 0, 0 }, { -1.0f, 1.0f, -1.0f, 0, 1.0f },
-        { 1.0f, 1.0f, -1.0f, 1.0f, 1.0f }, { 1.0f, -1.0f, -1.0f, 1.0f, 0 }, { -1.0f, 1.0f, -1.0f, 0, 1.0f }
+        { 1.0f, -1.0f, -1.0f, 1.0f, 0 }, { -1.0f, 1.0f, -1.0f, 0, 1.0f }, { 1.0f, 1.0f, -1.0f, 1.0f, 1.0f }
     };
 
     m_Faces = new RTRFace_t[]{
         { 0, 1, 2 }, {0, 2, 3}
     };
 
-    RTRObject::Init();
+    RTRObject::Init(textureName, textureName2);
 }
 
 //-----------------------------------------------------------------------------
 
-void RTRSphere::Init()
+void RTRSphere::Init(std::string textureName)
 {
-    std::vector<glm::vec3> allVertices = RTRSphere::MakeSphereVertices(1.0f, 24, 64);
+    std::vector<RTRPoint_t> allVertices = RTRSphere::MakeSphereVertices(1.0f, 24, 64);
     std::vector<int> allIndices = RTRSphere::MakeSphereIndex(24, 64);
     RTRSphere::InitSphere(allVertices, allIndices);
+
+    texture = loadTexture(textureName);
+
+    //texture = loadTexture("Src/Textures/MetalRough/Metal014_1K_Roughness.png");
+    /*texture = loadTexture("Src/Textures/MetalRough/Metal014_1K_Color.png");*/
+    //texture = loadTexture("Src/Textures/wall.jpg");
 }
 
 void RTRSphere::Render(RTRShader* shader)
 {
     shader->SetMaterial("u_ObjectMaterial", m_Material);
+
+    glUseProgram(shader->GetId());
+    shader->SetInt("texture1", 0);
+
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, texture);
+
     glBindVertexArray(m_VertexArray);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, m_NumVertices);
     glBindVertexArray(0);
 }
 
-void RTRSphere::InitSphere(std::vector<glm::vec3> vertices, std::vector<int> indices) {
+void RTRSphere::InitSphere(std::vector<RTRPoint_t> vertices, std::vector<int> indices) {
     glGenBuffers(1, &m_VertexBuffer);
+    glActiveTexture(GL_TEXTURE0);
     glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec3), vertices.data(), GL_STATIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(RTRPoint_t), vertices.data(), GL_STATIC_DRAW);
 
     glGenVertexArrays(1, &m_VertexArray);
     glBindVertexArray(m_VertexArray);
 
     glBindBuffer(GL_ARRAY_BUFFER, m_VertexBuffer);
 
-    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 1 * sizeof(glm::vec3), (void*)0);
+    glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)0);
+    glEnableVertexAttribArray(0);
+    glVertexAttribPointer(1, 2, GL_FLOAT, GL_FALSE, 5 * sizeof(float), (void*)(3 * sizeof(float)));
     glEnableVertexAttribArray(0);
 
     glGenBuffers(1, &m_FaceElementBuffer);
@@ -127,16 +194,19 @@ void RTRSphere::InitSphere(std::vector<glm::vec3> vertices, std::vector<int> ind
 
 // Sphere code from Sphere section 
 // http://isoptera.lcsc.edu/~seth/cs492/examples/modern-tutorials/basic_texturing/sphere.cpp
-std::vector<glm::vec3> RTRSphere::MakeSphereVertices(float radius, int stacks, int slices) {
-    std::vector<glm::vec3> vertices;
+std::vector<RTRPoint_t> RTRSphere::MakeSphereVertices(float radius, int stacks, int slices) {
+    std::vector<RTRPoint_t> vertices;
 
     int n = 2 * (slices + 1) * stacks;
     int i = 0;
 
     for (float theta = -glm::pi<float>() / 2; theta < glm::pi<float>() / 2 - 0.0001; theta += glm::pi<float>() / stacks) {
         for (float phi = -glm::pi<float>(); phi <= M_PI + 0.0001; phi += 2 * glm::pi<float>() / slices) {
-            glm::vec3 points1 = glm::vec3(cos(theta) * sin(phi), -sin(theta), cos(theta) * cos(phi));
-            glm::vec3 points2 = glm::vec3(cos(theta + glm::pi<float>() / stacks) * sin(phi), -sin(theta + glm::pi<float>() / stacks), cos(theta + glm::pi<float>() / stacks) * cos(phi));
+            float s = (float)phi / slices;
+            float t = (float)theta / stacks;
+
+            RTRPoint_t points1 = RTRPoint_t(cos(theta) * sin(phi), -sin(theta), cos(theta) * cos(phi), s, t);
+            RTRPoint_t points2 = RTRPoint_t(cos(theta + glm::pi<float>() / stacks) * sin(phi), -sin(theta + glm::pi<float>() / stacks), cos(theta + glm::pi<float>() / stacks) * cos(phi), s, t);
 
             vertices.push_back(points1);
             vertices.push_back(points2);
@@ -147,6 +217,27 @@ std::vector<glm::vec3> RTRSphere::MakeSphereVertices(float radius, int stacks, i
 
     return vertices;
 }
+
+//std::vector<glm::vec3> RTRSphere::MakeSphereVertices(float radius, int stacks, int slices) {
+//    std::vector<glm::vec3> vertices;
+//
+//    int n = 2 * (slices + 1) * stacks;
+//    int i = 0;
+//
+//    for (float theta = -glm::pi<float>() / 2; theta < glm::pi<float>() / 2 - 0.0001; theta += glm::pi<float>() / stacks) {
+//        for (float phi = -glm::pi<float>(); phi <= M_PI + 0.0001; phi += 2 * glm::pi<float>() / slices) {
+//            glm::vec3 points1 = glm::vec3(cos(theta) * sin(phi), -sin(theta), cos(theta) * cos(phi));
+//            glm::vec3 points2 = glm::vec3(cos(theta + glm::pi<float>() / stacks) * sin(phi), -sin(theta + glm::pi<float>() / stacks), cos(theta + glm::pi<float>() / stacks) * cos(phi));
+//
+//            vertices.push_back(points1);
+//            vertices.push_back(points2);
+//        }
+//    }
+//
+//    m_NumVertices = vertices.size();
+//
+//    return vertices;
+//}
 
 // Sphere indices creation
 // https://stackoverflow.com/questions/26116923/modern-opengl-draw-a-sphere-and-cylinder
@@ -169,14 +260,14 @@ std::vector<int> RTRSphere::MakeSphereIndex(int stacks, int slices) {
 
 //-----------------------------------------------------------------------------
 
-void RTRCylinder::Init()
+void RTRCylinder::Init(std::string textureName, std::string textureName2)
 {
-    RTRObject::Init();
+    RTRObject::Init(textureName, textureName2);
 }
 
 //-----------------------------------------------------------------------------
 
-void RTRPrism::Init()
+void RTRPrism::Init(std::string textureName, std::string textureName2)
 {
-    RTRObject::Init();
+    RTRObject::Init(textureName, textureName2);
 }

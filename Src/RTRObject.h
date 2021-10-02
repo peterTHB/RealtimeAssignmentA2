@@ -27,7 +27,7 @@ public:
         m_Rotation = rotation;
     }
     ~RTRObject() {}
-    virtual void Init();
+    virtual void Init(std::string textureName, std::string textureName2);
     virtual void Render(RTRShader* shader);
     virtual void End();
     void SetMaterial(RTRMaterial_t mat) { m_Material = mat; }
@@ -40,6 +40,7 @@ public:
     virtual glm::vec3 GetRotation() { return m_Rotation; };
     virtual void SetVelocity(float velocity) { m_Velocity = velocity; };
     virtual float GetVelocity() { return m_Velocity; };
+    virtual unsigned int loadTexture(std::string textureFile);
 
 public:
     unsigned int m_NumVertices{ 0 };
@@ -54,6 +55,8 @@ public:
     glm::vec3 m_Scale{ 0, 0, 0 };
     glm::vec3 m_Rotation{ 0, 0, 0 };
     float m_Velocity{ 0 };
+    unsigned int texture{ 0 };
+    unsigned int texture2{ 0 };
 };
 
 //-----------------------------------------------------------------------------
@@ -63,7 +66,7 @@ public:
     RTRCube(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) : 
         RTRObject(position, scale, rotation) {}
     ~RTRCube() {}
-    virtual void Init();
+    virtual void Init(std::string textureName, std::string textureName2);
     virtual const char* GetName() { return "RTRCube"; }
 };
 
@@ -72,11 +75,11 @@ public:
     RTRSphere(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) : 
         RTRObject(position, scale, rotation) {}
     ~RTRSphere() {}
-    virtual void Init();
+    virtual void Init(std::string textureName);
     virtual void Render(RTRShader* shader);
     virtual const char* GetName() { return "RTRSphere"; }
-    virtual void InitSphere(std::vector<glm::vec3> vertices, std::vector<int> indices);
-    virtual std::vector<glm::vec3> MakeSphereVertices(float radius, int stacks, int slices);
+    virtual void InitSphere(std::vector<RTRPoint_t> vertices, std::vector<int> indices);
+    virtual std::vector<RTRPoint_t> MakeSphereVertices(float radius, int stacks, int slices);
     virtual std::vector<int> MakeSphereIndex(int stacks, int slices);
 };
 
@@ -85,7 +88,7 @@ public:
     RTRCylinder(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) : 
         RTRObject(position, scale, rotation) {}
     ~RTRCylinder() {}
-    virtual void Init();
+    virtual void Init(std::string textureName, std::string textureName2);
     virtual const char* GetName() { return "RTRCylinder"; }
 };
 
@@ -94,6 +97,6 @@ public:
     RTRPrism(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) : 
         RTRObject(position, scale, rotation) {}
     ~RTRPrism() {}
-    virtual void Init();
+    virtual void Init(std::string textureName, std::string textureName2);
     virtual const char* GetName() { return "RTRPrism"; }
 };
