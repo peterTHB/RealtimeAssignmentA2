@@ -6,6 +6,7 @@
 #pragma once
 #include "RTRLighting.h"
 #include "RTRShader.h"
+#include "RTRBoundingVolume.h"
 #include "stb/stb_image.h"
 #include <vector>
 
@@ -21,10 +22,11 @@ struct RTRFace_t {
 class RTRObject
 {
 public:
-    RTRObject(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) {
-        m_Position = position;
+    RTRObject(glm::vec3 transform, glm::vec3 scale, glm::vec3 rotation, glm::mat4 modelMatrix) {
+        m_Transform = transform;
         m_Scale = scale;
         m_Rotation = rotation;
+        m_Position = modelMatrix;
     }
     ~RTRObject() {}
     virtual void Init(std::string textureName, std::string textureName2);
@@ -32,8 +34,10 @@ public:
     virtual void End();
     void SetMaterial(RTRMaterial_t mat) { m_Material = mat; }
     virtual const char* GetName() { return "RTRObject"; }
-    virtual void SetPosition(glm::vec3 position) { m_Position = position; };
-    virtual glm::vec3 GetPosition() { return m_Position; };
+    virtual void SetPosition(glm::mat4 position) { m_Position = position; };
+    virtual glm::mat4 GetPosition() { return m_Position; };
+    virtual void SetTransform(glm::vec3 transform) { m_Transform = transform; };
+    virtual glm::vec3 GetTransform() { return m_Transform; };
     virtual void SetScale(glm::vec3 scale) { m_Scale = scale; };
     virtual glm::vec3 GetScale() { return m_Scale; };
     virtual void SetRotation(glm::vec3 rotation) { m_Rotation = rotation; };
@@ -51,7 +55,8 @@ public:
     unsigned int m_VertexBuffer{ 0 };
     unsigned int m_VertexArray{ 0 };
     unsigned int m_FaceElementBuffer{ 0 };
-    glm::vec3 m_Position{ 0, 0, 0 };
+    glm::mat4 m_Position{ 0 };
+    glm::vec3 m_Transform{ 0, 0, 0 };
     glm::vec3 m_Scale{ 0, 0, 0 };
     glm::vec3 m_Rotation{ 0, 0, 0 };
     float m_Velocity{ 0 };
@@ -63,8 +68,8 @@ public:
 class RTRCube : public RTRObject
 {
 public:
-    RTRCube(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) : 
-        RTRObject(position, scale, rotation) {}
+    RTRCube(glm::vec3 transform, glm::vec3 scale, glm::vec3 rotation, glm::mat4 modelMatrix) :
+        RTRObject(transform, scale, rotation, modelMatrix) {}
     ~RTRCube() {}
     virtual void Init(std::string textureName, std::string textureName2);
     virtual const char* GetName() { return "RTRCube"; }
@@ -72,8 +77,8 @@ public:
 
 class RTRSphere : public RTRObject {
 public:
-    RTRSphere(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) : 
-        RTRObject(position, scale, rotation) {}
+    RTRSphere(glm::vec3 transform, glm::vec3 scale, glm::vec3 rotation, glm::mat4 modelMatrix) :
+        RTRObject(transform, scale, rotation, modelMatrix) {}
     ~RTRSphere() {}
     virtual void Init(std::string textureName);
     virtual void Render(RTRShader* shader);
@@ -81,12 +86,13 @@ public:
     virtual void InitSphere(std::vector<RTRPoint_t> vertices, std::vector<int> indices);
     virtual std::vector<RTRPoint_t> MakeSphereVertices(float radius, int stacks, int slices);
     virtual std::vector<int> MakeSphereIndex(int stacks, int slices);
+    virtual void MoveSphere();
 };
 
 class RTRCylinder : public RTRObject {
 public:
-    RTRCylinder(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) : 
-        RTRObject(position, scale, rotation) {}
+    RTRCylinder(glm::vec3 transform, glm::vec3 scale, glm::vec3 rotation, glm::mat4 modelMatrix) :
+        RTRObject(transform, scale, rotation, modelMatrix) {}
     ~RTRCylinder() {}
     virtual void Init(std::string textureName, std::string textureName2);
     virtual const char* GetName() { return "RTRCylinder"; }
@@ -94,8 +100,8 @@ public:
 
 class RTRPrism : public RTRObject {
 public:
-    RTRPrism(glm::vec3 position, glm::vec3 scale, glm::vec3 rotation) : 
-        RTRObject(position, scale, rotation) {}
+    RTRPrism(glm::vec3 transform, glm::vec3 scale, glm::vec3 rotation, glm::mat4 modelMatrix) :
+        RTRObject(transform, scale, rotation, modelMatrix) {}
     ~RTRPrism() {}
     virtual void Init(std::string textureName, std::string textureName2);
     virtual const char* GetName() { return "RTRPrism"; }

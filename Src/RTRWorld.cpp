@@ -1,9 +1,9 @@
 #include "RTRWorld.h"
 
-RTRWorld::RTRWorld()
+RTRWorld::RTRWorld(glm::mat4 modelMatrix)
 {
     StartLighting();
-    StartObjects();
+    StartObjects(modelMatrix);
     cubemapTexture = loadCubeMap(skyboxFaces);
     // Load Skybox
     LoadSkyboxVAO();
@@ -87,7 +87,7 @@ void RTRWorld::StartLighting()
         });
 }
 
-void RTRWorld::StartObjects()
+void RTRWorld::StartObjects(glm::mat4 modelMatrix)
 {
     // Test Cube
     //RTRObject* m_TestCube = new RTRCube(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f),
@@ -98,33 +98,33 @@ void RTRWorld::StartObjects()
 
     // Static Pinball machine and related objects
     RTRCube* m_BottomPlane = new RTRCube(glm::vec3(0.0f, -3.0f, 0.0f), glm::vec3(7.0f, 0.25f, 10.0f), 
-        glm::vec3(1.0f, 0.0f, 0.0f));
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix);
     m_BottomPlane->Init("Src/Textures/wall.jpg", "Src/Textures/DarkWood/Wood067_1K_Color.png");
 
     RTRCube* m_TopBar = new RTRCube(glm::vec3(0.0f, -1.75f, -9.75f), glm::vec3(7.0f, 1.0f, 0.25f),
-        glm::vec3(1.0f, 0.0f, 0.0f));
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix);
     m_TopBar->Init("Src/Textures/wall.jpg", "Src/Textures/DarkWood/Wood067_1K_Color.png");
 
     RTRCube* m_BottomBar = new RTRCube(glm::vec3(0.0f, -1.75f, 9.75f), glm::vec3(7.0f, 1.0f, 0.25f),
-        glm::vec3(1.0f, 0.0f, 0.0f));
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix);
     m_BottomBar->Init("Src/Textures/wall.jpg", "Src/Textures/DarkWood/Wood067_1K_Color.png");
 
     RTRCube* m_LeftBar = new RTRCube(glm::vec3(-6.75f, -1.75f, 0.0f), glm::vec3(0.25f, 1.0f, 9.5f),
-        glm::vec3(1.0f, 0.0f, 0.0f));
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix);
     m_LeftBar->Init("Src/Textures/wall.jpg", "Src/Textures/DarkWood/Wood067_1K_Color.png");
 
     RTRCube* m_RightBar = new RTRCube(glm::vec3(6.75f, -1.75f, 0.0f), glm::vec3(0.25f, 1.0f, 9.5f),
-        glm::vec3(1.0f, 0.0f, 0.0f));
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix);
     m_RightBar->Init("Src/Textures/wall.jpg", "Src/Textures/DarkWood/Wood067_1K_Color.png");
 
     RTRCube* m_TiltedBlock = new RTRCube(glm::vec3(7.7f, -1.75f, -7.0f), glm::vec3(0.25f, 1.0f, 1.5f),
-        glm::vec3(1.0f, 1.0f, 0.0f));
+        glm::vec3(1.0f, 1.0f, 0.0f), modelMatrix);
     m_TiltedBlock->Init("Src/Textures/wall.jpg", "Src/Textures/DarkWood/Wood067_1K_Color.png");
     RTRMaterial_t tiltedBlockMat = { {0.1, 0.1, 0.8 }, { 0.4, 0.4, 0.4 }, { 0.7, 0.7, 0.7 }, 64.0 };
     m_TiltedBlock->SetMaterial(tiltedBlockMat);
 
     RTRCube* m_SideShootBar = new RTRCube(glm::vec3(5.5f, -1.75f, 2.0f), glm::vec3(0.25f, 1.0f, 7.5f),
-        glm::vec3(1.0f, 0.0f, 0.0f));
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix);
     m_SideShootBar->Init("Src/Textures/wall.jpg", "Src/Textures/DarkWood/Wood067_1K_Color.png");
 
     StaticPinballObjects.push_back(m_BottomPlane);
@@ -137,7 +137,7 @@ void RTRWorld::StartObjects()
 
     //Dynamic pinball objects
     RTRCube* m_Plunger = new RTRCube(glm::vec3(6.125f, -2.5f, 10.4f), glm::vec3(0.25f, 0.25f, 1.5f),
-        glm::vec3(1.0f, 0.0f, 0.0f));
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix);
     m_Plunger->Init("Src/Textures/MetalStainless/Metal012_1K_Color.png", "Src/Textures/MetalRough/Metal014_1K_Color.png");
     RTRMaterial_t plungerMat = { {0.1, 0.8, 0.1 }, { 0.4, 0.4, 0.4 }, { 0.7, 0.7, 0.7 }, 64.0 };
     m_Plunger->SetMaterial(plungerMat);
@@ -145,7 +145,7 @@ void RTRWorld::StartObjects()
     DynamicPinballObjects.push_back(m_Plunger);
 
     // Test sphere
-    MakeNewBall();
+    MakeNewBall(modelMatrix);
 
     //RTRObject* newSphere = new RTRSphere(glm::vec3(0, 0, 5.0f), glm::vec3(1.0f, 1.0f, 1.0f),
     //    glm::vec3(1.0f, 0.0f, 0.0f));
@@ -155,10 +155,10 @@ void RTRWorld::StartObjects()
     //DynamicObjects.push_back(newSphere);
 }
 
-void RTRWorld::MakeNewBall() {
+void RTRWorld::MakeNewBall(glm::mat4 modelMatrix) {
     // Test sphere
     RTRSphere* newSphere = new RTRSphere(glm::vec3(6.125f, -2.5f, 8.5f), glm::vec3(0.3f, 0.3f, 0.3f), 
-        glm::vec3(1.0f, 0.0f, 0.0f));
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix);
     newSphere->Init("Src/Textures/MetalRough/Metal014_1K_Color.png");
     RTRMaterial_t sphereMat = { {0.1, 0.1, 0.8 }, { 0.5, 0.5, 0.5 }, { 0.8, 0.8, 0.8 }, 64.0 };
     newSphere->SetMaterial(sphereMat);

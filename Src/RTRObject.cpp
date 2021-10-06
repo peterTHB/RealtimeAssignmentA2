@@ -138,6 +138,10 @@ void RTRCube::Init(std::string textureName, std::string textureName2)
         { 0, 1, 2 }, {0, 2, 3}
     };
 
+    m_Position = glm::rotate(m_Position, 6.5f, m_Rotation);
+    m_Position = glm::translate(m_Position, m_Transform);
+    m_Position = glm::scale(m_Position, m_Scale);
+
     RTRObject::Init(textureName, textureName2);
 }
 
@@ -148,6 +152,10 @@ void RTRSphere::Init(std::string textureName)
     std::vector<RTRPoint_t> allVertices = RTRSphere::MakeSphereVertices(1.0f, 24, 64);
     std::vector<int> allIndices = RTRSphere::MakeSphereIndex(24, 64);
     RTRSphere::InitSphere(allVertices, allIndices);
+
+    m_Position = glm::rotate(m_Position, 6.5f, m_Rotation);
+    m_Position = glm::translate(m_Position, m_Transform);
+    m_Position = glm::scale(m_Position, m_Scale);
 
     texture = loadTexture(textureName);
 
@@ -256,6 +264,10 @@ std::vector<int> RTRSphere::MakeSphereIndex(int stacks, int slices) {
     }
 
     return indices;
+}
+
+void RTRSphere::MoveSphere()
+{
 }
 
 //-----------------------------------------------------------------------------

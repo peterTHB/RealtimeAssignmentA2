@@ -50,7 +50,7 @@ void RTRRenderer::ObjectTransformation(RTRShader* shader, glm::mat4 modelMatrix,
 
 void RTRRenderer::RenderWithShaders(int shaderPos, glm::mat4 modelMatrix, glm::mat4 viewMatrix,
     glm::mat4 projectionMatrix, RTRObject* object, RTRCamera* camera, RTRLightingModel* lightingModel,
-    int curTime, int timeDelta, glm::vec3 translation, glm::vec3 scale, glm::vec3 rotation) {
+    int curTime, int timeDelta) {
 
     glUseProgram(ShaderVector.at(shaderPos)->GetId());
     ShaderVector.at(shaderPos)->SetFloat("u_CurTime", (float)curTime);
@@ -60,7 +60,9 @@ void RTRRenderer::RenderWithShaders(int shaderPos, glm::mat4 modelMatrix, glm::m
     ShaderVector.at(shaderPos)->SetCamera("u_Camera", *camera);
     ShaderVector.at(shaderPos)->SetLightingModel(*lightingModel);
 
-    ObjectTransformation(ShaderVector.at(shaderPos), modelMatrix, translation, scale, rotation);
+    /*ObjectTransformation(ShaderVector.at(shaderPos), modelMatrix, translation, scale, rotation);*/
+
+    ShaderVector.at(shaderPos)->SetMat4("u_ModelMatrix", object->GetPosition());
 
     object->Render(ShaderVector.at(shaderPos));
 }

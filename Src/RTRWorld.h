@@ -4,10 +4,10 @@
 
 class RTRWorld {
 public:
-	RTRWorld();
+	RTRWorld(glm::mat4 modelMatrix);
     virtual void StartLighting();
-    virtual void StartObjects();
-    virtual void MakeNewBall();
+    virtual void StartObjects(glm::mat4 modelMatrix);
+    virtual void MakeNewBall(glm::mat4 modelMatrix);
     virtual unsigned int loadCubeMap(std::vector<std::string> faces);
     virtual void DrawSkybox();
     virtual void Done();

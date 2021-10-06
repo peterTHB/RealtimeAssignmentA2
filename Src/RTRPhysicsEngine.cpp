@@ -1,23 +1,31 @@
 #include "RTRPhysicsEngine.h"
 
-RTRPhysicsEngine::RTRPhysicsEngine()
+RTRPhysicsEngine::RTRPhysicsEngine(RTRWorld* rtrworld)
 {
-	plungerZTrans = 10.4f;
+	m_RTRWorld = rtrworld;
+	plungerZTrans = DEFAULT_PLUNGER_Z_TRANS;
 }
 
-glm::vec3 RTRPhysicsEngine::UsePlunger(bool usingPlunger, float timer) {
+glm::mat4 RTRPhysicsEngine::UsePlunger(bool usingPlunger, float timer, glm::mat4 position) {
+	glm::vec3 translation = glm::vec3(0, 0, 0);
+
 	if (usingPlunger) {
-		if (plungerZTrans < 11.4f) {
-			plungerZTrans += (timer / 1000.0f);
+		float increment = 0;
+		if (plungerZTrans < 0.5f) {
+			increment = (timer / 1000.0f);
+			plungerZTrans += increment;
 			power += 1.0f;
 		}
+		translation = glm::vec3(0, 0, increment);
 	}
 	else {
+		power = 0;
+		translation = glm::vec3(0, 0, -plungerZTrans);
 		plungerZTrans = DEFAULT_PLUNGER_Z_TRANS;
 	}
 
-	glm::vec3 translation = glm::vec3(6.125f, -2.5f, plungerZTrans);
-	return translation;
+	position = glm::translate(position, translation);
+	return position;
 }
 
 float RTRPhysicsEngine::GetPower()
@@ -28,6 +36,10 @@ float RTRPhysicsEngine::GetPower()
 void RTRPhysicsEngine::ResetPower()
 {
 	power = 0.0f;
+}
+
+void RTRPhysicsEngine::Collisions() {
+
 }
 
 void RTRPhysicsEngine::Done() {
