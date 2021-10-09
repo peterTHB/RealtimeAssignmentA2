@@ -66,6 +66,8 @@ int RTRApp::Init()
         std::cerr << "RTR:WARNING: SDL coudn't retrieve current display mode details." << std::endl;
     }
 
+    glEnable(GL_LINE_SMOOTH);
+
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
 

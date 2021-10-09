@@ -91,19 +91,28 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <None Include="Src\RTRDefault.vert">
+    <None Include="Src\RTRShaderTextured.vert">
       <Filter>Shader Files</Filter>
     </None>
-    <None Include="Src\RTRDefault.geom">
+    <None Include="Src\RTRShaderTextured.geom">
       <Filter>Shader Files</Filter>
     </None>
-    <None Include="Src\RTRDefault.frag">
+    <None Include="Src\RTRShaderTextured.frag">
       <Filter>Shader Files</Filter>
     </None>
     <None Include="Src\RTRSkyboxShader.frag">
       <Filter>Shader Files</Filter>
     </None>
     <None Include="Src\RTRSkyboxShader.vert">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="Src\RTRShaderNoTexture.frag">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="Src\RTRShaderNoTexture.geom">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="Src\RTRShaderNoTexture.vert">
       <Filter>Shader Files</Filter>
     </None>
   </ItemGroup>

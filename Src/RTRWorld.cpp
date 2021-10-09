@@ -91,40 +91,40 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
 {
     // Test Cube
     //RTRObject* m_TestCube = new RTRCube(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f),
-    //    glm::vec3(1.0f, 0.0f, 0.0f));
-    //m_TestCube->Init();
+    //    glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
+    //m_TestCube->Init("Src/Textures/wall.jpg", "Src/Textures/DarkWood/Wood067_1K_Color.png");
 
     //StaticPinballObjects.push_back(m_TestCube);
 
     // Static Pinball machine and related objects
     RTRCube* m_BottomPlane = new RTRCube(glm::vec3(0.0f, -3.0f, 0.0f), glm::vec3(7.0f, 0.25f, 10.0f), 
-        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix);
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     m_BottomPlane->Init("Src/Textures/wall.jpg", "Src/Textures/DarkWood/Wood067_1K_Color.png");
 
     RTRCube* m_TopBar = new RTRCube(glm::vec3(0.0f, -1.75f, -9.75f), glm::vec3(7.0f, 1.0f, 0.25f),
-        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix);
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     m_TopBar->Init("Src/Textures/wall.jpg", "Src/Textures/DarkWood/Wood067_1K_Color.png");
 
     RTRCube* m_BottomBar = new RTRCube(glm::vec3(0.0f, -1.75f, 9.75f), glm::vec3(7.0f, 1.0f, 0.25f),
-        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix);
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     m_BottomBar->Init("Src/Textures/wall.jpg", "Src/Textures/DarkWood/Wood067_1K_Color.png");
 
     RTRCube* m_LeftBar = new RTRCube(glm::vec3(-6.75f, -1.75f, 0.0f), glm::vec3(0.25f, 1.0f, 9.5f),
-        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix);
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     m_LeftBar->Init("Src/Textures/wall.jpg", "Src/Textures/DarkWood/Wood067_1K_Color.png");
 
     RTRCube* m_RightBar = new RTRCube(glm::vec3(6.75f, -1.75f, 0.0f), glm::vec3(0.25f, 1.0f, 9.5f),
-        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix);
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     m_RightBar->Init("Src/Textures/wall.jpg", "Src/Textures/DarkWood/Wood067_1K_Color.png");
 
     RTRCube* m_TiltedBlock = new RTRCube(glm::vec3(7.7f, -1.75f, -7.0f), glm::vec3(0.25f, 1.0f, 1.5f),
-        glm::vec3(1.0f, 1.0f, 0.0f), modelMatrix);
+        glm::vec3(1.0f, 1.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     m_TiltedBlock->Init("Src/Textures/wall.jpg", "Src/Textures/DarkWood/Wood067_1K_Color.png");
     RTRMaterial_t tiltedBlockMat = { {0.1, 0.1, 0.8 }, { 0.4, 0.4, 0.4 }, { 0.7, 0.7, 0.7 }, 64.0 };
     m_TiltedBlock->SetMaterial(tiltedBlockMat);
 
     RTRCube* m_SideShootBar = new RTRCube(glm::vec3(5.5f, -1.75f, 2.0f), glm::vec3(0.25f, 1.0f, 7.5f),
-        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix);
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     m_SideShootBar->Init("Src/Textures/wall.jpg", "Src/Textures/DarkWood/Wood067_1K_Color.png");
 
     StaticPinballObjects.push_back(m_BottomPlane);
@@ -137,7 +137,7 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
 
     //Dynamic pinball objects
     RTRCube* m_Plunger = new RTRCube(glm::vec3(6.125f, -2.5f, 10.4f), glm::vec3(0.25f, 0.25f, 1.5f),
-        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix);
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     m_Plunger->Init("Src/Textures/MetalStainless/Metal012_1K_Color.png", "Src/Textures/MetalRough/Metal014_1K_Color.png");
     RTRMaterial_t plungerMat = { {0.1, 0.8, 0.1 }, { 0.4, 0.4, 0.4 }, { 0.7, 0.7, 0.7 }, 64.0 };
     m_Plunger->SetMaterial(plungerMat);
@@ -146,6 +146,16 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
 
     // Test sphere
     MakeNewBall(modelMatrix);
+
+    // Make 2D Uniform Grid
+    // -5.0f
+    MakeUniformGrid(-6.75f, -9.75f, 14, 20, modelMatrix);
+
+    //m_UniformGrid = new RTRGrid(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f),
+    //    glm::vec3(0.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
+    //m_UniformGrid->Init();
+    //RTRMaterial_t lineMat = { {1.0, 1.0, 1.0 }, { 1.0, 1.0, 1.0 }, { 1.0, 1.0, 1.0 }, 64.0 };
+    //m_UniformGrid->SetMaterial(lineMat);
 
     //RTRObject* newSphere = new RTRSphere(glm::vec3(0, 0, 5.0f), glm::vec3(1.0f, 1.0f, 1.0f),
     //    glm::vec3(1.0f, 0.0f, 0.0f));
@@ -156,9 +166,8 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
 }
 
 void RTRWorld::MakeNewBall(glm::mat4 modelMatrix) {
-    // Test sphere
-    RTRSphere* newSphere = new RTRSphere(glm::vec3(6.125f, -2.5f, 8.5f), glm::vec3(0.3f, 0.3f, 0.3f), 
-        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix);
+    RTRSphere* newSphere = new RTRSphere(glm::vec3(6.125f, -4.0f, 7.5f), glm::vec3(0.3f, 0.3f, 0.3f), 
+        glm::vec3(0.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     newSphere->Init("Src/Textures/MetalRough/Metal014_1K_Color.png");
     RTRMaterial_t sphereMat = { {0.1, 0.1, 0.8 }, { 0.5, 0.5, 0.5 }, { 0.8, 0.8, 0.8 }, 64.0 };
     newSphere->SetMaterial(sphereMat);
@@ -218,6 +227,35 @@ void RTRWorld::DrawSkybox() {
     glDepthFunc(GL_LESS);
 }
 
+void RTRWorld::MakeUniformGrid(float xOffset, float zOffset, int horizontal, int vertical, glm::mat4 modelMatrix) {
+    UniformGridPositions = MakeGridPositions(xOffset, zOffset, horizontal, vertical);
+    RTRMaterial_t lineMat = { {1.0, 1.0, 1.0 }, { 1.0, 1.0, 1.0 }, { 1.0, 1.0, 1.0 }, 64.0 };
+
+    for (glm::vec3 positions : UniformGridPositions) {
+        RTRGrid* uniformGrid = new RTRGrid(positions, glm::vec3(1.0f, 1.0f, 1.0f),
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
+        uniformGrid->Init();
+        uniformGrid->SetMaterial(lineMat);
+
+        UniformGridObjects.push_back(uniformGrid);
+    }
+}
+
+std::vector<glm::vec3> RTRWorld::MakeGridPositions(float xOffset, float zOffset, int horizontal, int vertical) {
+    std::vector<glm::vec3> positions;
+
+    for (int j = 0; j <= vertical; ++j) {
+        for (int i = 0; i <= horizontal; ++i) {
+            float x = ((float)i / (float)horizontal * (float)horizontal) + xOffset;
+            float y = -2.25f;
+            float z = ((float)j / (float)vertical * (float)vertical) + zOffset;
+            positions.push_back(glm::vec3(x, y, z));
+        }
+    }
+
+    return positions;
+}
+
 void RTRWorld::Done() {
     for (RTRObject* object : StaticPinballObjects) {
         object->End();
@@ -231,13 +269,21 @@ void RTRWorld::Done() {
         object->End();
     }
 
+    for (RTRObject* object : UniformGridObjects) {
+        object->End();
+    }
+
     StaticPinballObjects.clear();
     DynamicPinballObjects.clear();
     DynamicObjects.clear();
+    UniformGridObjects.clear();
+    UniformGridPositions.clear();
     skyboxFaces.clear();
     skyboxVertices.clear();
 
     cubemapTexture = 0;
     glDeleteVertexArrays(1, &skyboxVAO); skyboxVAO = 0;
     glDeleteBuffers(1, &skyboxVBO); skyboxVBO = 0;
+
+    if (m_LightingModel != nullptr) { delete m_LightingModel; m_LightingModel = nullptr; }
 }

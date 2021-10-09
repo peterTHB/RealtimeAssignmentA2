@@ -24,6 +24,7 @@ public:
 	RTRShader* m_PinballDynamicShader{ nullptr };
 	RTRShader* m_DynamicObjectsShader{ nullptr };
 	RTRShader* m_SkyboxShader{ nullptr };
+	RTRShader* m_UniformGridShader{ nullptr };
 
 private:
 	float lastTime{ 0 };

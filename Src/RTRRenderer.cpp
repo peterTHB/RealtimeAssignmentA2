@@ -3,16 +3,19 @@
 RTRRenderer::RTRRenderer()
 {
     m_PinballStaticShader = new RTRShader();
-    m_PinballStaticShader->Load("Src/RTRDefault.vert", "Src/RTRDefault.frag", "Src/RTRDefault.geom");
+    m_PinballStaticShader->Load("Src/RTRShaderTextured.vert", "Src/RTRShaderTextured.frag", "Src/RTRShaderTextured.geom");
 
     m_PinballDynamicShader = new RTRShader();
-    m_PinballDynamicShader->Load("Src/RTRDefault.vert", "Src/RTRDefault.frag", "Src/RTRDefault.geom");
+    m_PinballDynamicShader->Load("Src/RTRShaderTextured.vert", "Src/RTRShaderTextured.frag", "Src/RTRShaderTextured.geom");
 
     m_DynamicObjectsShader = new RTRShader();
-    m_DynamicObjectsShader->Load("Src/RTRDefault.vert", "Src/RTRDefault.frag", "Src/RTRDefault.geom");
+    m_DynamicObjectsShader->Load("Src/RTRShaderTextured.vert", "Src/RTRShaderTextured.frag", "Src/RTRShaderTextured.geom");
 
     m_SkyboxShader = new RTRShader();
     m_SkyboxShader->Load("Src/RTRSkyboxShader.vert", "Src/RTRSkyboxShader.frag");
+
+    m_UniformGridShader = new RTRShader();
+    m_UniformGridShader->Load("Src/RTRShaderNoTexture.vert", "Src/RTRShaderNoTexture.frag", "Src/RTRShaderNoTexture.geom");
 
     glUseProgram(m_SkyboxShader->GetId());
     m_SkyboxShader->SetInt("skybox", 0);
@@ -21,13 +24,14 @@ RTRRenderer::RTRRenderer()
     ShaderVector.push_back(m_PinballDynamicShader);
     ShaderVector.push_back(m_DynamicObjectsShader);
     ShaderVector.push_back(m_SkyboxShader);
+    ShaderVector.push_back(m_UniformGridShader);
 
     lastTime = 0.0f;
     timer = 0.0f;
 }
 
 void RTRRenderer::SetUp() {
-    glClearColor(0.5f, 0.5f, 0.5f, 1.0f);
+    glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
@@ -62,7 +66,7 @@ void RTRRenderer::RenderWithShaders(int shaderPos, glm::mat4 modelMatrix, glm::m
 
     /*ObjectTransformation(ShaderVector.at(shaderPos), modelMatrix, translation, scale, rotation);*/
 
-    ShaderVector.at(shaderPos)->SetMat4("u_ModelMatrix", object->GetPosition());
+    ShaderVector.at(shaderPos)->SetMat4("u_ModelMatrix", object->GetTransformMatrix());
 
     object->Render(ShaderVector.at(shaderPos));
 }
@@ -83,9 +87,11 @@ void RTRRenderer::DebugInfo(Console* console, int FPS, RTRCamera* camera) {
 void RTRRenderer::Done() {
     ShaderVector.clear();
 
-    delete m_PinballStaticShader;
-    delete m_PinballDynamicShader;
-    delete m_DynamicObjectsShader;
+    if (m_PinballStaticShader != nullptr) { delete m_PinballStaticShader; m_PinballStaticShader = nullptr; }
+    if (m_PinballDynamicShader != nullptr) { delete m_PinballDynamicShader; m_PinballDynamicShader = nullptr; }
+    if (m_DynamicObjectsShader != nullptr) { delete m_DynamicObjectsShader; m_DynamicObjectsShader = nullptr; }
+    if (m_SkyboxShader != nullptr) { delete m_SkyboxShader; m_SkyboxShader = nullptr; }
+    if (m_UniformGridShader != nullptr) { delete m_UniformGridShader; m_UniformGridShader = nullptr; }
 
     lastTime = 0;
     timer = 0;

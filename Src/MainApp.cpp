@@ -122,6 +122,11 @@ void MainApp::CheckInput()
                     case SDLK_UP:
                         m_UsePlunger = true;
                         break;
+
+                    // Debug mode toggle
+                    case SDLK_p:
+                        m_DebugModeOn = !m_DebugModeOn;
+                        break;
                 }
                 break;
 
@@ -130,7 +135,8 @@ void MainApp::CheckInput()
                     // Plunger release
                     case SDLK_UP:
                         m_UsePlunger = false;
-                        /*m_ShootBall = true;*/
+                        m_ShootBall = true;
+                        m_MakeNewBall = true;
                         break;
 
                 }
@@ -147,22 +153,19 @@ void MainApp::UpdateState(unsigned int td_milli)
     // Setup Model and View matrices
     m_ModelMatrix = glm::mat4(1.0f);
     m_ViewMatrix = m_Camera->GetViewMatrix();
-    //m_ViewMatrix = glm::mat4(glm::mat3(m_Camera->GetViewMatrix()));
 
-    // Shoot currentball in dynamic objects vector
-    //if (m_ShootBall) {
-    //    RTRObject* currBall = m_RTRWorld->GetDynamicObjects().at(m_NumBallsShot);
-    //    // Apply velocity here
-    //    currBall->SetVelocity(m_RTRPhysicsEngine->GetPower());
-    //    m_ShootBall = false;
-    //}
+    // Shoot current ball
+    if (m_ShootBall) {
+        m_RTRWorld->GetDynamicObjects().at(m_RTRWorld->GetCurrBall())->SetPower(m_RTRPhysicsEngine->GetPower());
+        m_ShootBall = false;
+    }
 }
 
 void MainApp::RenderFrame()
 {
     m_RTRRenderer->SetUp();
 
-    // For all static pinball objects
+    //For all static pinball objects
     for (RTRObject* staticPBObject : m_RTRWorld->GetStaticPinballObjects()) {
         //glm::vec3 transform = staticPBObject->GetTransform();
         //glm::vec3 scale = staticPBObject->GetScale();
@@ -174,34 +177,48 @@ void MainApp::RenderFrame()
 
     // For all other dynamic objects, i.e: pinball ball
     // Have method to make new sphere
-    for (RTRObject* dynaObject : m_RTRWorld->GetDynamicObjects()) {
+    for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
         //glm::vec3 transform = dynaObject->GetTransform();
         //glm::vec3 scale = dynaObject->GetScale();
         //glm::vec3 rotation = dynaObject->GetRotation();
 
         m_RTRRenderer->RenderWithShaders(2, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
             dynaObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
+        m_RTRPhysicsEngine->MoveBall(dynaObject, m_TimeDelta, dynaObject->GetPower());
     }
 
-    // For all dynamic pinball objects
-    //glm::vec3 transform = m_RTRWorld->GetDynamicPinballObjects().at(0)->GetTransform();
-    //glm::vec3 scale = m_RTRWorld->GetDynamicPinballObjects().at(0)->GetScale();
-    //glm::vec3 rotation = m_RTRWorld->GetDynamicPinballObjects().at(0)->GetRotation();
-    glm::mat4 position = m_RTRWorld->GetDynamicPinballObjects().at(0)->GetPosition();
+    // For plunger use
+    glm::mat4 position = m_RTRWorld->GetDynamicPinballObjects().at(0)->GetTransformMatrix();
+    glm::mat4 transformedPosition = m_RTRPhysicsEngine->UsePlunger(m_UsePlunger, m_TimeDelta, position);
 
-    m_RTRWorld->GetDynamicPinballObjects().at(0)->SetPosition(m_RTRPhysicsEngine->UsePlunger(m_UsePlunger, m_TimeDelta, position));
+    m_RTRWorld->GetDynamicPinballObjects().at(0)->SetTransformMatrix(transformedPosition);
+    m_RTRWorld->GetDynamicPinballObjects().at(0)->SetPosition(glm::vec3(transformedPosition[3]));
 
     m_RTRRenderer->RenderWithShaders(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
         m_RTRWorld->GetDynamicPinballObjects().at(0), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
-
-    if (!m_UsePlunger && !m_ShootBall) m_RTRPhysicsEngine->ResetPower();
-
-    m_RTRRenderer->DebugInfo(m_Console, m_FPS, m_Camera);
+    
+    if (!m_UsePlunger && !m_ShootBall) {
+        m_RTRPhysicsEngine->ResetPower();
+        if (m_MakeNewBall) {
+            m_RTRWorld->SetCurrBall(m_RTRWorld->GetCurrBall() + 1);
+            m_RTRWorld->MakeNewBall(m_ModelMatrix);
+            m_MakeNewBall = false;
+        }
+    }
 
     // Drawing skybox
     glm::mat4 skyboxView = glm::mat4(glm::mat3(m_Camera->GetViewMatrix()));
     m_RTRRenderer->RenderSkybox(skyboxView, m_ProjectionMatrix);
     m_RTRWorld->DrawSkybox();
+
+    if (m_DebugModeOn) {
+        m_RTRRenderer->DebugInfo(m_Console, m_FPS, m_Camera);
+        // For drawing uniform grid
+        for (RTRGrid* gridObject : m_RTRWorld->GetUniformGridObjects()) {
+            m_RTRRenderer->RenderWithShaders(4, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+                gridObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
+        }
+    }
 
     // Swap buffers
     SDL_GL_SwapWindow(m_SDLWindow);

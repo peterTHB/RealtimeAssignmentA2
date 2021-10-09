@@ -2,6 +2,8 @@
 #include "RTRLighting.h"
 #include "RTRObject.h"
 
+static const float DEFAULT_ANGLE = 0.22f;
+
 class RTRWorld {
 public:
 	RTRWorld(glm::mat4 modelMatrix);
@@ -9,12 +11,20 @@ public:
     virtual void StartObjects(glm::mat4 modelMatrix);
     virtual void MakeNewBall(glm::mat4 modelMatrix);
     virtual unsigned int loadCubeMap(std::vector<std::string> faces);
+    virtual void SetAngle(float angle) { tableAngle = angle; };
+    virtual float GetAngle() { return tableAngle; };
+    virtual void SetCurrBall(int num) { currBall = num; };
+    virtual int GetCurrBall() { return currBall; };
     virtual void DrawSkybox();
+    virtual void MakeUniformGrid(float xOffset, float zOffset, int horizontal, int vertical, glm::mat4 modelMatrix);
+    virtual std::vector<glm::vec3> MakeGridPositions(float xOffset, float zOffset, int horizontal, int vertical);
     virtual void Done();
     RTRLightingModel* GetLightingModel() { return m_LightingModel; };
     std::vector<RTRObject*> GetStaticPinballObjects() { return StaticPinballObjects; };
     std::vector<RTRObject*> GetDynamicPinballObjects() { return DynamicPinballObjects; };
-    std::vector<RTRObject*> GetDynamicObjects() { return DynamicObjects; };
+    std::vector<RTRSphere*> GetDynamicObjects() { return DynamicObjects; };
+    std::vector<RTRGrid*> GetUniformGridObjects() { return UniformGridObjects; };
+    std::vector<glm::vec3> GetUniformGridPositions() { return UniformGridPositions; };
 
     virtual unsigned int GetCubeMapTexture() { return cubemapTexture; };
     virtual void SetCubeMapTexture(unsigned int cubemap) { cubemapTexture = cubemap; };
@@ -27,10 +37,16 @@ public:
 
     std::vector<RTRObject*> StaticPinballObjects;
     std::vector<RTRObject*> DynamicPinballObjects;
-    std::vector<RTRObject*> DynamicObjects;
+    std::vector<RTRSphere*> DynamicObjects;
+    std::vector<RTRGrid*> UniformGridObjects;
+
+    std::vector<glm::vec3> UniformGridPositions;
 
     unsigned int cubemapTexture{ 0 };
     unsigned int skyboxVAO, skyboxVBO{ 0 };
+
+    int currBall{ 0 };
+    float tableAngle{ DEFAULT_ANGLE };
 
     std::vector<std::string> skyboxFaces{
         "Src/Skybox/rightSpace.jpg",

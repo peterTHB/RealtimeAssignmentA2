@@ -1,9 +1,7 @@
 ﻿  MainApp.cpp
 C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\MainApp.cpp(87,32): warning C4244: '=': conversion from 'Sint32' to 'float', possible loss of data
 C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\MainApp.cpp(88,32): warning C4244: '=': conversion from 'Sint32' to 'float', possible loss of data
-C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\MainApp.cpp(192,108): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
-  RTRPhysicsEngine.cpp
-  RTRRenderer.cpp
-  Generating Code...
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\MainApp.cpp(187,50): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\MainApp.cpp(192,82): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
   RTRApp.vcxproj -> C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Build\Debug - x64\A2.exe
   0 File(s) copied
