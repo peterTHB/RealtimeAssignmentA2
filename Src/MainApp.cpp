@@ -154,9 +154,15 @@ void MainApp::UpdateState(unsigned int td_milli)
     m_ModelMatrix = glm::mat4(1.0f);
     m_ViewMatrix = m_Camera->GetViewMatrix();
 
+    for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
+        m_RTRPhysicsEngine->Collisions(dynaObject, m_RTRWorld->GetStaticCollidablePinballObjects());
+        m_RTRPhysicsEngine->Collisions(dynaObject, m_RTRWorld->GetDynamicPinballObjects());
+    }
+
     // Shoot current ball
     if (m_ShootBall) {
         m_RTRWorld->GetDynamicObjects().at(m_RTRWorld->GetCurrBall())->SetPower(m_RTRPhysicsEngine->GetPower());
+        m_RTRWorld->GetDynamicObjects().at(m_RTRWorld->GetCurrBall())->SetMovingForward(true);
         m_ShootBall = false;
     }
 }
@@ -167,10 +173,11 @@ void MainApp::RenderFrame()
 
     //For all static pinball objects
     for (RTRObject* staticPBObject : m_RTRWorld->GetStaticPinballObjects()) {
-        //glm::vec3 transform = staticPBObject->GetTransform();
-        //glm::vec3 scale = staticPBObject->GetScale();
-        //glm::vec3 rotation = staticPBObject->GetRotation();
+        m_RTRRenderer->RenderWithShaders(0, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+            staticPBObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
+    }
 
+    for (RTRObject* staticPBObject : m_RTRWorld->GetStaticCollidablePinballObjects()) {
         m_RTRRenderer->RenderWithShaders(0, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
             staticPBObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
     }
@@ -178,10 +185,6 @@ void MainApp::RenderFrame()
     // For all other dynamic objects, i.e: pinball ball
     // Have method to make new sphere
     for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
-        //glm::vec3 transform = dynaObject->GetTransform();
-        //glm::vec3 scale = dynaObject->GetScale();
-        //glm::vec3 rotation = dynaObject->GetRotation();
-
         m_RTRRenderer->RenderWithShaders(2, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
             dynaObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
         m_RTRPhysicsEngine->MoveBall(dynaObject, m_TimeDelta, dynaObject->GetPower());

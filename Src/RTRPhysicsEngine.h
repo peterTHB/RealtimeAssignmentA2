@@ -19,7 +19,8 @@ public:
 	virtual float GetPower() { return power; };
 	virtual void ResetPower() { power = 0.0f; };
 	virtual void MoveBall(RTRSphere* sphere, float dt, float power);
-	virtual void Collisions();
+	virtual void Collisions(RTRSphere* currBall, std::vector<RTRObject*> objects);
+	virtual bool CheckCollisions(RTRObject* object1, RTRObject* object2);
 	virtual std::vector<std::vector<glm::vec4>> SetUpUniformGrid();
 	virtual void Done();
 

@@ -115,23 +115,23 @@ void RTRCube::Init(std::string textureName, std::string textureName2)
     m_VertexPoints = new RTRPoint_t5[]{
         // Position TexCoords
         // Right
-        { 1.0f, -1.0f, 1.0f, 1.0f, 0 }, { 1.0f, -1.0f, -1.0f, 0, 0 }, { 1.0f, 1.0f, -1.0f, 0, 1.0f },
-        { 1.0f, -1.0f, 1.0f, 1.0f, 0 }, { 1.0f, 1.0f, -1.0f, 0, 1.0f }, { 1.0f, 1.0f, 1.0f, 1.0f, 1.0f },
+        { 0.5f, -0.5f, 0.5f, 1.0f, 0 }, { 0.5f, -0.5f, -0.5f, 0, 0 }, { 0.5f, 0.5f, -0.5f, 0, 1.0f },
+        { 0.5f, -0.5f, 0.5f, 1.0f, 0 }, { 0.5f, 0.5f, -0.5f, 0, 1.0f }, { 0.5f, 0.5f, 0.5f, 1.0f, 1.0f },
         // Left
-        { -1.0f, -1.0f, -1.0f, 1.0f, 0 }, { -1.0f, -1.0f, 1.0f, 0, 0 }, { -1.0f, 1.0f, 1.0f, 0, 1.0f },
-        { -1.0f, -1.0f, -1.0f, 1.0f, 0 }, { -1.0f, 1.0f, 1.0f, 0, 1.0f }, { -1.0f, 1.0f, -1.0f, 1.0f, 1.0f },
+        { -0.5f, -0.5f, -0.5f, 1.0f, 0 }, { -0.5f, -0.5f, 0.5f, 0, 0 }, { -0.5f, 0.5f, 0.5f, 0, 1.0f },
+        { -0.5f, -0.5f, -0.5f, 1.0f, 0 }, { -0.5f, 0.5f, 0.5f, 0, 1.0f }, { -0.5f, 0.5f, -0.5f, 1.0f, 1.0f },
         // Top
-        { -1.0f, 1.0f, 1.0f, 1.0f, 0 }, { 1.0f, 1.0f, 1.0f, 0, 0  }, { 1.0f, 1.0f, -1.0f, 0, 1.0f },
-        { -1.0f, 1.0f, 1.0f, 1.0f, 0 }, { 1.0f, 1.0f, -1.0f, 0, 1.0f }, { -1.0f, 1.0f, -1.0f, 1.0f, 1.0f },
+        { -0.5f, 0.5f, 0.5f, 1.0f, 0 }, { 0.5f, 0.5f, 0.5f, 0, 0  }, { 0.5f, 0.5f, -0.5f, 0, 1.0f },
+        { -0.5f, 0.5f, 0.5f, 1.0f, 0 }, { 0.5f, 0.5f, -0.5f, 0, 1.0f }, { -0.5f, 0.5f, -0.5f, 1.0f, 1.0f },
         // Bottom
-        { -1.0f, -1.0f, -1.0f, 1.0f, 0 }, { 1.0f, -1.0f, -1.0f, 0, 0 }, { 1.0f, -1.0f, 1.0f, 0, 1.0f },
-        { -1.0f, -1.0f, -1.0f, 1.0f, 0 }, { 1.0f, -1.0f, 1.0f, 0, 1.0f }, { -1.0f, -1.0f, 1.0f, 1.0f, 1.0f },
+        { -0.5f, -0.5f, -0.5f, 1.0f, 0 }, { 0.5f, -0.5f, -0.5f, 0, 0 }, { 0.5f, -0.5f, 0.5f, 0, 1.0f },
+        { -0.5f, -0.5f, -0.5f, 1.0f, 0 }, { 0.5f, -0.5f, 0.5f, 0, 1.0f }, { -0.5f, -0.5f, 0.5f, 1.0f, 1.0f },
         // Front
-        { -1.0f, -1.0f, 1.0f, 1.0f, 0 }, { 1.0f, -1.0f, 1.0f, 0, 0  }, { 1.0f, 1.0f, 1.0f, 0, 1.0f },
-        { -1.0f, -1.0f, 1.0f, 1.0f, 0 }, { 1.0f, 1.0f, 1.0f, 0, 1.0f  }, { -1.0f, 1.0f, 1.0f, 1.0f, 1.0f },
+        { -0.5f, -0.5f, 0.5f, 1.0f, 0 }, { 0.5f, -0.5f, 0.5f, 0, 0  }, { 0.5f, 0.5f, 0.5f, 0, 1.0f },
+        { -0.5f, -0.5f, 0.5f, 1.0f, 0 }, { 0.5f, 0.5f, 0.5f, 0, 1.0f  }, { -0.5f, 0.5f, 0.5f, 1.0f, 1.0f },
         // Back
-        { 1.0f, -1.0f, -1.0f, 1.0f, 0 }, { -1.0f, -1.0f, -1.0f, 0, 0 }, { -1.0f, 1.0f, -1.0f, 0, 1.0f },
-        { 1.0f, -1.0f, -1.0f, 1.0f, 0 }, { -1.0f, 1.0f, -1.0f, 0, 1.0f }, { 1.0f, 1.0f, -1.0f, 1.0f, 1.0f }
+        { 0.5f, -0.5f, -0.5f, 1.0f, 0 }, { -0.5f, -0.5f, -0.5f, 0, 0 }, { -0.5f, 0.5f, -0.5f, 0, 1.0f },
+        { 0.5f, -0.5f, -0.5f, 1.0f, 0 }, { -0.5f, 0.5f, -0.5f, 0, 1.0f }, { 0.5f, 0.5f, -0.5f, 1.0f, 1.0f }
     };
 
     m_Faces = new RTRFace_t[]{
@@ -152,7 +152,7 @@ void RTRCube::Init(std::string textureName, std::string textureName2)
 
 void RTRSphere::Init(std::string textureName)
 {
-    std::vector<RTRPoint_t5> allVertices = RTRSphere::MakeSphereVertices(1.0f, 24, 64);
+    std::vector<RTRPoint_t5> allVertices = RTRSphere::MakeSphereVertices(24, 64);
     std::vector<int> allIndices = RTRSphere::MakeSphereIndex(24, 64);
     RTRSphere::InitSphere(allVertices, allIndices);
 
@@ -204,7 +204,7 @@ void RTRSphere::InitSphere(std::vector<RTRPoint_t5> vertices, std::vector<int> i
 
 // Sphere code from Sphere section 
 // http://isoptera.lcsc.edu/~seth/cs492/examples/modern-tutorials/basic_texturing/sphere.cpp
-std::vector<RTRPoint_t5> RTRSphere::MakeSphereVertices(float radius, int stacks, int slices) {
+std::vector<RTRPoint_t5> RTRSphere::MakeSphereVertices(int stacks, int slices) {
     std::vector<RTRPoint_t5> vertices;
 
     int n = 2 * (slices + 1) * stacks;

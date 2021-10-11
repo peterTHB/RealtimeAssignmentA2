@@ -21,6 +21,7 @@ public:
     virtual void Done();
     RTRLightingModel* GetLightingModel() { return m_LightingModel; };
     std::vector<RTRObject*> GetStaticPinballObjects() { return StaticPinballObjects; };
+    std::vector<RTRObject*> GetStaticCollidablePinballObjects() { return StaticCollidablePinballObjects; };
     std::vector<RTRObject*> GetDynamicPinballObjects() { return DynamicPinballObjects; };
     std::vector<RTRSphere*> GetDynamicObjects() { return DynamicObjects; };
     std::vector<RTRGrid*> GetUniformGridObjects() { return UniformGridObjects; };
@@ -36,6 +37,7 @@ public:
     RTRLightingModel* m_LightingModel{ nullptr };
 
     std::vector<RTRObject*> StaticPinballObjects;
+    std::vector<RTRObject*> StaticCollidablePinballObjects;
     std::vector<RTRObject*> DynamicPinballObjects;
     std::vector<RTRSphere*> DynamicObjects;
     std::vector<RTRGrid*> UniformGridObjects;

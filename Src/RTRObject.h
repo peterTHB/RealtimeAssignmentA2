@@ -38,7 +38,8 @@ public:
     virtual void Render(RTRShader* shader);
     virtual void End();
     void SetMaterial(RTRMaterial_t mat) { m_Material = mat; }
-    virtual const char* GetName() { return "RTRObject"; }
+    virtual void SetName(std::string name) { m_ObjectName = name; };
+    virtual std::string GetName() { return m_ObjectName; }
     virtual void SetPosition(glm::vec3 position) { m_Position = position; };
     virtual glm::vec3 GetPosition() { return m_Position; };
     virtual void SetTransformMatrix(glm::mat4 transformMatrix) { m_TransformMatrix = transformMatrix; };
@@ -70,6 +71,7 @@ public:
     float m_Angle{ 0 };
     unsigned int texture{ 0 };
     unsigned int texture2{ 0 };
+    std::string m_ObjectName{ "" };
 };
 
 //-----------------------------------------------------------------------------
@@ -80,7 +82,6 @@ public:
         RTRObject(translation, scale, rotation, modelMatrix, angle) {}
     ~RTRCube() {}
     virtual void Init(std::string textureName, std::string textureName2);
-    virtual const char* GetName() { return "RTRCube"; }
 };
 
 class RTRSphere : public RTRObject {
@@ -90,21 +91,32 @@ public:
     ~RTRSphere() {}
     virtual void Init(std::string textureName);
     virtual void Render(RTRShader* shader);
-    virtual const char* GetName() { return "RTRSphere"; }
     virtual void InitSphere(std::vector<RTRPoint_t5> vertices, std::vector<int> indices);
-    virtual std::vector<RTRPoint_t5> MakeSphereVertices(float radius, int stacks, int slices);
+    virtual std::vector<RTRPoint_t5> MakeSphereVertices(int stacks, int slices);
     virtual std::vector<int> MakeSphereIndex(int stacks, int slices);
-    virtual void SetVelocity(glm::vec3 velocity) { m_Velocity = velocity; };
-    virtual glm::vec3 GetVelocity() { return m_Velocity; };
+    virtual void SetRadius(float radius) { m_Radius = radius; };
+    virtual float GetRadius() { return m_Radius; };
+    virtual void SetVelocityDir(glm::vec3 velocity) { m_VelocityDir = velocity; };
+    virtual glm::vec3 GetVelocityDir() { return m_VelocityDir; };
     virtual void SetPower(float power) { m_Power = power; };
     virtual float GetPower() { return m_Power; };
     virtual void SetMovingForward(bool move) { m_MovingForward = move; };
     virtual bool GetMovingForward() { return m_MovingForward; };
+    virtual void SetMovingBackward(bool move) { m_MovingBackward = move; };
+    virtual bool GetMovingBackward() { return m_MovingBackward; };
+    virtual void SetMovingRight(bool move) { m_MovingRight = move; };
+    virtual bool GetMovingRight() { return m_MovingRight; };
+    virtual void SetMovingLeft(bool move) { m_MovingLeft = move; };
+    virtual bool GetMovingLeft() { return m_MovingLeft; };
 
 private:
-    glm::vec3 m_Velocity{ 0 };
+    float m_Radius{ 0 };
+    glm::vec3 m_VelocityDir{ 0 };
     float m_Power{ 0 };
-    bool m_MovingForward{ true };
+    bool m_MovingForward{ false };
+    bool m_MovingBackward{ false };
+    bool m_MovingRight{ false };
+    bool m_MovingLeft{ false };
 };
 
 class RTRCylinder : public RTRObject {
@@ -113,7 +125,6 @@ public:
         RTRObject(translation, scale, rotation, modelMatrix, angle) {}
     ~RTRCylinder() {}
     virtual void Init(std::string textureName, std::string textureName2);
-    virtual const char* GetName() { return "RTRCylinder"; }
 };
 
 class RTRPrism : public RTRObject {
@@ -122,7 +133,6 @@ public:
         RTRObject(translation, scale, rotation, modelMatrix, angle) {}
     ~RTRPrism() {}
     virtual void Init(std::string textureName, std::string textureName2);
-    virtual const char* GetName() { return "RTRPrism"; }
 };
 
 class RTRGrid : public RTRObject
@@ -134,7 +144,6 @@ public:
     virtual void InitGrid();
     virtual void Render(RTRShader* shader);
     virtual void End();
-    virtual const char* GetName() { return "RTRGrid"; }
 
 private:
     std::vector<glm::vec3> VerticesPoints;
