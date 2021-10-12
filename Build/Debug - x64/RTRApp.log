@@ -1,6 +1,3 @@
-﻿  RTRObject.cpp
-C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRObject.cpp(226,36): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
-  RTRPhysicsEngine.cpp
-  Generating Code...
+﻿  RTRWorld.cpp
   RTRApp.vcxproj -> C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Build\Debug - x64\A2.exe
   0 File(s) copied

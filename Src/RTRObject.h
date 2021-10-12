@@ -50,6 +50,7 @@ public:
     virtual glm::vec3 GetScale() { return m_Scale; };
     virtual void SetRotation(glm::vec3 rotation) { m_Rotation = rotation; };
     virtual glm::vec3 GetRotation() { return m_Rotation; };
+    virtual void DoRotation(glm::vec3 rotation, float angleRads);
     virtual unsigned int LoadTexture(std::string textureFile);
     virtual void SetAngle(float angle) { m_Angle = angle; };
     virtual float GetAngle() { return m_Angle; };

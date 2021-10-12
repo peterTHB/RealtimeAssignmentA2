@@ -105,46 +105,54 @@ std::vector<std::vector<glm::vec4>> RTRPhysicsEngine::SetUpUniformGrid() {
 }
 
 void RTRPhysicsEngine::Collisions(RTRSphere* currBall, std::vector<RTRObject*> objects) {
-	glm::vec3 velocityDir = currBall->GetVelocityDir();
-
 	for (RTRObject* object : objects) {
 		if (CheckCollisions(currBall, object)) {
-			if (object->GetName() == "m_TopBar" || object->GetName() == "m_Plunger") {
-				std::cout << currBall->GetName() << std::endl;
-				std::cout << currBall->GetPosition().x << std::endl;
-				std::cout << currBall->GetPosition().z << std::endl;
-				std::cout << currBall->GetScale().x << std::endl;
-				std::cout << currBall->GetScale().z << std::endl;
+			std::cout << object->GetName() << std::endl;
 
-				std::cout << object->GetName() << std::endl;
-				std::cout << object->GetPosition().x << std::endl;
-				std::cout << object->GetPosition().z << std::endl;
-				std::cout << object->GetScale().x << std::endl;
-				std::cout << object->GetScale().z << std::endl;
-
-				if (velocityDir.z < 0.0f) {
-					currBall->SetMovingForward(false);
-					currBall->SetMovingBackward(true);
-				}
-				else if (velocityDir.z > 0.0f) {
-					currBall->SetMovingForward(true);
-					currBall->SetMovingBackward(false);
-				}
-
-				if (velocityDir.x < 0.0f) {
-					currBall->SetMovingLeft(false);
-					currBall->SetMovingRight(true);
-				}
-				else if (velocityDir.x > 0.0f) {
-					currBall->SetMovingLeft(true);
-					currBall->SetMovingRight(false);
-				}
+			if (object->GetName() == "m_TiltedBlock") {
+				/*currBall->SetVelocityDir(glm::vec3(1.0f, currBall->GetVelocityDir().y, currBall->GetVelocityDir().z));*/
+				currBall->SetMovingForward(false);
+				currBall->SetMovingBackward(true);
+				currBall->SetMovingLeft(true);
 			}
 
-			//currBall->SetMovingForward(!currBall->GetMovingForward());
-			//currBall->SetMovingBackward(!currBall->GetMovingBackward());
-			//currBall->SetMovingLeft(!currBall->GetMovingLeft());
-			//currBall->SetMovingRight(!currBall->GetMovingRight());
+			if (object->GetName() == "m_TopBar") {
+				currBall->SetMovingForward(false);
+				currBall->SetMovingBackward(true);
+			}
+
+			if (object->GetName() == "m_BottomBar") {
+				currBall->SetMovingForward(true);
+				currBall->SetMovingBackward(false);
+			}
+
+			if (object->GetName() == "m_LeftBar") {
+				currBall->SetMovingLeft(false);
+				currBall->SetMovingRight(true);
+			}
+
+			if (object->GetName() == "m_RightBar" || object->GetName() == "m_SideShootBar") {
+				currBall->SetMovingLeft(true);
+				currBall->SetMovingRight(false);
+			}
+
+			//if (currBall->GetVelocityDir().z < 0.0f) {
+			//	currBall->SetMovingForward(false);
+			//	currBall->SetMovingBackward(true);
+			//}
+			//if (currBall->GetVelocityDir().z > 0.0f) {
+			//	currBall->SetMovingForward(true);
+			//	currBall->SetMovingBackward(false);
+			//}
+
+			//if (currBall->GetVelocityDir().x < 0.0f) {
+			//	currBall->SetMovingLeft(false);
+			//	currBall->SetMovingRight(true);
+			//}
+			//if (currBall->GetVelocityDir().x > 0.0f) {
+			//	currBall->SetMovingLeft(true);
+			//	currBall->SetMovingRight(false);
+			//}
 		}
 	}
 }
@@ -153,10 +161,14 @@ bool RTRPhysicsEngine::CheckCollisions(RTRObject* object1, RTRObject* object2) {
 	// Check for collisions along x and z axis
 
 	bool collXAxis = object1->GetPosition().x + object1->GetScale().x >= object2->GetPosition().x
-		&& object2->GetPosition().x + object2->GetScale().x >= object1->GetPosition().x;
+		&& object2->GetPosition().x + object2->GetScale().x >= object1->GetPosition().x 
+		|| object1->GetPosition().x - object1->GetScale().x >= object2->GetPosition().x
+		&& object2->GetPosition().x - object2->GetScale().x >= object1->GetPosition().x;
 
 	bool collZAxis = object1->GetPosition().z + object1->GetScale().z >= object2->GetPosition().z
-		&& object2->GetPosition().z + object2->GetScale().z >= object1->GetPosition().z;
+		&& object2->GetPosition().z + object2->GetScale().z >= object1->GetPosition().z
+		|| object1->GetPosition().z - object1->GetScale().z >= object2->GetPosition().z
+		&& object2->GetPosition().z - object2->GetScale().z >= object1->GetPosition().z;
 
 	return collXAxis && collZAxis;
 }

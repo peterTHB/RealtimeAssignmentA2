@@ -74,6 +74,11 @@ void RTRObject::End()
     if (m_Faces != nullptr) { delete m_Faces; m_Faces = nullptr; }
 }
 
+void RTRObject::DoRotation(glm::vec3 rotation, float angleRads)
+{
+    m_TransformMatrix = glm::rotate(m_TransformMatrix, angleRads, rotation);
+}
+
 unsigned int RTRObject::LoadTexture(std::string textureFile)
 {
     unsigned int texture;
@@ -141,8 +146,8 @@ void RTRCube::Init(std::string textureName, std::string textureName2)
     if (m_Rotation != glm::vec3(0)) {
         m_TransformMatrix = glm::rotate(m_TransformMatrix, m_Angle, m_Rotation);
     }
-    m_TransformMatrix = glm::translate(m_TransformMatrix, m_Translation);
     m_TransformMatrix = glm::scale(m_TransformMatrix, m_Scale);
+    m_TransformMatrix = glm::translate(m_TransformMatrix, m_Translation);
     m_Position = glm::vec3(m_TransformMatrix[3]);
 
     RTRObject::Init(textureName, textureName2);
@@ -159,8 +164,8 @@ void RTRSphere::Init(std::string textureName)
     if (m_Rotation != glm::vec3(0)) {
         m_TransformMatrix = glm::rotate(m_TransformMatrix, m_Angle, m_Rotation);
     }
-    m_TransformMatrix = glm::translate(m_TransformMatrix, m_Translation);
     m_TransformMatrix = glm::scale(m_TransformMatrix, m_Scale);
+    m_TransformMatrix = glm::translate(m_TransformMatrix, m_Translation);
     m_Position = glm::vec3(m_TransformMatrix[3]);
 
     texture = LoadTexture(textureName);
