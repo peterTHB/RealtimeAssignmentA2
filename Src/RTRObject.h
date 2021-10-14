@@ -8,19 +8,18 @@
 #include "RTRShader.h"
 #include "RTRBoundingVolume.h"
 #include "stb/stb_image.h"
-#include <vector>
 
-struct RTRPoint_t5 {
-    float x, y, z, tex1, tex2;
-};
-
-struct RTRPoint_t3 {
-    float x, y, z;
-};
-
-struct RTRFace_t {
-    unsigned int v0, v1, v2;
-};
+//struct RTRPoint_t5 {
+//    float x, y, z, tex1, tex2;
+//};
+//
+//struct RTRPoint_t3 {
+//    float x, y, z;
+//};
+//
+//struct RTRFace_t {
+//    unsigned int v0, v1, v2;
+//};
 
 //-----------------------------------------------------------------------------
 class RTRObject
@@ -54,13 +53,15 @@ public:
     virtual unsigned int LoadTexture(std::string textureFile);
     virtual void SetAngle(float angle) { m_Angle = angle; };
     virtual float GetAngle() { return m_Angle; };
+    virtual RTRBoundingVolume* GetBoundingVolume(){ return m_BoundingVolume; };
 
-public:
+protected:
     unsigned int m_NumVertices{ 0 };
     unsigned int m_NumFaces{ 0 };
     RTRPoint_t5* m_VertexPoints{ nullptr };
     RTRFace_t* m_Faces{ nullptr };
-    RTRMaterial_t m_Material{ {0.19225, 0.19225, 0.19225 }, { 0.50754, 0.50754, 0.50754 }, { 0.508273, 0.508273, 0.508273 }, 128.0 };
+    /*RTRMaterial_t m_Material{ {0.19225, 0.19225, 0.19225 }, { 0.50754, 0.50754, 0.50754 }, { 0.508273, 0.508273, 0.508273 }, 128.0 };*/
+    RTRMaterial_t m_Material{ {1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f }, 128.0 };
     unsigned int m_VertexBuffer{ 0 };
     unsigned int m_VertexArray{ 0 };
     unsigned int m_FaceElementBuffer{ 0 };
@@ -73,6 +74,7 @@ public:
     unsigned int texture{ 0 };
     unsigned int texture2{ 0 };
     std::string m_ObjectName{ "" };
+    RTRBoundingVolume* m_BoundingVolume{ nullptr };
 };
 
 //-----------------------------------------------------------------------------

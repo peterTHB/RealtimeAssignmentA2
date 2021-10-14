@@ -155,8 +155,10 @@ void MainApp::UpdateState(unsigned int td_milli)
     m_ViewMatrix = m_Camera->GetViewMatrix();
 
     for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
+        m_RTRPhysicsEngine->MoveBall(dynaObject, m_TimeDelta, dynaObject->GetPower());
         m_RTRPhysicsEngine->Collisions(dynaObject, m_RTRWorld->GetStaticCollidablePinballObjects());
         m_RTRPhysicsEngine->Collisions(dynaObject, m_RTRWorld->GetDynamicPinballObjects());
+        //m_RTRPhysicsEngine->CollisionsSpheres(dynaObject, m_RTRWorld->GetDynamicObjects());
     }
 
     // Shoot current ball
@@ -175,30 +177,38 @@ void MainApp::RenderFrame()
     for (RTRObject* staticPBObject : m_RTRWorld->GetStaticPinballObjects()) {
         m_RTRRenderer->RenderWithShaders(0, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
             staticPBObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
+        m_RTRRenderer->RenderBoundingBoxes(4, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+            staticPBObject->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
     }
 
-    for (RTRObject* staticPBObject : m_RTRWorld->GetStaticCollidablePinballObjects()) {
+    for (RTRObject* staticCPBObject : m_RTRWorld->GetStaticCollidablePinballObjects()) {
         m_RTRRenderer->RenderWithShaders(0, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
-            staticPBObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
+            staticCPBObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
+        m_RTRRenderer->RenderBoundingBoxes(4, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+            staticCPBObject->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
     }
 
     // For all other dynamic objects, i.e: pinball ball
-    // Have method to make new sphere
     for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
         m_RTRRenderer->RenderWithShaders(2, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
             dynaObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
-        m_RTRPhysicsEngine->MoveBall(dynaObject, m_TimeDelta, dynaObject->GetPower());
+        m_RTRRenderer->RenderBoundingBoxes(4, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+            dynaObject->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
     }
 
     // For plunger use
-    glm::mat4 position = m_RTRWorld->GetDynamicPinballObjects().at(0)->GetTransformMatrix();
-    glm::mat4 transformedPosition = m_RTRPhysicsEngine->UsePlunger(m_UsePlunger, m_TimeDelta, position);
+    glm::mat4 plungerPosition = m_RTRWorld->GetDynamicPinballObjects().at(0)->GetTransformMatrix();
+    glm::mat4 transformedPlungerPosition = m_RTRPhysicsEngine->UsePlunger(m_UsePlunger, m_TimeDelta, plungerPosition);
 
-    m_RTRWorld->GetDynamicPinballObjects().at(0)->SetTransformMatrix(transformedPosition);
-    m_RTRWorld->GetDynamicPinballObjects().at(0)->SetPosition(glm::vec3(transformedPosition[3]));
+    m_RTRWorld->GetDynamicPinballObjects().at(0)->SetTransformMatrix(transformedPlungerPosition);
+    m_RTRWorld->GetDynamicPinballObjects().at(0)->SetPosition(glm::vec3(transformedPlungerPosition[3]));
+    m_RTRWorld->GetDynamicPinballObjects().at(0)->GetBoundingVolume()->SetTransformMatrix(transformedPlungerPosition);
+    m_RTRWorld->GetDynamicPinballObjects().at(0)->GetBoundingVolume()->SetPosition(glm::vec3(transformedPlungerPosition[3]));
 
     m_RTRRenderer->RenderWithShaders(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
         m_RTRWorld->GetDynamicPinballObjects().at(0), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
+    m_RTRRenderer->RenderBoundingBoxes(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+        m_RTRWorld->GetDynamicPinballObjects().at(0)->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
     
     if (!m_UsePlunger && !m_ShootBall) {
         m_RTRPhysicsEngine->ResetPower();

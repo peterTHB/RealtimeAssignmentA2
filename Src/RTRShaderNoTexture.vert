@@ -17,5 +17,5 @@ vec3 lerp(vec3 v0, vec3 v1, float t) {
 
 void main() {
     vs_out.FragPos = vec3(u_ModelMatrix * vec4(a_Position, 1.0));
-    gl_Position = u_ProjectionMatrix * u_ViewMatrix * vec4(vs_out.FragPos, 1.0);
+    gl_Position = u_ProjectionMatrix * u_ViewMatrix* vec4(vs_out.FragPos, 1.0);
 }

@@ -108,6 +108,5 @@ void main()
     
     f_FragColor = vec4(final_color, 1.0) * mix(texture(texture1, fs_in.TexCoord), texture(texture2, fs_in.TexCoord), 0.5);
 //    f_FragColor = vec4(final_color, 1.0) * texture(texture1, fs_in.TexCoord);
-//    f_FragColor = vec4(final_color, 1.0);
 }
 

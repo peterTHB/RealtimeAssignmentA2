@@ -138,13 +138,19 @@
     <Image Include="Src\Textures\DarkWood\Wood067_1K_Color.png">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Src\Textures\wall.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
     <Image Include="Src\Textures\MetalStainless\Metal012_1K_Color.png">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Src\Textures\MetalRough\Metal014_1K_Color.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Textures\LightWood\Wood066_1K_Color.png">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Textures\LightWood\Wood066_PREVIEW.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Textures\MetalStainless\Metal012_1K_Metalness.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

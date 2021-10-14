@@ -4,6 +4,7 @@ RTRPhysicsEngine::RTRPhysicsEngine(RTRWorld* rtrworld)
 {
 	m_RTRWorld = rtrworld;
 	plungerZTrans = DEFAULT_PLUNGER_Z_TRANS;
+	m_tableAngle = rtrworld->GetAngle();
 }
 
 glm::mat4 RTRPhysicsEngine::UsePlunger(bool usingPlunger, float timer, glm::mat4 position) {
@@ -30,37 +31,18 @@ glm::mat4 RTRPhysicsEngine::UsePlunger(bool usingPlunger, float timer, glm::mat4
 
 void RTRPhysicsEngine::MoveBall(RTRSphere* sphere, float dt, float power)
 {
-	//glm::vec3 position = sphere->GetPosition();
 	glm::mat4 transformMatrix = sphere->GetTransformMatrix();
 	float zIncrement = 0;
 	float yIncrement = 0;
 	float xIncrement = 0;
-	//glm::vec3 position = sphere->GetPosition();
-
-	//if (position.z <= -8.5f) {
-	//	sphere->SetMovingForward(false);
-	//	sphere->SetMovingBackward(true);
-	//}
-	//if (position.z >= 8.5f) {
-	//	sphere->SetMovingBackward(false);
-	//	sphere->SetMovingForward(true);
-	//}
-	//if (position.x >= 6.5f) {
-	//	sphere->SetMovingRight(false);
-	//	sphere->SetMovingLeft(true);
-	//}
-	//if (position.x <= -6.5f) {
-	//	sphere->SetMovingLeft(false);
-	//	sphere->SetMovingRight(true);
-	//}
 
 	if (sphere->GetMovingForward()) {
-		zIncrement += -cos(UP_ANGLE) * (dt / 1000.0f) * (power);
-		yIncrement += sin(UP_ANGLE) * (dt / 1000.0f) * (power);
+		zIncrement += -(dt / 1000.0f) * (power);
+		//yIncrement += sin(m_tableAngle) * (dt / 1000.0f) * (power);
 	}
 	if (sphere->GetMovingBackward()) {
-		zIncrement += cos(UP_ANGLE) * (dt / 1000.0f) * (power);
-		yIncrement += -sin(UP_ANGLE) * (dt / 1000.0f) * (power);
+		zIncrement += (dt / 1000.0f) * (power);
+		//yIncrement += -sin(m_tableAngle) * (dt / 1000.0f) * (power);
 	}
 	if (sphere->GetMovingRight()) {
 		xIncrement += (dt / 1000.0f) * (power);
@@ -74,6 +56,9 @@ void RTRPhysicsEngine::MoveBall(RTRSphere* sphere, float dt, float power)
 	transformMatrix = glm::translate(transformMatrix, translation);
 	sphere->SetTransformMatrix(transformMatrix);
 	sphere->SetPosition(glm::vec3(transformMatrix[3]));
+
+	sphere->GetBoundingVolume()->SetTransformMatrix(transformMatrix);
+	sphere->GetBoundingVolume()->SetPosition(glm::vec3(transformMatrix[3]));
 }
 
 std::vector<std::vector<glm::vec4>> RTRPhysicsEngine::SetUpUniformGrid() {
@@ -106,14 +91,15 @@ std::vector<std::vector<glm::vec4>> RTRPhysicsEngine::SetUpUniformGrid() {
 
 void RTRPhysicsEngine::Collisions(RTRSphere* currBall, std::vector<RTRObject*> objects) {
 	for (RTRObject* object : objects) {
-		if (CheckCollisions(currBall, object)) {
+		if (CheckCollisions_AABB_Circle(currBall, object)) {
 			std::cout << object->GetName() << std::endl;
 
 			if (object->GetName() == "m_TiltedBlock") {
-				/*currBall->SetVelocityDir(glm::vec3(1.0f, currBall->GetVelocityDir().y, currBall->GetVelocityDir().z));*/
 				currBall->SetMovingForward(false);
 				currBall->SetMovingBackward(true);
 				currBall->SetMovingLeft(true);
+
+				//std::cout << currBall->GetMovingLeft() << std::endl;
 			}
 
 			if (object->GetName() == "m_TopBar") {
@@ -121,7 +107,7 @@ void RTRPhysicsEngine::Collisions(RTRSphere* currBall, std::vector<RTRObject*> o
 				currBall->SetMovingBackward(true);
 			}
 
-			if (object->GetName() == "m_BottomBar") {
+			if (object->GetName() == "m_BottomBar" || object->GetName() == "m_Plunger") {
 				currBall->SetMovingForward(true);
 				currBall->SetMovingBackward(false);
 			}
@@ -157,20 +143,58 @@ void RTRPhysicsEngine::Collisions(RTRSphere* currBall, std::vector<RTRObject*> o
 	}
 }
 
-bool RTRPhysicsEngine::CheckCollisions(RTRObject* object1, RTRObject* object2) {
+void RTRPhysicsEngine::CollisionsSpheres(RTRSphere* currBall, std::vector<RTRSphere*> spheres) {
+	for (RTRSphere* sphere : spheres) {
+		if (sphere->GetName() != currBall->GetName()) {
+			if (CheckCollisions_Circle_Circle(currBall, sphere)) {
+				currBall->SetMovingForward(!currBall->GetMovingForward());
+				currBall->SetMovingBackward(!currBall->GetMovingBackward());
+				currBall->SetMovingLeft(!currBall->GetMovingLeft());
+				currBall->SetMovingRight(!currBall->GetMovingRight());
+			}
+		}
+	}
+}
+
+bool RTRPhysicsEngine::CheckCollisions_AABB_AABB(RTRObject* object1, RTRObject* object2) {
 	// Check for collisions along x and z axis
+	bool collXAxis = object1->GetPosition().x + (object1->GetScale().x / 2) >= object2->GetPosition().x
+		&& object2->GetPosition().x + (object2->GetScale().x / 2) >= object1->GetPosition().x;
 
-	bool collXAxis = object1->GetPosition().x + object1->GetScale().x >= object2->GetPosition().x
-		&& object2->GetPosition().x + object2->GetScale().x >= object1->GetPosition().x 
-		|| object1->GetPosition().x - object1->GetScale().x >= object2->GetPosition().x
-		&& object2->GetPosition().x - object2->GetScale().x >= object1->GetPosition().x;
-
-	bool collZAxis = object1->GetPosition().z + object1->GetScale().z >= object2->GetPosition().z
-		&& object2->GetPosition().z + object2->GetScale().z >= object1->GetPosition().z
-		|| object1->GetPosition().z - object1->GetScale().z >= object2->GetPosition().z
-		&& object2->GetPosition().z - object2->GetScale().z >= object1->GetPosition().z;
+	bool collZAxis = object1->GetPosition().z + (object1->GetScale().z /2) >= object2->GetPosition().z
+		&& object2->GetPosition().z + (object2->GetScale().z / 2) >= object1->GetPosition().z;
 
 	return collXAxis && collZAxis;
+}
+
+bool RTRPhysicsEngine::CheckCollisions_AABB_Circle(RTRSphere* sphere, RTRObject* object) {
+	float xMin, xMax, zMin, zMax = 0;
+
+	xMin = object->GetPosition().x - (object->GetScale().x / 2);
+	xMax = object->GetPosition().x + (object->GetScale().x / 2);
+	zMin = object->GetPosition().z - (object->GetScale().z / 2);
+	zMax = object->GetPosition().z + (object->GetScale().z / 2);
+
+	float x = std::max(xMin, std::min(sphere->GetPosition().x, xMax));
+	float z = std::max(zMin, std::min(sphere->GetPosition().z, zMax));
+
+	float distance = std::sqrtf((x - sphere->GetPosition().x) * (x - sphere->GetPosition().x)
+								+ (z - sphere->GetPosition().z) * (x - sphere->GetPosition().z));
+
+	return distance < sphere->GetRadius() / 2;
+}
+
+bool RTRPhysicsEngine::CheckCollisions_Circle_Circle(RTRSphere* sphere1, RTRSphere* sphere2) {
+	glm::vec2 center1(sphere1->GetPosition().x + sphere1->GetRadius(), sphere1->GetPosition().z + sphere1->GetRadius());
+	glm::vec2 center2(sphere2->GetPosition().x + sphere2->GetRadius(), sphere2->GetPosition().z + sphere2->GetRadius());
+
+	glm::vec2 difference = center1 - center2;
+
+	return glm::length(difference) < sphere1->GetRadius();
+}
+
+float RTRPhysicsEngine::Clamp(float value, float min, float max) {
+	return std::max(min, std::min(max, value));
 }
 
 void RTRPhysicsEngine::Done() {

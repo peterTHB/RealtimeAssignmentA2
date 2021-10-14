@@ -39,11 +39,6 @@ void RTRObject::Init(std::string textureName, std::string textureName2)
 
     texture = LoadTexture(textureName);
     texture2 = LoadTexture(textureName2);
-
-    /*texture = loadTexture("Src/Textures/wall.jpg");
-    texture2 = loadTexture("Src/Textures/DarkWood/Wood067_1K_Color.png");*/
-    //texture2 = loadTexture("Src/Textures/MetalStainless/Metal012_1K_Color.png");
-    //texture2 = loadTexture("Src/Textures/MetalRough/Metal014_1K_Color.png");
 }
 
 void RTRObject::Render(RTRShader* shader)
@@ -51,12 +46,11 @@ void RTRObject::Render(RTRShader* shader)
     shader->SetMaterial("u_ObjectMaterial", m_Material);
 
     glUseProgram(shader->GetId());
+    glActiveTexture(GL_TEXTURE0 + 0);
     shader->SetInt("texture1", 0);
-    shader->SetInt("texture2", 1);
-
-    glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture);
-    glActiveTexture(GL_TEXTURE1);
+    glActiveTexture(GL_TEXTURE1 + 1);
+    shader->SetInt("texture2", 1);
     glBindTexture(GL_TEXTURE_2D, texture2);
 
     glUseProgram(shader->GetId());
@@ -86,11 +80,14 @@ unsigned int RTRObject::LoadTexture(std::string textureFile)
     glActiveTexture(GL_TEXTURE0);
     glBindTexture(GL_TEXTURE_2D, texture); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
     // set the texture wrapping parameters
+    //GL_MIRRORED_REPEAT, GL_CLAMP_TO_BORDER, GL_REPEAT
+    //float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
+    //glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
     // set texture filtering parameters
-    /*glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);*/
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
     // load image, create texture and generate mipmaps
@@ -150,6 +147,9 @@ void RTRCube::Init(std::string textureName, std::string textureName2)
     m_TransformMatrix = glm::translate(m_TransformMatrix, m_Translation);
     m_Position = glm::vec3(m_TransformMatrix[3]);
 
+    m_BoundingVolume = new RTRBV_AABB(m_Position, m_Scale, m_TransformMatrix);
+    m_BoundingVolume->Init();
+
     RTRObject::Init(textureName, textureName2);
 }
 
@@ -159,7 +159,6 @@ void RTRSphere::Init(std::string textureName)
 {
     std::vector<RTRPoint_t5> allVertices = RTRSphere::MakeSphereVertices(24, 64);
     std::vector<int> allIndices = RTRSphere::MakeSphereIndex(24, 64);
-    RTRSphere::InitSphere(allVertices, allIndices);
 
     if (m_Rotation != glm::vec3(0)) {
         m_TransformMatrix = glm::rotate(m_TransformMatrix, m_Angle, m_Rotation);
@@ -168,6 +167,13 @@ void RTRSphere::Init(std::string textureName)
     m_TransformMatrix = glm::translate(m_TransformMatrix, m_Translation);
     m_Position = glm::vec3(m_TransformMatrix[3]);
 
+    /*m_BoundingVolume = new RTRBV_AABB(m_Position, m_Scale, m_TransformMatrix);
+    m_BoundingVolume->Init();*/
+
+    m_BoundingVolume = new RTRBV_2DCircle(m_Position, m_Scale, m_TransformMatrix, 64, m_Radius);
+    m_BoundingVolume->Init();
+
+    RTRSphere::InitSphere(allVertices, allIndices);
     texture = LoadTexture(textureName);
 }
 
@@ -176,9 +182,9 @@ void RTRSphere::Render(RTRShader* shader)
     shader->SetMaterial("u_ObjectMaterial", m_Material);
 
     glUseProgram(shader->GetId());
-    shader->SetInt("texture1", 0);
 
-    glActiveTexture(GL_TEXTURE0);
+    glActiveTexture(GL_TEXTURE0 + 0);
+    shader->SetInt("texture1", 0);
     glBindTexture(GL_TEXTURE_2D, texture);
 
     glBindVertexArray(m_VertexArray);
@@ -221,7 +227,8 @@ std::vector<RTRPoint_t5> RTRSphere::MakeSphereVertices(int stacks, int slices) {
             float t = (float)theta / stacks;
 
             RTRPoint_t5 points1 = RTRPoint_t5(cos(theta) * sin(phi), -sin(theta), cos(theta) * cos(phi), s, t);
-            RTRPoint_t5 points2 = RTRPoint_t5(cos(theta + glm::pi<float>() / stacks) * sin(phi), -sin(theta + glm::pi<float>() / stacks), cos(theta + glm::pi<float>() / stacks) * cos(phi), s, t);
+            RTRPoint_t5 points2 = RTRPoint_t5(cos(theta + glm::pi<float>() / stacks) * sin(phi), -sin(theta + glm::pi<float>() / stacks), 
+                cos(theta + glm::pi<float>() / stacks) * cos(phi), s, t);
 
             vertices.push_back(points1);
             vertices.push_back(points2);
@@ -281,7 +288,6 @@ void RTRGrid::Init()
     m_Position = glm::vec3(m_TransformMatrix[3]);
 
     m_VertexPoints3 = new RTRPoint_t3[]{
-        // Top
         { -0.5f, 0, 0.5f }, { 0.5f, 0, 0.5f }, { 0.5f, 0, -0.5f },
         { -0.5f, 0, 0.5f }, { 0.5f, 0, -0.5f }, { -0.5f, 0, -0.5f }
     };
