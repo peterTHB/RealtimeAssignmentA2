@@ -99,10 +99,14 @@ public:
     virtual std::vector<int> MakeSphereIndex(int stacks, int slices);
     virtual void SetRadius(float radius) { m_Radius = radius; };
     virtual float GetRadius() { return m_Radius; };
-    virtual void SetVelocityDir(glm::vec3 velocity) { m_VelocityDir = velocity; };
-    virtual glm::vec3 GetVelocityDir() { return m_VelocityDir; };
-    virtual void SetPower(float power) { m_Power = power; };
-    virtual float GetPower() { return m_Power; };
+    virtual void SetTotalDT(float dt) { m_TotalDT = dt; };
+    virtual float GetTotalDT() { return m_TotalDT; };
+    virtual void SetVerticalPower(float power) { m_VertPower = power; };
+    virtual float GetVerticalPower() { return m_VertPower; };
+    virtual void SetHorizontalPower(float power) { m_HoriPower = power; };
+    virtual float GetHorizontalPower() { return m_HoriPower; };
+    virtual void SetCanMove(bool move) { m_CanMove = move; };
+    virtual bool GetCanMove() { return m_CanMove; };
     virtual void SetMovingForward(bool move) { m_MovingForward = move; };
     virtual bool GetMovingForward() { return m_MovingForward; };
     virtual void SetMovingBackward(bool move) { m_MovingBackward = move; };
@@ -111,15 +115,20 @@ public:
     virtual bool GetMovingRight() { return m_MovingRight; };
     virtual void SetMovingLeft(bool move) { m_MovingLeft = move; };
     virtual bool GetMovingLeft() { return m_MovingLeft; };
+    virtual void SetDidExit(bool exit) { m_DidExit = exit; };
+    virtual bool GetDidExit() { return m_DidExit; };
 
 private:
     float m_Radius{ 0 };
-    glm::vec3 m_VelocityDir{ 0 };
-    float m_Power{ 0 };
+    float m_TotalDT{ 0 };
+    float m_VertPower{ 0 };
+    float m_HoriPower{ 0 };
+    bool m_CanMove{ false };
     bool m_MovingForward{ false };
     bool m_MovingBackward{ false };
     bool m_MovingRight{ false };
     bool m_MovingLeft{ false };
+    bool m_DidExit{ false };
 };
 
 class RTRCylinder : public RTRObject {

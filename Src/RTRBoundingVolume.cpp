@@ -86,10 +86,10 @@ void RTRBV_AABB::DrawBoundingVolume(RTRShader* shader)
 
 void RTRBV_2DCircle::Init()
 {
-	for (int i = 0; i < m_Slices * 2; i++) {
+	for (int i = 0; i < m_Slices * 1.5; i++) {
 		float theta = 2.0f * M_PI * float(i) / float(m_Slices);
-		float x = m_Radius * cosf(theta);
-		float z = m_Radius * sinf(theta);
+		float x = m_Radius * 2 * cosf(theta);
+		float z = m_Radius * 2 * sinf(theta);
 
 		RTRPoint_t3 vertex = RTRPoint_t3{ x, 0, z };
 		m_VertexPoints.push_back(vertex);

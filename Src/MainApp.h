@@ -25,6 +25,7 @@ public:
     int Init();
     void Done();
     bool Tick();
+    std::vector<RTRObject*> CombineAllObjects();
 
 private:
     bool m_QuitApp{ false };

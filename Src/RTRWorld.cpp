@@ -132,7 +132,7 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     m_TiltedBlock->SetName("m_TiltedBlock");
     m_TiltedBlock->Init("Src/Textures/LightWood/Wood066_1K_Color.png", "Src/Textures/DarkWood/Wood067_1K_Color.png");
 
-    RTRCube* m_SideShootBar = new RTRCube(glm::vec3(10.0f, -0.13f, 0.15f), glm::vec3(0.5f, 2.0f, 15.0f),
+    RTRCube* m_SideShootBar = new RTRCube(glm::vec3(10.0f, -0.13f, 0.20f), glm::vec3(0.5f, 2.0f, 14.0f),
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     m_SideShootBar->SetName("m_SideShootBar");
     m_SideShootBar->Init("Src/Textures/LightWood/Wood066_1K_Color.png", "Src/Textures/DarkWood/Wood067_1K_Color.png");
@@ -166,11 +166,7 @@ void RTRWorld::MakeNewBall(glm::mat4 modelMatrix) {
     float scale = 0.5f;
     RTRSphere* newSphere = new RTRSphere(glm::vec3(11.75f, -1.5f, 14.0f), glm::vec3(scale, scale, scale),
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
-    //RTRSphere* newSphere = new RTRSphere(glm::vec3(11.75f, -4.0f, 14.0f), glm::vec3(scale, scale, scale),
-    //    glm::vec3(0.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
-    //RTRSphere* newSphere = new RTRSphere(glm::vec3(6.125f, -2.5f, 8.5f), glm::vec3(0.3f, 0.3f, 0.3f), 
-    //    glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
-    newSphere->SetRadius(0.5f * 2);
+    newSphere->SetRadius(scale);
     RTRMaterial_t sphereMat = { {0.1, 0.1, 0.8 }, { 0.5, 0.5, 0.5 }, { 0.8, 0.8, 0.8 }, 64.0 };
     newSphere->SetMaterial(sphereMat);
     newSphere->SetName("newSphere" + std::to_string(currBall));

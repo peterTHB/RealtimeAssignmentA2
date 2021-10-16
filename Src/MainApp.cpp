@@ -138,11 +138,21 @@ void MainApp::CheckInput()
                         m_ShootBall = true;
                         m_MakeNewBall = true;
                         break;
-
                 }
                 break;
         }
     }
+}
+
+std::vector<RTRObject*> MainApp::CombineAllObjects() {
+    std::vector<RTRObject*> allObjects;
+
+    std::vector<RTRObject*> vector1 = m_RTRWorld->GetStaticCollidablePinballObjects();
+    std::vector<RTRObject*> vector2 = m_RTRWorld->GetDynamicPinballObjects();
+    allObjects.insert(std::end(allObjects), std::begin(vector1), std::end(vector1));
+    allObjects.insert(std::end(allObjects), std::begin(vector2), std::end(vector2));
+
+    return allObjects;
 }
 
 void MainApp::UpdateState(unsigned int td_milli)
@@ -154,17 +164,23 @@ void MainApp::UpdateState(unsigned int td_milli)
     m_ModelMatrix = glm::mat4(1.0f);
     m_ViewMatrix = m_Camera->GetViewMatrix();
 
+    std::vector<RTRObject*> allCollidableObjects = CombineAllObjects();
+
     for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
-        m_RTRPhysicsEngine->MoveBall(dynaObject, m_TimeDelta, dynaObject->GetPower());
-        m_RTRPhysicsEngine->Collisions(dynaObject, m_RTRWorld->GetStaticCollidablePinballObjects());
-        m_RTRPhysicsEngine->Collisions(dynaObject, m_RTRWorld->GetDynamicPinballObjects());
+        m_RTRPhysicsEngine->MoveBall(dynaObject, m_TimeDelta);
+        m_RTRPhysicsEngine->Collisions(dynaObject, allCollidableObjects);
         //m_RTRPhysicsEngine->CollisionsSpheres(dynaObject, m_RTRWorld->GetDynamicObjects());
     }
 
     // Shoot current ball
     if (m_ShootBall) {
-        m_RTRWorld->GetDynamicObjects().at(m_RTRWorld->GetCurrBall())->SetPower(m_RTRPhysicsEngine->GetPower());
-        m_RTRWorld->GetDynamicObjects().at(m_RTRWorld->GetCurrBall())->SetMovingForward(true);
+        for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
+            if (!dynaObject->GetDidExit()) {
+                dynaObject->SetVerticalPower(-m_RTRPhysicsEngine->GetPower());
+                dynaObject->SetHorizontalPower(m_RTRPhysicsEngine->GetPower());
+                dynaObject->SetMovingForward(true);
+            }
+        }
         m_ShootBall = false;
     }
 }
@@ -212,6 +228,7 @@ void MainApp::RenderFrame()
     
     if (!m_UsePlunger && !m_ShootBall) {
         m_RTRPhysicsEngine->ResetPower();
+
         if (m_MakeNewBall) {
             m_RTRWorld->SetCurrBall(m_RTRWorld->GetCurrBall() + 1);
             m_RTRWorld->MakeNewBall(m_ModelMatrix);
