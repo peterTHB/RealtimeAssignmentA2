@@ -9,17 +9,8 @@
 #include "RTRBoundingVolume.h"
 #include "stb/stb_image.h"
 
-//struct RTRPoint_t5 {
-//    float x, y, z, tex1, tex2;
-//};
-//
-//struct RTRPoint_t3 {
-//    float x, y, z;
-//};
-//
-//struct RTRFace_t {
-//    unsigned int v0, v1, v2;
-//};
+// AABB collisions, sphere collision
+typedef std::tuple<bool, bool> SphereCollision;
 
 //-----------------------------------------------------------------------------
 class RTRObject
@@ -107,6 +98,9 @@ public:
     virtual float GetHorizontalPower() { return m_HoriPower; };
     virtual void SetCanMove(bool move) { m_CanMove = move; };
     virtual bool GetCanMove() { return m_CanMove; };
+    virtual void SetHasCollidedAABB(bool collided) { std::get<0>(m_HasCollided) = collided; };
+    virtual void SetHasCollidedSphere(bool collided) { std::get<1>(m_HasCollided) = collided; };
+    virtual SphereCollision GetHasCollided() { return m_HasCollided; };
     virtual void SetMovingForward(bool move) { m_MovingForward = move; };
     virtual bool GetMovingForward() { return m_MovingForward; };
     virtual void SetMovingBackward(bool move) { m_MovingBackward = move; };
@@ -124,6 +118,7 @@ private:
     float m_VertPower{ 0 };
     float m_HoriPower{ 0 };
     bool m_CanMove{ false };
+    SphereCollision m_HasCollided{ false, false };
     bool m_MovingForward{ false };
     bool m_MovingBackward{ false };
     bool m_MovingRight{ false };

@@ -16,6 +16,8 @@
 #include "RTRPhysicsEngine.h"
 #include "RTRRenderer.h"
 
+static const float BALL_START_POS = 6.66761f;
+
 class MainApp : public RTRApp
 {
 public:
@@ -38,7 +40,6 @@ private:
     bool m_ShootBall{ false };
     int m_NumBallsShot{ 0 };
     bool m_UsePlunger{ false };
-    bool m_MakeNewBall{ false };
     bool m_DebugModeOn{ false };
     float lastTime{ 0 };
     float timer{ 0 };

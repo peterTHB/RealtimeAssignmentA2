@@ -136,7 +136,6 @@ void MainApp::CheckInput()
                     case SDLK_UP:
                         m_UsePlunger = false;
                         m_ShootBall = true;
-                        m_MakeNewBall = true;
                         break;
                 }
                 break;
@@ -167,17 +166,23 @@ void MainApp::UpdateState(unsigned int td_milli)
     std::vector<RTRObject*> allCollidableObjects = CombineAllObjects();
 
     for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
+        dynaObject->SetHasCollidedAABB(false);
         m_RTRPhysicsEngine->MoveBall(dynaObject, m_TimeDelta);
         m_RTRPhysicsEngine->Collisions(dynaObject, allCollidableObjects);
-        //m_RTRPhysicsEngine->CollisionsSpheres(dynaObject, m_RTRWorld->GetDynamicObjects());
+        m_RTRPhysicsEngine->CollisionsSpheres(dynaObject, m_RTRWorld->GetDynamicObjects());
     }
 
     // Shoot current ball
     if (m_ShootBall) {
         for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
+            // dynaObject->GetHasCollided() && (!dynaObject->GetMovingForward())
             if (!dynaObject->GetDidExit()) {
-                dynaObject->SetVerticalPower(-m_RTRPhysicsEngine->GetPower());
-                dynaObject->SetHorizontalPower(m_RTRPhysicsEngine->GetPower());
+
+                float posZ = BALL_START_POS - dynaObject->GetPosition().z - 1.1f;
+                m_RTRPhysicsEngine->TranslateBall(dynaObject, 0, 0, posZ);
+
+                dynaObject->SetVerticalPower(-m_RTRPhysicsEngine->GetPower() + dynaObject->GetVerticalPower());
+                dynaObject->SetHorizontalPower(m_RTRPhysicsEngine->GetPower() + dynaObject->GetHorizontalPower());
                 dynaObject->SetMovingForward(true);
             }
         }
@@ -225,14 +230,12 @@ void MainApp::RenderFrame()
         m_RTRWorld->GetDynamicPinballObjects().at(0), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
     m_RTRRenderer->RenderBoundingBoxes(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
         m_RTRWorld->GetDynamicPinballObjects().at(0)->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
-    
+
     if (!m_UsePlunger && !m_ShootBall) {
         m_RTRPhysicsEngine->ResetPower();
-
-        if (m_MakeNewBall) {
+        if (m_RTRWorld->GetDynamicObjects().at(m_RTRWorld->GetCurrBall())->GetDidExit()) {
             m_RTRWorld->SetCurrBall(m_RTRWorld->GetCurrBall() + 1);
             m_RTRWorld->MakeNewBall(m_ModelMatrix);
-            m_MakeNewBall = false;
         }
     }
 

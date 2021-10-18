@@ -127,7 +127,7 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     RTRCube* m_TiltedBlock = new RTRCube(glm::vec3(18.65f, 0.0f, -3.0f), glm::vec3(0.5f, 1.0f, 2.0f),
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     m_TiltedBlock->DoRotation(glm::vec3(0.0f, 1.0f, 0.0f), 0.4f);
-    RTRMaterial_t tiltedBlockMat = { {0.1, 0.1, 0.8 }, { 0.4, 0.4, 0.4 }, { 0.7, 0.7, 0.7 }, 64.0 };
+    RTRMaterial_t tiltedBlockMat = { {0.1, 0.1, 0.1 }, { 0.4, 0.4, 0.4 }, { 0.7, 0.7, 0.7 }, 64.0 };
     m_TiltedBlock->SetMaterial(tiltedBlockMat);
     m_TiltedBlock->SetName("m_TiltedBlock");
     m_TiltedBlock->Init("Src/Textures/LightWood/Wood066_1K_Color.png", "Src/Textures/DarkWood/Wood067_1K_Color.png");
@@ -167,7 +167,7 @@ void RTRWorld::MakeNewBall(glm::mat4 modelMatrix) {
     RTRSphere* newSphere = new RTRSphere(glm::vec3(11.75f, -1.5f, 14.0f), glm::vec3(scale, scale, scale),
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     newSphere->SetRadius(scale);
-    RTRMaterial_t sphereMat = { {0.1, 0.1, 0.8 }, { 0.5, 0.5, 0.5 }, { 0.8, 0.8, 0.8 }, 64.0 };
+    RTRMaterial_t sphereMat = { {0.1, 0.1, 0.1 }, { 0.5, 0.5, 0.5 }, { 0.8, 0.8, 0.8 }, 64.0 };
     newSphere->SetMaterial(sphereMat);
     newSphere->SetName("newSphere" + std::to_string(currBall));
     newSphere->Init("Src/Textures/MetalRough/Metal014_1K_Color.png");
