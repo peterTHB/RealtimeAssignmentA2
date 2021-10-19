@@ -18,28 +18,26 @@ out VertexData {
     vec2 TexCoord;
 } gs_out;
 
-//in vec2 TexCoord[];
-//out vec2 fragTexCoord;
-
 void main() {
-    gs_out.TexCoord = gs_in[gl_InvocationID].TexCoord;
-
     vec3 a = vec3(gs_in[1].FragPos - gs_in[0].FragPos);
     vec3 b = vec3(gs_in[2].FragPos - gs_in[0].FragPos);
     vec3 normal = normalize(cross(a, b));
 
     gl_Position = gl_in[0].gl_Position;
     gs_out.FragPos = gs_in[0].FragPos;
+    gs_out.TexCoord = gs_in[0].TexCoord;
     gs_out.Normal = normal;
     EmitVertex();
     
     gl_Position = gl_in[1].gl_Position;
     gs_out.FragPos = gs_in[1].FragPos;
+    gs_out.TexCoord = gs_in[1].TexCoord;
     gs_out.Normal = normal;
     EmitVertex();
     
     gl_Position = gl_in[2].gl_Position;
     gs_out.FragPos = gs_in[2].FragPos;
+    gs_out.TexCoord = gs_in[2].TexCoord;
     gs_out.Normal = normal;
     EmitVertex();
 

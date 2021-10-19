@@ -24,7 +24,7 @@ public:
         m_Angle = angle;
     }
     ~RTRObject() {}
-    virtual void Init(std::string textureName, std::string textureName2);
+    virtual void Init(unsigned int texture, unsigned int texture2);
     virtual void Render(RTRShader* shader);
     virtual void End();
     void SetMaterial(RTRMaterial_t mat) { m_Material = mat; }
@@ -41,7 +41,6 @@ public:
     virtual void SetRotation(glm::vec3 rotation) { m_Rotation = rotation; };
     virtual glm::vec3 GetRotation() { return m_Rotation; };
     virtual void DoRotation(glm::vec3 rotation, float angleRads);
-    virtual unsigned int LoadTexture(std::string textureFile);
     virtual void SetAngle(float angle) { m_Angle = angle; };
     virtual float GetAngle() { return m_Angle; };
     virtual RTRBoundingVolume* GetBoundingVolume(){ return m_BoundingVolume; };
@@ -51,7 +50,6 @@ protected:
     unsigned int m_NumFaces{ 0 };
     RTRPoint_t5* m_VertexPoints{ nullptr };
     RTRFace_t* m_Faces{ nullptr };
-    /*RTRMaterial_t m_Material{ {0.19225, 0.19225, 0.19225 }, { 0.50754, 0.50754, 0.50754 }, { 0.508273, 0.508273, 0.508273 }, 128.0 };*/
     RTRMaterial_t m_Material{ {1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f }, 128.0 };
     unsigned int m_VertexBuffer{ 0 };
     unsigned int m_VertexArray{ 0 };
@@ -62,8 +60,8 @@ protected:
     glm::vec3 m_Scale{ 0 };
     glm::vec3 m_Rotation{ 0 };
     float m_Angle{ 0 };
-    unsigned int texture{ 0 };
-    unsigned int texture2{ 0 };
+    unsigned int m_Texture{ 0 };
+    unsigned int m_Texture2{ 0 };
     std::string m_ObjectName{ "" };
     RTRBoundingVolume* m_BoundingVolume{ nullptr };
 };
@@ -75,7 +73,7 @@ public:
     RTRCube(glm::vec3 translation, glm::vec3 scale, glm::vec3 rotation, glm::mat4 modelMatrix, float angle) :
         RTRObject(translation, scale, rotation, modelMatrix, angle) {}
     ~RTRCube() {}
-    virtual void Init(std::string textureName, std::string textureName2);
+    virtual void Init(unsigned int texture, unsigned int texture2);
 };
 
 class RTRSphere : public RTRObject {
@@ -83,7 +81,7 @@ public:
     RTRSphere(glm::vec3 translation, glm::vec3 scale, glm::vec3 rotation, glm::mat4 modelMatrix, float angle) :
         RTRObject(translation, scale, rotation, modelMatrix, angle) {}
     ~RTRSphere() {}
-    virtual void Init(std::string textureName);
+    virtual void Init(unsigned int texture, unsigned int texture2);
     virtual void Render(RTRShader* shader);
     virtual void InitSphere(std::vector<RTRPoint_t5> vertices, std::vector<int> indices);
     virtual std::vector<RTRPoint_t5> MakeSphereVertices(int stacks, int slices);
@@ -103,14 +101,14 @@ public:
     virtual SphereCollision GetHasCollided() { return m_HasCollided; };
     virtual void SetMovingForward(bool move) { m_MovingForward = move; };
     virtual bool GetMovingForward() { return m_MovingForward; };
-    virtual void SetMovingBackward(bool move) { m_MovingBackward = move; };
-    virtual bool GetMovingBackward() { return m_MovingBackward; };
     virtual void SetMovingRight(bool move) { m_MovingRight = move; };
     virtual bool GetMovingRight() { return m_MovingRight; };
     virtual void SetMovingLeft(bool move) { m_MovingLeft = move; };
     virtual bool GetMovingLeft() { return m_MovingLeft; };
     virtual void SetDidExit(bool exit) { m_DidExit = exit; };
     virtual bool GetDidExit() { return m_DidExit; };
+    virtual void SetHitBottom(bool hit) { m_HitBottom = hit; };
+    virtual bool GetHitBottom() { return m_HitBottom; };
 
 private:
     float m_Radius{ 0 };
@@ -120,10 +118,10 @@ private:
     bool m_CanMove{ false };
     SphereCollision m_HasCollided{ false, false };
     bool m_MovingForward{ false };
-    bool m_MovingBackward{ false };
     bool m_MovingRight{ false };
     bool m_MovingLeft{ false };
     bool m_DidExit{ false };
+    bool m_HitBottom{ false };
 };
 
 class RTRCylinder : public RTRObject {
@@ -131,7 +129,7 @@ public:
     RTRCylinder(glm::vec3 translation, glm::vec3 scale, glm::vec3 rotation, glm::mat4 modelMatrix, float angle) :
         RTRObject(translation, scale, rotation, modelMatrix, angle) {}
     ~RTRCylinder() {}
-    virtual void Init(std::string textureName, std::string textureName2);
+    virtual void Init(unsigned int texture, unsigned int texture2);
 };
 
 class RTRPrism : public RTRObject {
@@ -139,7 +137,7 @@ public:
     RTRPrism(glm::vec3 translation, glm::vec3 scale, glm::vec3 rotation, glm::mat4 modelMatrix, float angle) :
         RTRObject(translation, scale, rotation, modelMatrix, angle) {}
     ~RTRPrism() {}
-    virtual void Init(std::string textureName, std::string textureName2);
+    virtual void Init(unsigned int texture, unsigned int texture2);
 };
 
 class RTRGrid : public RTRObject

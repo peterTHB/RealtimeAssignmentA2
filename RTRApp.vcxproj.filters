@@ -135,22 +135,25 @@
     <Image Include="Src\Skybox\topSpace.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Src\Textures\DarkWood\Wood067_1K_Color.png">
+    <Image Include="Src\Textures\RoughMetal\Metal009_4K_Color.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Src\Textures\MetalStainless\Metal012_1K_Color.png">
+    <Image Include="Src\Textures\FloorWood\WoodFloor046_4K_Color.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Src\Textures\MetalRough\Metal014_1K_Color.png">
+    <Image Include="Src\Textures\DarkWood\Wood067_4K_Color.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Src\Textures\LightWood\Wood066_1K_Color.png">
+    <Image Include="Src\Textures\ShinyMetal\Metal012_4K_Color.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Src\Textures\LightWood\Wood066_PREVIEW.jpg">
+    <Image Include="Src\Textures\SmoothMetal\Metal032_4K_Color.jpg">
       <Filter>Resource Files</Filter>
     </Image>
-    <Image Include="Src\Textures\MetalStainless\Metal012_1K_Metalness.png">
+    <Image Include="Src\Textures\SmoothWood\Wood066_4K_Color.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Textures\outer_container.png">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

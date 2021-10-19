@@ -27,6 +27,7 @@ public:
     std::vector<RTRGrid*> GetUniformGridObjects() { return UniformGridObjects; };
     std::vector<glm::vec3> GetUniformGridPositions() { return UniformGridPositions; };
 
+    virtual unsigned int LoadTexture(std::string textureFile);
     virtual unsigned int GetCubeMapTexture() { return cubemapTexture; };
     virtual void SetCubeMapTexture(unsigned int cubemap) { cubemapTexture = cubemap; };
     virtual unsigned int GetSkyboxVAO() { return skyboxVAO; };
@@ -41,8 +42,14 @@ public:
     std::vector<RTRObject*> DynamicPinballObjects;
     std::vector<RTRSphere*> DynamicObjects;
     std::vector<RTRGrid*> UniformGridObjects;
-
     std::vector<glm::vec3> UniformGridPositions;
+
+    unsigned int m_SmoothWoodTexture{ 0 };
+    unsigned int m_DarkWoodTexture{ 0 };
+    unsigned int m_FloorWoodTexture{ 0 };
+    unsigned int m_ShinyMetalTexture{ 0 };
+    unsigned int m_RoughMetalTexture{ 0 };
+    unsigned int m_OuterRimTexture{ 0 };
 
     unsigned int cubemapTexture{ 0 };
     unsigned int skyboxVAO, skyboxVBO{ 0 };

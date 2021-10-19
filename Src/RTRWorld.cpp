@@ -17,125 +17,169 @@ void RTRWorld::StartLighting()
     // Add directional light to follow camera view direction
     m_LightingModel->AddLight({
         .Type = RTRLightType::DirectionalLight,
-        .Ambient = glm::vec3(0.2, 0.2, 0.2),
+        .Ambient = glm::vec3(0.5, 0.5, 0.5),
         .Diffuse = glm::vec3(1.0, 1.0, 1.0),
-        .Specular = glm::vec3(0.5, 0.5, 0.5),
+        .Specular = glm::vec3(0.8, 0.8, 0.8),
         .Direction = glm::vec3(1.0, 0.0, 0.0)
         });
-    // Add x-axis red spot lights (palce all at x+3.0 so they are positioned around shaded cube)
-    m_LightingModel->AddLight({
-        .Type = RTRLightType::PointLight,
-        .Ambient = glm::vec3(1.0, 0.0, 0.0),
-        .Diffuse = glm::vec3(1.0, 0.0, 0.0),
-        .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(2.0 + 3.0, 0.0, 0.0),
-        .Constant = 1.0f,
-        .Linear = 0.35f,
-        .Quadratic = 0.44f
-        });
-    m_LightingModel->AddLight({
-        .Type = RTRLightType::PointLight,
-        .Ambient = glm::vec3(1.0, 0.0, 0.0),
-        .Diffuse = glm::vec3(1.0, 0.0, 0.0),
-        .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(-2.0 + 3.0, 0.0, 0.0),
-        .Constant = 1.0f,
-        .Linear = 0.35f,
-        .Quadratic = 0.44f
-        });
-    // Add y-axis green spot lights
-    m_LightingModel->AddLight({
-        .Type = RTRLightType::PointLight,
-        .Ambient = glm::vec3(0.0, 0.2, 0.0),
-        .Diffuse = glm::vec3(0.0, 1.0, 0.0),
-        .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(0.0 + 3.0, 2.0, 0.0),
-        .Constant = 1.0f,
-        .Linear = 0.35f,
-        .Quadratic = 0.44f
-        });
-    m_LightingModel->AddLight({
-        .Type = RTRLightType::PointLight,
-        .Ambient = glm::vec3(0.0, 0.2, 0.0),
-        .Diffuse = glm::vec3(0.0, 1.0, 0.0),
-        .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(0.0 + 3.0, -2.0, 0.0),
-        .Constant = 1.0f,
-        .Linear = 0.35f,
-        .Quadratic = 0.44f
-        });
-    // Add z-axis blue spot lights
-    m_LightingModel->AddLight({
-        .Type = RTRLightType::PointLight,
-        .Ambient = glm::vec3(0.0, 0.0, 0.2),
-        .Diffuse = glm::vec3(0.0, 0.0, 1.0),
-        .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(0.0 + 3.0, 0.0, 2.0),
-        .Constant = 1.0f,
-        .Linear = 0.35f,
-        .Quadratic = 0.44f
-        });
-    m_LightingModel->AddLight({
-        .Type = RTRLightType::PointLight,
-        .Ambient = glm::vec3(0.0, 0.0, 0.2),
-        .Diffuse = glm::vec3(0.0, 0.0, 1.0),
-        .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(0.0 + 3.0, 0.0, -2.0),
-        .Constant = 1.0f,
-        .Linear = 0.35f,
-        .Quadratic = 0.44f
-        });
+    // Cornflower
+    //m_LightingModel->AddLight({
+    //    .Type = RTRLightType::PointLight,
+    //    .Ambient = glm::vec3(100.0f / 255.0f, 149.0f / 255.0f, 237.0f / 255.0f),
+    //    .Diffuse = glm::vec3(0.0, 0.0, 0.2),
+    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
+    //    .Position = glm::vec3(15.0f, 0.0, 0.0),
+    //    .Constant = 0.5f,
+    //    .Linear = 0.35f,
+    //    .Quadratic = 0.44f
+    //    });
+    //// Navy
+    //m_LightingModel->AddLight({
+    //    .Type = RTRLightType::PointLight,
+    //    .Ambient = glm::vec3(0.0, 0.0, 128.0f / 255.0f),
+    //    .Diffuse = glm::vec3(0.0, 0.0, 0.2),
+    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
+    //    .Position = glm::vec3(-15.0f, 0.0, 0.0),
+    //    .Constant = 0.5f,
+    //    .Linear = 0.35f,
+    //    .Quadratic = 0.44f
+    //    });
+    //// Medium Sea Green
+    //m_LightingModel->AddLight({
+    //    .Type = RTRLightType::PointLight,
+    //    .Ambient = glm::vec3(60.0f / 255.0f, 179.0f / 255.0f, 113.0f / 255.0f),
+    //    .Diffuse = glm::vec3(0.0, 0.2, 0.0),
+    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
+    //    .Position = glm::vec3(0.0, 5.0f, 0.0),
+    //    .Constant = 0.5f,
+    //    .Linear = 0.35f,
+    //    .Quadratic = 0.44f
+    //    });
+    //// Lime Green
+    //m_LightingModel->AddLight({
+    //    .Type = RTRLightType::PointLight,
+    //    .Ambient = glm::vec3(50.0f / 255.0f, 205.0f / 255.0f, 50.0f / 255.0f),
+    //    .Diffuse = glm::vec3(0.0, 0.2, 0.0),
+    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
+    //    .Position = glm::vec3(0.0, -5.0f, 0.0),
+    //    .Constant = 0.5f,
+    //    .Linear = 0.35f,
+    //    .Quadratic = 0.44f
+    //    });
+    //// Firebrick
+    //m_LightingModel->AddLight({
+    //    .Type = RTRLightType::PointLight,
+    //    .Ambient = glm::vec3(178.0f / 255.0f, 34.0f / 255.0f, 34.0f / 255.0f),
+    //    .Diffuse = glm::vec3(0.2, 0.0, 0.0),
+    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
+    //    .Position = glm::vec3(0.0, 0.0, 25.0f),
+    //    .Constant = 0.5f,
+    //    .Linear = 0.35f,
+    //    .Quadratic = 0.44f
+    //    });
+    //// Maroon
+    //m_LightingModel->AddLight({
+    //    .Type = RTRLightType::PointLight,
+    //    .Ambient = glm::vec3(128.0f / 255.0f, 0.0, 0.0),
+    //    .Diffuse = glm::vec3(0.2, 0.0, 0.0f),
+    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
+    //    .Position = glm::vec3(0.0, 0.0, -25.0f),
+    //    .Constant = 0.5f,
+    //    .Linear = 0.35f,
+    //    .Quadratic = 0.44f
+    //    });
+
+    // Extra lights
+    //m_LightingModel->AddLight({
+    //    .Type = RTRLightType::PointLight,
+    //    .Ambient = glm::vec3(0.0, 0.0, 0.2),
+    //    .Diffuse = glm::vec3(0.0, 0.0, 1.0),
+    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
+    //    .Position = glm::vec3(0.0, 0.0, 25.0f),
+    //    .Constant = 0.5f,
+    //    .Linear = 0.35f,
+    //    .Quadratic = 0.44f
+    //    });
+    //m_LightingModel->AddLight({
+    //    .Type = RTRLightType::PointLight,
+    //    .Ambient = glm::vec3(0.0, 0.0, 0.2),
+    //    .Diffuse = glm::vec3(0.0, 0.0, 1.0),
+    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
+    //    .Position = glm::vec3(0.0, 0.0, -25.0f),
+    //    .Constant = 0.5f,
+    //    .Linear = 0.35f,
+    //    .Quadratic = 0.44f
+    //    });
+    //m_LightingModel->AddLight({
+    //    .Type = RTRLightType::PointLight,
+    //    .Ambient = glm::vec3(0.0, 0.0, 0.2),
+    //    .Diffuse = glm::vec3(0.0, 0.0, 1.0),
+    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
+    //    .Position = glm::vec3(0.0, 0.0, 25.0f),
+    //    .Constant = 0.5f,
+    //    .Linear = 0.35f,
+    //    .Quadratic = 0.44f
+    //    });
 }
 
 void RTRWorld::StartObjects(glm::mat4 modelMatrix)
 {
-    // Test Cube
-    //RTRObject* m_TestCube = new RTRCube(glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f),
-    //    glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
-    //m_TestCube->Init("Src/Textures/MetalStainless/Metal012_1K_Color.png", "Src/Textures/MetalRough/Metal014_1K_Color.png");
+    // Load textures
+    m_SmoothWoodTexture = LoadTexture("Src/Textures/SmoothWood/Wood066_4K_Color.jpg");
+    m_DarkWoodTexture = LoadTexture("Src/Textures/DarkWood/Wood067_4K_Color.jpg");
+    m_FloorWoodTexture = LoadTexture("Src/Textures/FloorWood/WoodFloor046_4K_Color.jpg");
+    m_ShinyMetalTexture = LoadTexture("Src/Textures/ShinyMetal/Metal012_4K_Color.jpg");
+    m_RoughMetalTexture = LoadTexture("Src/Textures/RoughMetal/Metal009_4K_Color.jpg");
+    m_OuterRimTexture = LoadTexture("Src/Textures/outer_container.png");
 
-    //StaticPinballObjects.push_back(m_TestCube);
+    // Test cube
+    //RTRCube* TestCube = new RTRCube(glm::vec3(0.0f, 2.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f),
+    //    glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
+    //TestCube->SetName("TestCube");
+    //TestCube->Init(m_SmoothWoodTexture, m_OuterRimTexture);
+
+    //StaticPinballObjects.push_back(TestCube);
 
     // Static Pinball machine and related objects
     RTRCube* m_BottomPlane = new RTRCube(glm::vec3(0.0f, -3.0f, 0.0f), glm::vec3(14.0f, 0.5f, 20.0f), 
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     m_BottomPlane->SetName("m_BottomPlane");
-    m_BottomPlane->Init("Src/Textures/LightWood/Wood066_1K_Color.png", "Src/Textures/DarkWood/Wood067_1K_Color.png");
+    m_BottomPlane->Init(m_SmoothWoodTexture, m_RoughMetalTexture);
 
     StaticPinballObjects.push_back(m_BottomPlane);
 
     RTRCube* m_TopBar = new RTRCube(glm::vec3(0.0f, -0.13f, -19.5f), glm::vec3(14.0f, 2.0f, 0.5f),
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     m_TopBar->SetName("m_TopBar");
-    m_TopBar->Init("Src/Textures/LightWood/Wood066_1K_Color.png", "Src/Textures/DarkWood/Wood067_1K_Color.png");
+    m_TopBar->Init(m_DarkWoodTexture, m_OuterRimTexture);
 
     RTRCube* m_BottomBar = new RTRCube(glm::vec3(0.0f, -0.13f, 19.5f), glm::vec3(14.0f, 2.0f, 0.5f),
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     m_BottomBar->SetName("m_BottomBar");
-    m_BottomBar->Init("Src/Textures/LightWood/Wood066_1K_Color.png", "Src/Textures/DarkWood/Wood067_1K_Color.png");
+    m_BottomBar->Init(m_DarkWoodTexture, m_OuterRimTexture);
 
     RTRCube* m_LeftBar = new RTRCube(glm::vec3(-13.5f, -0.13f, 0.0f), glm::vec3(0.5f, 2.0f, 19.0f),
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     m_LeftBar->SetName("m_LeftBar");
-    m_LeftBar->Init("Src/Textures/LightWood/Wood066_1K_Color.png", "Src/Textures/DarkWood/Wood067_1K_Color.png");
+    m_LeftBar->Init(m_DarkWoodTexture, m_OuterRimTexture);
 
     RTRCube* m_RightBar = new RTRCube(glm::vec3(13.5f, -0.13f, 0.0f), glm::vec3(0.5f, 2.0f, 19.0f),
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     m_RightBar->SetName("m_RightBar");
-    m_RightBar->Init("Src/Textures/LightWood/Wood066_1K_Color.png", "Src/Textures/DarkWood/Wood067_1K_Color.png");
+    m_RightBar->Init(m_DarkWoodTexture, m_OuterRimTexture);
 
     RTRCube* m_TiltedBlock = new RTRCube(glm::vec3(18.65f, 0.0f, -3.0f), glm::vec3(0.5f, 1.0f, 2.0f),
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     m_TiltedBlock->DoRotation(glm::vec3(0.0f, 1.0f, 0.0f), 0.4f);
-    RTRMaterial_t tiltedBlockMat = { {0.1, 0.1, 0.1 }, { 0.4, 0.4, 0.4 }, { 0.7, 0.7, 0.7 }, 64.0 };
+    RTRMaterial_t tiltedBlockMat = { {0.5, 0.5, 0.5 }, { 0.4, 0.4, 0.4 }, { 0.7, 0.7, 0.7 }, 64.0 };
     m_TiltedBlock->SetMaterial(tiltedBlockMat);
     m_TiltedBlock->SetName("m_TiltedBlock");
-    m_TiltedBlock->Init("Src/Textures/LightWood/Wood066_1K_Color.png", "Src/Textures/DarkWood/Wood067_1K_Color.png");
+    m_TiltedBlock->Init(m_DarkWoodTexture, m_RoughMetalTexture);
 
-    RTRCube* m_SideShootBar = new RTRCube(glm::vec3(10.0f, -0.13f, 0.20f), glm::vec3(0.5f, 2.0f, 14.0f),
+    RTRCube* m_SideShootBar = new RTRCube(glm::vec3(10.0f, -0.13f, 0.18f), glm::vec3(0.5f, 2.0f, 14.0f),
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     m_SideShootBar->SetName("m_SideShootBar");
-    m_SideShootBar->Init("Src/Textures/LightWood/Wood066_1K_Color.png", "Src/Textures/DarkWood/Wood067_1K_Color.png");
+    m_SideShootBar->Init(m_DarkWoodTexture, m_OuterRimTexture);
 
     StaticCollidablePinballObjects.push_back(m_TopBar);
     StaticCollidablePinballObjects.push_back(m_BottomBar);
@@ -144,13 +188,13 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     StaticCollidablePinballObjects.push_back(m_TiltedBlock);
     StaticCollidablePinballObjects.push_back(m_SideShootBar);
 
-    //Dynamic pinball objects
+    // Dynamic pinball objects
     RTRCube* m_Plunger = new RTRCube(glm::vec3(11.75f, -1.5f, 3.2f), glm::vec3(0.5f, 0.5f, 3.0f),
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     RTRMaterial_t plungerMat = { {0.1, 0.8, 0.1 }, { 0.4, 0.4, 0.4 }, { 0.7, 0.7, 0.7 }, 64.0 };
     m_Plunger->SetMaterial(plungerMat);
     m_Plunger->SetName("m_Plunger");
-    m_Plunger->Init("Src/Textures/MetalStainless/Metal012_1K_Color.png", "Src/Textures/MetalRough/Metal014_1K_Color.png");
+    m_Plunger->Init(m_ShinyMetalTexture, m_RoughMetalTexture);
 
     DynamicPinballObjects.push_back(m_Plunger);
 
@@ -170,8 +214,46 @@ void RTRWorld::MakeNewBall(glm::mat4 modelMatrix) {
     RTRMaterial_t sphereMat = { {0.1, 0.1, 0.1 }, { 0.5, 0.5, 0.5 }, { 0.8, 0.8, 0.8 }, 64.0 };
     newSphere->SetMaterial(sphereMat);
     newSphere->SetName("newSphere" + std::to_string(currBall));
-    newSphere->Init("Src/Textures/MetalRough/Metal014_1K_Color.png");
+    newSphere->Init(m_RoughMetalTexture, m_ShinyMetalTexture);
     DynamicObjects.push_back(newSphere);
+}
+
+unsigned int RTRWorld::LoadTexture(std::string textureFile)
+{
+    unsigned int texture;
+    glGenTextures(1, &texture);
+    glBindTexture(GL_TEXTURE_2D, texture); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
+    // set the texture wrapping parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+    // set texture filtering parameters
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
+    // load image, create texture and generate mipmaps
+    int width, height, nrChannels;
+    unsigned char* data = stbi_load(textureFile.c_str(), &width, &height, &nrChannels, 0);
+
+    std::string pngString = ".png";
+
+    if (data)
+    {
+        if (strstr(textureFile.c_str(), pngString.c_str())) {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0, GL_RGBA, GL_UNSIGNED_BYTE, data);
+            glGenerateMipmap(GL_TEXTURE_2D);
+        }
+        else {
+            glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
+            glGenerateMipmap(GL_TEXTURE_2D);
+        }
+    }
+    else
+    {
+        std::cout << "Failed to load texture" << std::endl;
+    }
+    stbi_image_free(data);
+
+    return texture;
 }
 
 void RTRWorld::LoadSkyboxVAO() {
@@ -248,7 +330,7 @@ std::vector<glm::vec3> RTRWorld::MakeGridPositions(float xOffset, float zOffset,
     for (int j = 0; j <= vertical; ++j) {
         for (int i = 0; i <= horizontal; ++i) {
             float x = ((float)i / (float)horizontal * (float)horizontal) + xOffset;
-            float y = -2.25f;
+            float y = -1.0f;
             float z = ((float)j / (float)vertical * (float)vertical) + zOffset;
             positions.push_back(glm::vec3(x, y, z));
         }
@@ -259,6 +341,10 @@ std::vector<glm::vec3> RTRWorld::MakeGridPositions(float xOffset, float zOffset,
 
 void RTRWorld::Done() {
     for (RTRObject* object : StaticPinballObjects) {
+        object->End();
+    }
+
+    for (RTRObject* object : StaticCollidablePinballObjects) {
         object->End();
     }
 

@@ -67,6 +67,7 @@ int RTRApp::Init()
     }
 
     glEnable(GL_LINE_SMOOTH);
+    glEnable(GL_TEXTURE_2D);
 
     glEnable(GL_DEPTH_TEST);
     glDepthFunc(GL_LESS);
@@ -77,8 +78,6 @@ int RTRApp::Init()
     glEnable(GL_CULL_FACE);
     glCullFace(GL_BACK);
     glFrontFace(GL_CCW);
-
-    //glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 
     std::cout << "RTR:MESSAGE: OpenGL version " << GLVersion.major << "." << GLVersion.minor << " initialised." << std::endl;
     return 0;

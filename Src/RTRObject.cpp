@@ -16,7 +16,7 @@
 // scale, place and animate them with transformation matrices.
 
 //-----------------------------------------------------------------------------
-void RTRObject::Init(std::string textureName, std::string textureName2)
+void RTRObject::Init(unsigned int texture, unsigned int texture2)
 {
     glGenBuffers(1, &m_VertexBuffer);
     glActiveTexture(GL_TEXTURE0);
@@ -37,21 +37,23 @@ void RTRObject::Init(std::string textureName, std::string textureName2)
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, m_FaceElementBuffer);
     glBufferData(GL_ELEMENT_ARRAY_BUFFER, m_NumFaces * sizeof(RTRFace_t), m_Faces, GL_STATIC_DRAW);
 
-    texture = LoadTexture(textureName);
-    texture2 = LoadTexture(textureName2);
+    m_Texture = texture;
+    m_Texture2 = texture2;
 }
 
 void RTRObject::Render(RTRShader* shader)
 {
     shader->SetMaterial("u_ObjectMaterial", m_Material);
+    shader->SetInt("u_ObjectMaterial.Diffuse", 0);
+    shader->SetInt("u_ObjectMaterial.Specular", 1);
 
     glUseProgram(shader->GetId());
-    glActiveTexture(GL_TEXTURE0 + 0);
+    glActiveTexture(GL_TEXTURE0);
     shader->SetInt("texture1", 0);
-    glBindTexture(GL_TEXTURE_2D, texture);
-    glActiveTexture(GL_TEXTURE1 + 1);
+    glBindTexture(GL_TEXTURE_2D, m_Texture);
+    glActiveTexture(GL_TEXTURE1);
     shader->SetInt("texture2", 1);
-    glBindTexture(GL_TEXTURE_2D, texture2);
+    glBindTexture(GL_TEXTURE_2D, m_Texture2);
 
     glUseProgram(shader->GetId());
     glBindVertexArray(m_VertexArray);
@@ -73,43 +75,9 @@ void RTRObject::DoRotation(glm::vec3 rotation, float angleRads)
     m_TransformMatrix = glm::rotate(m_TransformMatrix, angleRads, rotation);
 }
 
-unsigned int RTRObject::LoadTexture(std::string textureFile)
-{
-    unsigned int texture;
-    glGenTextures(1, &texture);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, texture); // all upcoming GL_TEXTURE_2D operations now have effect on this texture object
-    // set the texture wrapping parameters
-    //GL_MIRRORED_REPEAT, GL_CLAMP_TO_BORDER, GL_REPEAT
-    //float borderColor[] = { 1.0f, 1.0f, 1.0f, 1.0f };
-    //glTexParameterfv(GL_TEXTURE_2D, GL_TEXTURE_BORDER_COLOR, borderColor);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);	// set texture wrapping to GL_REPEAT (default wrapping method)
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
-    // set texture filtering parameters
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR_MIPMAP_LINEAR);
-    //glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
-    // load image, create texture and generate mipmaps
-    int width, height, nrChannels;
-    unsigned char* data = stbi_load(textureFile.c_str(), &width, &height, &nrChannels, 0);
-    if (data)
-    {
-        glTexImage2D(GL_TEXTURE_2D, 0, GL_RGB, width, height, 0, GL_RGB, GL_UNSIGNED_BYTE, data);
-        glGenerateMipmap(GL_TEXTURE_2D);
-    }
-    else
-    {
-        std::cout << "Failed to load texture" << std::endl;
-    }
-    stbi_image_free(data);
-
-    return texture;
-}
-
 //-----------------------------------------------------------------------------
 
-void RTRCube::Init(std::string textureName, std::string textureName2)
+void RTRCube::Init(unsigned int texture, unsigned int texture2)
 {
     m_NumVertices = 36;
     m_NumFaces = 2;
@@ -150,12 +118,12 @@ void RTRCube::Init(std::string textureName, std::string textureName2)
     m_BoundingVolume = new RTRBV_AABB(m_Position, m_Scale, m_TransformMatrix);
     m_BoundingVolume->Init();
 
-    RTRObject::Init(textureName, textureName2);
+    RTRObject::Init(texture, texture2);
 }
 
 //-----------------------------------------------------------------------------
 
-void RTRSphere::Init(std::string textureName)
+void RTRSphere::Init(unsigned int texture, unsigned int texture2)
 {
     std::vector<RTRPoint_t5> allVertices = RTRSphere::MakeSphereVertices(24, 64);
     std::vector<int> allIndices = RTRSphere::MakeSphereIndex(24, 64);
@@ -167,25 +135,28 @@ void RTRSphere::Init(std::string textureName)
     m_TransformMatrix = glm::translate(m_TransformMatrix, m_Translation);
     m_Position = glm::vec3(m_TransformMatrix[3]);
 
-    /*m_BoundingVolume = new RTRBV_AABB(m_Position, m_Scale, m_TransformMatrix);
-    m_BoundingVolume->Init();*/
-
     m_BoundingVolume = new RTRBV_2DCircle(m_Position, m_Scale, m_TransformMatrix, 64, m_Radius);
     m_BoundingVolume->Init();
 
     RTRSphere::InitSphere(allVertices, allIndices);
-    texture = LoadTexture(textureName);
+    m_Texture = texture;
+    m_Texture2 = texture2;
 }
 
 void RTRSphere::Render(RTRShader* shader)
 {
     shader->SetMaterial("u_ObjectMaterial", m_Material);
+    shader->SetInt("u_ObjectMaterial.Diffuse", 0);
+    shader->SetInt("u_ObjectMaterial.Specular", 1);
 
     glUseProgram(shader->GetId());
 
-    glActiveTexture(GL_TEXTURE0 + 0);
+    glActiveTexture(GL_TEXTURE0);
     shader->SetInt("texture1", 0);
-    glBindTexture(GL_TEXTURE_2D, texture);
+    glBindTexture(GL_TEXTURE_2D, m_Texture);
+    glActiveTexture(GL_TEXTURE1);
+    shader->SetInt("texture2", 1);
+    glBindTexture(GL_TEXTURE_2D, m_Texture2);
 
     glBindVertexArray(m_VertexArray);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, m_NumVertices);
@@ -261,16 +232,16 @@ std::vector<int> RTRSphere::MakeSphereIndex(int stacks, int slices) {
 
 //-----------------------------------------------------------------------------
 
-void RTRCylinder::Init(std::string textureName, std::string textureName2)
+void RTRCylinder::Init(unsigned int texture, unsigned int texture2)
 {
-    RTRObject::Init(textureName, textureName2);
+    RTRObject::Init(texture, texture2);
 }
 
 //-----------------------------------------------------------------------------
 
-void RTRPrism::Init(std::string textureName, std::string textureName2)
+void RTRPrism::Init(unsigned int texture, unsigned int texture2)
 {
-    RTRObject::Init(textureName, textureName2);
+    RTRObject::Init(texture, texture2);
 }
 
 //-----------------------------------------------------------------------------

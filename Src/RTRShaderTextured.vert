@@ -18,8 +18,6 @@ out VertexData {
     vec2 TexCoord;
 } vs_out;
 
-//out vec2 TexCoord;
-
 vec3 lerp(vec3 v0, vec3 v1, float t) {
     return (1.0f-t)*v0 + t*v1;
 }

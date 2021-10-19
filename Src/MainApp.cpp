@@ -198,22 +198,22 @@ void MainApp::RenderFrame()
     for (RTRObject* staticPBObject : m_RTRWorld->GetStaticPinballObjects()) {
         m_RTRRenderer->RenderWithShaders(0, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
             staticPBObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
-        m_RTRRenderer->RenderBoundingBoxes(4, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+        if (m_DebugModeOn) m_RTRRenderer->RenderBoundingBoxes(4, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
             staticPBObject->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
     }
 
     for (RTRObject* staticCPBObject : m_RTRWorld->GetStaticCollidablePinballObjects()) {
         m_RTRRenderer->RenderWithShaders(0, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
             staticCPBObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
-        m_RTRRenderer->RenderBoundingBoxes(4, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+        if (m_DebugModeOn) m_RTRRenderer->RenderBoundingBoxes(4, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
             staticCPBObject->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
     }
 
-    // For all other dynamic objects, i.e: pinball ball
+    //For all other dynamic objects, i.e: pinball ball
     for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
         m_RTRRenderer->RenderWithShaders(2, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
             dynaObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
-        m_RTRRenderer->RenderBoundingBoxes(4, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+        if (m_DebugModeOn) m_RTRRenderer->RenderBoundingBoxes(4, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
             dynaObject->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
     }
 
@@ -228,7 +228,7 @@ void MainApp::RenderFrame()
 
     m_RTRRenderer->RenderWithShaders(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
         m_RTRWorld->GetDynamicPinballObjects().at(0), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
-    m_RTRRenderer->RenderBoundingBoxes(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+    if (m_DebugModeOn) m_RTRRenderer->RenderBoundingBoxes(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
         m_RTRWorld->GetDynamicPinballObjects().at(0)->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
 
     if (!m_UsePlunger && !m_ShootBall) {
