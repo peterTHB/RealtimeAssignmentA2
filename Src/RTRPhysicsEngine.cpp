@@ -366,16 +366,12 @@ Direction RTRPhysicsEngine::VectorDirection(glm::vec2 target)
 	return (Direction)best_match;
 }
 
-std::vector<std::vector<glm::vec4>> RTRPhysicsEngine::SetUpUniformGrid() {
-	std::vector<std::vector<glm::vec4>> grid;
-	std::vector<glm::vec3> gridPositions = m_RTRWorld->GetUniformGridPositions();
-
-	int counter = 0;
+void RTRPhysicsEngine::SetUpUniformGrid() {
 
 	for (int j = 0; j <= 20; ++j) {
 		std::vector<glm::vec4> newGrid;
 		for (int i = 0; i <= 14; ++i) {
-			glm::mat4 model = glm::mat4(0);
+			glm::mat4 model = glm::mat4(1);
 
 			float x = ((float)i / 14.0f * 14.0f) + -6.75f;
 			float y = -1.0f;
@@ -388,14 +384,19 @@ std::vector<std::vector<glm::vec4>> RTRPhysicsEngine::SetUpUniformGrid() {
 
 			newGrid.push_back(glm::vec4(transformedPos, 0.5f));
 		}
-		grid.push_back(newGrid);
 	}
-
-	return grid;
 }
 
 void RTRPhysicsEngine::UniformGridCollision() {
 
+}
+
+void RTRPhysicsEngine::AddToGrid()
+{
+}
+
+void RTRPhysicsEngine::RemoveFromGrid()
+{
 }
 
 void RTRPhysicsEngine::Done() {

@@ -20,6 +20,7 @@ enum class Direction {
 
 typedef std::tuple<bool, Direction> Collision;
 // Make a tuple for uniform grid
+typedef std::tuple<glm::vec3, float, std::vector<RTRObject*>> GridInfo;
 
 static const float DEFAULT_PLUNGER_Z_TRANS = 0.0f;
 static const float GRAVITY = 9.18f;
@@ -41,15 +42,19 @@ public:
 	virtual bool CheckCollisions_AABB_Circle(RTRSphere* sphere, RTRObject* object);
 	virtual Collision CheckCollisions_Circle_Circle(RTRSphere* sphere1, RTRSphere* sphere2);
 	virtual Collision CheckTopCollision(RTRSphere* sphere, RTRObject* object);
-	virtual std::vector<std::vector<glm::vec4>> SetUpUniformGrid();
 	virtual Direction VectorDirection(glm::vec2 target);
+	virtual std::vector<std::vector<GridInfo>> GetUniformGrid() { return m_UniformGrid2D; };
+	virtual void SetUniformGrid(std::vector<std::vector<GridInfo>> grid) { m_UniformGrid2D = grid; };
+	virtual void SetUpUniformGrid();
 	virtual void UniformGridCollision();
+	virtual void AddToGrid();
+	virtual void RemoveFromGrid();
 	virtual void Done();
 
 private:
 	float plungerZTrans{ 0 };
 	float power{ 0 };
 	RTRWorld* m_RTRWorld{nullptr};
-	std::vector<std::vector<std::vector<RTRObject*>>> m_UniformGrid2D;
+	std::vector<std::vector<GridInfo>> m_UniformGrid2D;
 	float m_tableAngle{ 0 };
 };

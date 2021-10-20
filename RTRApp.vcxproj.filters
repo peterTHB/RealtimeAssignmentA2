@@ -156,5 +156,23 @@
     <Image Include="Src\Textures\outer_container.png">
       <Filter>Resource Files</Filter>
     </Image>
+    <Image Include="Src\Textures\DarkWood\Wood067_1K_Color.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Textures\FloorWood\Wood071_1K_Color.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Textures\RoughMetal\Metal010_1K_Color.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Textures\ShinyMetal\Metal012_1K_Color.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Textures\SmoothMetal\Metal032_1K_Color.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Textures\SmoothWood\Wood066_1K_Color.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
   </ItemGroup>
 </Project>

@@ -45,14 +45,19 @@ void RTRObject::Render(RTRShader* shader)
 {
     shader->SetMaterial("u_ObjectMaterial", m_Material);
     shader->SetInt("u_ObjectMaterial.Diffuse", 0);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, m_Texture);
+
     shader->SetInt("u_ObjectMaterial.Specular", 1);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, m_Texture2);
 
     glUseProgram(shader->GetId());
-    glActiveTexture(GL_TEXTURE0);
-    shader->SetInt("texture1", 0);
+    shader->SetInt("texture1", 2);
+    glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, m_Texture);
-    glActiveTexture(GL_TEXTURE1);
-    shader->SetInt("texture2", 1);
+    shader->SetInt("texture2", 3);
+    glActiveTexture(GL_TEXTURE3);
     glBindTexture(GL_TEXTURE_2D, m_Texture2);
 
     glUseProgram(shader->GetId());
@@ -147,15 +152,18 @@ void RTRSphere::Render(RTRShader* shader)
 {
     shader->SetMaterial("u_ObjectMaterial", m_Material);
     shader->SetInt("u_ObjectMaterial.Diffuse", 0);
+    glActiveTexture(GL_TEXTURE0);
+    glBindTexture(GL_TEXTURE_2D, m_Texture);
     shader->SetInt("u_ObjectMaterial.Specular", 1);
+    glActiveTexture(GL_TEXTURE1);
+    glBindTexture(GL_TEXTURE_2D, m_Texture2);
 
     glUseProgram(shader->GetId());
-
-    glActiveTexture(GL_TEXTURE0);
-    shader->SetInt("texture1", 0);
+    shader->SetInt("texture1", 2);
+    glActiveTexture(GL_TEXTURE2);
     glBindTexture(GL_TEXTURE_2D, m_Texture);
-    glActiveTexture(GL_TEXTURE1);
-    shader->SetInt("texture2", 1);
+    shader->SetInt("texture2", 3);
+    glActiveTexture(GL_TEXTURE3);
     glBindTexture(GL_TEXTURE_2D, m_Texture2);
 
     glBindVertexArray(m_VertexArray);

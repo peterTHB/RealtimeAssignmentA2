@@ -50,7 +50,7 @@ protected:
     unsigned int m_NumFaces{ 0 };
     RTRPoint_t5* m_VertexPoints{ nullptr };
     RTRFace_t* m_Faces{ nullptr };
-    RTRMaterial_t m_Material{ {1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f }, 128.0 };
+    RTRMaterial_t m_Material{ {1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f }, 64.0f };
     unsigned int m_VertexBuffer{ 0 };
     unsigned int m_VertexArray{ 0 };
     unsigned int m_FaceElementBuffer{ 0 };

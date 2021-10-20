@@ -23,87 +23,89 @@ void RTRWorld::StartLighting()
         .Direction = glm::vec3(1.0, 0.0, 0.0)
         });
     // Cornflower
-    //m_LightingModel->AddLight({
-    //    .Type = RTRLightType::PointLight,
-    //    .Ambient = glm::vec3(100.0f / 255.0f, 149.0f / 255.0f, 237.0f / 255.0f),
-    //    .Diffuse = glm::vec3(0.0, 0.0, 0.2),
-    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
-    //    .Position = glm::vec3(15.0f, 0.0, 0.0),
-    //    .Constant = 0.5f,
-    //    .Linear = 0.35f,
-    //    .Quadratic = 0.44f
-    //    });
-    //// Navy
-    //m_LightingModel->AddLight({
-    //    .Type = RTRLightType::PointLight,
-    //    .Ambient = glm::vec3(0.0, 0.0, 128.0f / 255.0f),
-    //    .Diffuse = glm::vec3(0.0, 0.0, 0.2),
-    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
-    //    .Position = glm::vec3(-15.0f, 0.0, 0.0),
-    //    .Constant = 0.5f,
-    //    .Linear = 0.35f,
-    //    .Quadratic = 0.44f
-    //    });
-    //// Medium Sea Green
-    //m_LightingModel->AddLight({
-    //    .Type = RTRLightType::PointLight,
-    //    .Ambient = glm::vec3(60.0f / 255.0f, 179.0f / 255.0f, 113.0f / 255.0f),
-    //    .Diffuse = glm::vec3(0.0, 0.2, 0.0),
-    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
-    //    .Position = glm::vec3(0.0, 5.0f, 0.0),
-    //    .Constant = 0.5f,
-    //    .Linear = 0.35f,
-    //    .Quadratic = 0.44f
-    //    });
-    //// Lime Green
-    //m_LightingModel->AddLight({
-    //    .Type = RTRLightType::PointLight,
-    //    .Ambient = glm::vec3(50.0f / 255.0f, 205.0f / 255.0f, 50.0f / 255.0f),
-    //    .Diffuse = glm::vec3(0.0, 0.2, 0.0),
-    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
-    //    .Position = glm::vec3(0.0, -5.0f, 0.0),
-    //    .Constant = 0.5f,
-    //    .Linear = 0.35f,
-    //    .Quadratic = 0.44f
-    //    });
-    //// Firebrick
-    //m_LightingModel->AddLight({
-    //    .Type = RTRLightType::PointLight,
-    //    .Ambient = glm::vec3(178.0f / 255.0f, 34.0f / 255.0f, 34.0f / 255.0f),
-    //    .Diffuse = glm::vec3(0.2, 0.0, 0.0),
-    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
-    //    .Position = glm::vec3(0.0, 0.0, 25.0f),
-    //    .Constant = 0.5f,
-    //    .Linear = 0.35f,
-    //    .Quadratic = 0.44f
-    //    });
-    //// Maroon
-    //m_LightingModel->AddLight({
-    //    .Type = RTRLightType::PointLight,
-    //    .Ambient = glm::vec3(128.0f / 255.0f, 0.0, 0.0),
-    //    .Diffuse = glm::vec3(0.2, 0.0, 0.0f),
-    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
-    //    .Position = glm::vec3(0.0, 0.0, -25.0f),
-    //    .Constant = 0.5f,
-    //    .Linear = 0.35f,
-    //    .Quadratic = 0.44f
-    //    });
+    m_LightingModel->AddLight({
+        .Type = RTRLightType::PointLight,
+        .Ambient = glm::vec3(100.0f / 255.0f, 149.0f / 255.0f, 237.0f / 255.0f),
+        .Diffuse = glm::vec3(100.0f / 255.0f, 149.0f / 255.0f, 237.0f / 255.0f),
+        .Specular = glm::vec3(1.0, 1.0, 1.0),
+        .Position = glm::vec3(15.0f, 0.0, 0.0),
+        .Constant = 0.5f,
+        .Linear = 0.35f,
+        .Quadratic = 0.44f
+        });
+    // Navy
+    m_LightingModel->AddLight({
+        .Type = RTRLightType::PointLight,
+        .Ambient = glm::vec3(0.0, 0.0, 128.0f / 255.0f),
+        .Diffuse = glm::vec3(0.0, 0.0, 128.0f / 255.0f),
+        .Specular = glm::vec3(1.0, 1.0, 1.0),
+        .Position = glm::vec3(-15.0f, 0.0, 0.0),
+        .Constant = 0.5f,
+        .Linear = 0.35f,
+        .Quadratic = 0.44f
+        });
+    // Medium Sea Green
+    m_LightingModel->AddLight({
+        .Type = RTRLightType::PointLight,
+        .Ambient = glm::vec3(60.0f / 255.0f, 179.0f / 255.0f, 113.0f / 255.0f),
+        .Diffuse = glm::vec3(60.0f / 255.0f, 179.0f / 255.0f, 113.0f / 255.0f),
+        .Specular = glm::vec3(1.0, 1.0, 1.0),
+        .Position = glm::vec3(0.0, 5.0f, 0.0),
+        .Constant = 0.5f,
+        .Linear = 0.35f,
+        .Quadratic = 0.44f
+        });
+    // Lime Green
+    m_LightingModel->AddLight({
+        .Type = RTRLightType::PointLight,
+        .Ambient = glm::vec3(50.0f / 255.0f, 205.0f / 255.0f, 50.0f / 255.0f),
+        .Diffuse = glm::vec3(50.0f / 255.0f, 205.0f / 255.0f, 50.0f / 255.0f),
+        .Specular = glm::vec3(1.0, 1.0, 1.0),
+        .Position = glm::vec3(0.0, -5.0f, 0.0),
+        .Constant = 0.5f,
+        .Linear = 0.35f,
+        .Quadratic = 0.44f
+        });
+    // Firebrick
+    m_LightingModel->AddLight({
+        .Type = RTRLightType::PointLight,
+        .Ambient = glm::vec3(178.0f / 255.0f, 34.0f / 255.0f, 34.0f / 255.0f),
+        .Diffuse = glm::vec3(178.0f / 255.0f, 34.0f / 255.0f, 34.0f / 255.0f),
+        .Specular = glm::vec3(1.0, 1.0, 1.0),
+        .Position = glm::vec3(0.0, 0.0, 25.0f),
+        .Constant = 0.5f,
+        .Linear = 0.35f,
+        .Quadratic = 0.44f
+        });
+    // Maroon
+    m_LightingModel->AddLight({
+        .Type = RTRLightType::PointLight,
+        .Ambient = glm::vec3(128.0f / 255.0f, 0.0, 0.0),
+        .Diffuse = glm::vec3(128.0f / 255.0f, 0.0, 0.0),
+        .Specular = glm::vec3(1.0, 1.0, 1.0),
+        .Position = glm::vec3(0.0, 0.0, -25.0f),
+        .Constant = 0.5f,
+        .Linear = 0.35f,
+        .Quadratic = 0.44f
+        });
 
     // Extra lights
+    // Violet
     //m_LightingModel->AddLight({
     //    .Type = RTRLightType::PointLight,
-    //    .Ambient = glm::vec3(0.0, 0.0, 0.2),
-    //    .Diffuse = glm::vec3(0.0, 0.0, 1.0),
+    //    .Ambient = glm::vec3(238.0f / 255.0f, 130.0f / 255.0f, 238.0f / 255.0f),
+    //    .Diffuse = glm::vec3(238.0f / 255.0f, 130.0f / 255.0f, 238.0f / 255.0f),
     //    .Specular = glm::vec3(1.0, 1.0, 1.0),
     //    .Position = glm::vec3(0.0, 0.0, 25.0f),
     //    .Constant = 0.5f,
     //    .Linear = 0.35f,
     //    .Quadratic = 0.44f
     //    });
+    // Burlywood
     //m_LightingModel->AddLight({
     //    .Type = RTRLightType::PointLight,
-    //    .Ambient = glm::vec3(0.0, 0.0, 0.2),
-    //    .Diffuse = glm::vec3(0.0, 0.0, 1.0),
+    //    .Ambient = glm::vec3(222.0f / 255.0f, 184.0f / 255.0f, 135.0f / 255.0f),
+    //    .Diffuse = glm::vec3(222.0f / 255.0f, 184.0f / 255.0f, 135.0f / 255.0f),
     //    .Specular = glm::vec3(1.0, 1.0, 1.0),
     //    .Position = glm::vec3(0.0, 0.0, -25.0f),
     //    .Constant = 0.5f,
@@ -112,8 +114,8 @@ void RTRWorld::StartLighting()
     //    });
     //m_LightingModel->AddLight({
     //    .Type = RTRLightType::PointLight,
-    //    .Ambient = glm::vec3(0.0, 0.0, 0.2),
-    //    .Diffuse = glm::vec3(0.0, 0.0, 1.0),
+    //    .Ambient = glm::vec3(255.0f / 255.0f, 255.0f / 255.0f, 0.0f),
+    //    .Diffuse = glm::vec3(255.0f / 255.0f, 255.0f / 255.0f, 0.0f),
     //    .Specular = glm::vec3(1.0, 1.0, 1.0),
     //    .Position = glm::vec3(0.0, 0.0, 25.0f),
     //    .Constant = 0.5f,
@@ -125,11 +127,11 @@ void RTRWorld::StartLighting()
 void RTRWorld::StartObjects(glm::mat4 modelMatrix)
 {
     // Load textures
-    m_SmoothWoodTexture = LoadTexture("Src/Textures/SmoothWood/Wood066_4K_Color.jpg");
-    m_DarkWoodTexture = LoadTexture("Src/Textures/DarkWood/Wood067_4K_Color.jpg");
-    m_FloorWoodTexture = LoadTexture("Src/Textures/FloorWood/WoodFloor046_4K_Color.jpg");
-    m_ShinyMetalTexture = LoadTexture("Src/Textures/ShinyMetal/Metal012_4K_Color.jpg");
-    m_RoughMetalTexture = LoadTexture("Src/Textures/RoughMetal/Metal009_4K_Color.jpg");
+    m_SmoothWoodTexture = LoadTexture("Src/Textures/SmoothWood/Wood066_1K_Color.jpg");
+    m_DarkWoodTexture = LoadTexture("Src/Textures/DarkWood/Wood067_1K_Color.jpg");
+    m_FloorWoodTexture = LoadTexture("Src/Textures/FloorWood/Wood071_1K_Color.jpg");
+    m_ShinyMetalTexture = LoadTexture("Src/Textures/ShinyMetal/Metal012_1K_Color.jpg");
+    m_RoughMetalTexture = LoadTexture("Src/Textures/RoughMetal/Metal010_1K_Color.jpg");
     m_OuterRimTexture = LoadTexture("Src/Textures/outer_container.png");
 
     // Test cube
