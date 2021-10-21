@@ -6,6 +6,7 @@
 #include "RTRObject.h"
 #include "RTRWorld.h"
 #include "Console.h"
+#include <typeinfo>
 
 enum class Direction {
 	NORTH,
@@ -34,8 +35,6 @@ public:
 	virtual void MoveBall(RTRSphere* sphere, float dt);
 	virtual void TranslateBall(RTRSphere* sphere, float x, float y, float z);
 	virtual float DownwardsForce(RTRSphere* sphere, float dt);
-	virtual void Collisions(RTRSphere* currBall, std::vector<RTRObject*> objects);
-	virtual void CollisionsSpheres(RTRSphere* currBall, std::vector<RTRSphere*> spheres);
 	virtual void SphereVerticalCol(RTRSphere* currBall, RTRSphere* sphere);
 	virtual void SphereHorizontalCol(RTRSphere* currBall, RTRSphere* sphere);
 	virtual bool CheckCollisions_AABB_AABB(RTRObject* object1, RTRObject* object2);
@@ -44,12 +43,16 @@ public:
 	virtual Collision CheckTopCollision(RTRSphere* sphere, RTRObject* object);
 	virtual Direction VectorDirection(glm::vec2 target);
 	virtual std::vector<std::vector<GridInfo>> GetUniformGrid() { return m_UniformGrid2D; };
-	virtual void SetUniformGrid(std::vector<std::vector<GridInfo>> grid) { m_UniformGrid2D = grid; };
 	virtual void SetUpUniformGrid();
+	virtual void PopulateGrid();
 	virtual void UniformGridCollision();
+	virtual void DetermineCollisionType(RTRObject* object, RTRObject* object2);
 	virtual void AddToGrid(RTRObject* currObject);
-	virtual void RemoveFromGrid(RTRObject* currObject);
+	virtual void ClearGrid();
 	virtual void Done();
+
+	virtual void CollisionsAABB(RTRSphere* currBall, RTRObject* object);
+	virtual void CollisionsSpheresSingle(RTRSphere* currBall, RTRSphere* otherBall);
 
 private:
 	float plungerZTrans{ 0 };

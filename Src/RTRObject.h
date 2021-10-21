@@ -95,6 +95,8 @@ public:
     virtual bool GetCanMove() { return m_CanMove; };
     virtual void SetHasCollidedAABB(bool collided) { m_HasCollidedAABB = collided; };
     virtual bool GetHasCollidedAABB() { return m_HasCollidedAABB; };
+    virtual void SetHasCollidedSphere(bool collided) { m_HasCollidedSphere = collided; };
+    virtual bool GetHasCollidedSphere() { return m_HasCollidedSphere; };
     virtual void SetMovingForward(bool move) { m_MovingForward = move; };
     virtual bool GetMovingForward() { return m_MovingForward; };
     virtual void SetMovingRight(bool move) { m_MovingRight = move; };
@@ -113,6 +115,7 @@ private:
     float m_HoriPower{ 0 };
     bool m_CanMove{ false };
     bool m_HasCollidedAABB{ false };
+    bool m_HasCollidedSphere{ false };
     bool m_MovingForward{ false };
     bool m_MovingRight{ false };
     bool m_MovingLeft{ false };

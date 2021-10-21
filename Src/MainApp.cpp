@@ -119,7 +119,7 @@ void MainApp::CheckInput()
                         break;
 
                     // Plunger increase tension
-                    case SDLK_UP:
+                    case SDLK_SPACE:
                         m_UsePlunger = true;
                         break;
 
@@ -133,7 +133,7 @@ void MainApp::CheckInput()
             case SDL_KEYUP:
                 switch (e.key.keysym.sym) {
                     // Plunger release
-                    case SDLK_UP:
+                    case SDLK_SPACE:
                         m_UsePlunger = false;
                         m_ShootBall = true;
                         break;
@@ -163,20 +163,27 @@ void MainApp::UpdateState(unsigned int td_milli)
     m_ModelMatrix = glm::mat4(1.0f);
     m_ViewMatrix = m_Camera->GetViewMatrix();
 
-    std::vector<RTRObject*> allCollidableObjects = CombineAllObjects();
+    // Reset collisions
+    //for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
+    //    dynaObject->SetHasCollidedAABB(false);
+    //    dynaObject->SetHasCollidedSphere(false);
+    //}
 
+    // Clear grid
+    m_RTRPhysicsEngine->ClearGrid();
+    // Populate grid
+    m_RTRPhysicsEngine->PopulateGrid();
+    // Check for collisions
+    m_RTRPhysicsEngine->UniformGridCollision();
+
+    // Move Objects
     for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
-        dynaObject->SetHasCollidedAABB(false);
-        //dynaObject->SetHasCollidedSphere(false);
-        m_RTRPhysicsEngine->Collisions(dynaObject, allCollidableObjects);
-        m_RTRPhysicsEngine->CollisionsSpheres(dynaObject, m_RTRWorld->GetDynamicObjects());
         m_RTRPhysicsEngine->MoveBall(dynaObject, m_TimeDelta);
     }
 
     // Shoot current ball
     if (m_ShootBall) {
         for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
-            // dynaObject->GetHasCollided() && (!dynaObject->GetMovingForward())
             if (!dynaObject->GetDidExit()) {
 
                 float posZ = BALL_START_POS - dynaObject->GetPosition().z - 1.1f;

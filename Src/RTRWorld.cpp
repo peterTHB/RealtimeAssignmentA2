@@ -23,71 +23,71 @@ void RTRWorld::StartLighting()
         .Direction = glm::vec3(1.0, 0.0, 0.0)
         });
     // Cornflower
-    m_LightingModel->AddLight({
-        .Type = RTRLightType::PointLight,
-        .Ambient = glm::vec3(100.0f / 255.0f, 149.0f / 255.0f, 237.0f / 255.0f),
-        .Diffuse = glm::vec3(100.0f / 255.0f, 149.0f / 255.0f, 237.0f / 255.0f),
-        .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(15.0f, 0.0, 0.0),
-        .Constant = 0.5f,
-        .Linear = 0.35f,
-        .Quadratic = 0.44f
-        });
-    // Navy
-    m_LightingModel->AddLight({
-        .Type = RTRLightType::PointLight,
-        .Ambient = glm::vec3(0.0, 0.0, 128.0f / 255.0f),
-        .Diffuse = glm::vec3(0.0, 0.0, 128.0f / 255.0f),
-        .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(-15.0f, 0.0, 0.0),
-        .Constant = 0.5f,
-        .Linear = 0.35f,
-        .Quadratic = 0.44f
-        });
-    // Medium Sea Green
-    m_LightingModel->AddLight({
-        .Type = RTRLightType::PointLight,
-        .Ambient = glm::vec3(60.0f / 255.0f, 179.0f / 255.0f, 113.0f / 255.0f),
-        .Diffuse = glm::vec3(60.0f / 255.0f, 179.0f / 255.0f, 113.0f / 255.0f),
-        .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(0.0, 5.0f, 0.0),
-        .Constant = 0.5f,
-        .Linear = 0.35f,
-        .Quadratic = 0.44f
-        });
-    // Lime Green
-    m_LightingModel->AddLight({
-        .Type = RTRLightType::PointLight,
-        .Ambient = glm::vec3(50.0f / 255.0f, 205.0f / 255.0f, 50.0f / 255.0f),
-        .Diffuse = glm::vec3(50.0f / 255.0f, 205.0f / 255.0f, 50.0f / 255.0f),
-        .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(0.0, -5.0f, 0.0),
-        .Constant = 0.5f,
-        .Linear = 0.35f,
-        .Quadratic = 0.44f
-        });
-    // Firebrick
-    m_LightingModel->AddLight({
-        .Type = RTRLightType::PointLight,
-        .Ambient = glm::vec3(178.0f / 255.0f, 34.0f / 255.0f, 34.0f / 255.0f),
-        .Diffuse = glm::vec3(178.0f / 255.0f, 34.0f / 255.0f, 34.0f / 255.0f),
-        .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(0.0, 0.0, 25.0f),
-        .Constant = 0.5f,
-        .Linear = 0.35f,
-        .Quadratic = 0.44f
-        });
-    // Maroon
-    m_LightingModel->AddLight({
-        .Type = RTRLightType::PointLight,
-        .Ambient = glm::vec3(128.0f / 255.0f, 0.0, 0.0),
-        .Diffuse = glm::vec3(128.0f / 255.0f, 0.0, 0.0),
-        .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(0.0, 0.0, -25.0f),
-        .Constant = 0.5f,
-        .Linear = 0.35f,
-        .Quadratic = 0.44f
-        });
+    //m_LightingModel->AddLight({
+    //    .Type = RTRLightType::PointLight,
+    //    .Ambient = glm::vec3(100.0f / 255.0f, 149.0f / 255.0f, 237.0f / 255.0f),
+    //    .Diffuse = glm::vec3(100.0f / 255.0f, 149.0f / 255.0f, 237.0f / 255.0f),
+    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
+    //    .Position = glm::vec3(15.0f, 0.0, 0.0),
+    //    .Constant = 0.5f,
+    //    .Linear = 0.35f,
+    //    .Quadratic = 0.44f
+    //    });
+    //// Navy
+    //m_LightingModel->AddLight({
+    //    .Type = RTRLightType::PointLight,
+    //    .Ambient = glm::vec3(0.0, 0.0, 128.0f / 255.0f),
+    //    .Diffuse = glm::vec3(0.0, 0.0, 128.0f / 255.0f),
+    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
+    //    .Position = glm::vec3(-15.0f, 0.0, 0.0),
+    //    .Constant = 0.5f,
+    //    .Linear = 0.35f,
+    //    .Quadratic = 0.44f
+    //    });
+    //// Medium Sea Green
+    //m_LightingModel->AddLight({
+    //    .Type = RTRLightType::PointLight,
+    //    .Ambient = glm::vec3(60.0f / 255.0f, 179.0f / 255.0f, 113.0f / 255.0f),
+    //    .Diffuse = glm::vec3(60.0f / 255.0f, 179.0f / 255.0f, 113.0f / 255.0f),
+    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
+    //    .Position = glm::vec3(0.0, 5.0f, 0.0),
+    //    .Constant = 0.5f,
+    //    .Linear = 0.35f,
+    //    .Quadratic = 0.44f
+    //    });
+    //// Lime Green
+    //m_LightingModel->AddLight({
+    //    .Type = RTRLightType::PointLight,
+    //    .Ambient = glm::vec3(50.0f / 255.0f, 205.0f / 255.0f, 50.0f / 255.0f),
+    //    .Diffuse = glm::vec3(50.0f / 255.0f, 205.0f / 255.0f, 50.0f / 255.0f),
+    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
+    //    .Position = glm::vec3(0.0, -5.0f, 0.0),
+    //    .Constant = 0.5f,
+    //    .Linear = 0.35f,
+    //    .Quadratic = 0.44f
+    //    });
+    //// Firebrick
+    //m_LightingModel->AddLight({
+    //    .Type = RTRLightType::PointLight,
+    //    .Ambient = glm::vec3(178.0f / 255.0f, 34.0f / 255.0f, 34.0f / 255.0f),
+    //    .Diffuse = glm::vec3(178.0f / 255.0f, 34.0f / 255.0f, 34.0f / 255.0f),
+    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
+    //    .Position = glm::vec3(0.0, 0.0, 25.0f),
+    //    .Constant = 0.5f,
+    //    .Linear = 0.35f,
+    //    .Quadratic = 0.44f
+    //    });
+    //// Maroon
+    //m_LightingModel->AddLight({
+    //    .Type = RTRLightType::PointLight,
+    //    .Ambient = glm::vec3(128.0f / 255.0f, 0.0, 0.0),
+    //    .Diffuse = glm::vec3(128.0f / 255.0f, 0.0, 0.0),
+    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
+    //    .Position = glm::vec3(0.0, 0.0, -25.0f),
+    //    .Constant = 0.5f,
+    //    .Linear = 0.35f,
+    //    .Quadratic = 0.44f
+    //    });
 
     // Extra lights
     // Violet
@@ -170,7 +170,7 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     m_RightBar->SetName("m_RightBar");
     m_RightBar->Init(m_DarkWoodTexture, m_OuterRimTexture);
 
-    RTRCube* m_TiltedBlock = new RTRCube(glm::vec3(18.65f, 0.0f, -3.0f), glm::vec3(0.5f, 1.0f, 2.0f),
+    RTRCube* m_TiltedBlock = new RTRCube(glm::vec3(18.3f, 0.0f, -3.1f), glm::vec3(0.5f, 1.0f, 1.8f),
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     m_TiltedBlock->DoRotation(glm::vec3(0.0f, 1.0f, 0.0f), 0.4f);
     RTRMaterial_t tiltedBlockMat = { {0.5, 0.5, 0.5 }, { 0.4, 0.4, 0.4 }, { 0.7, 0.7, 0.7 }, 64.0 };
@@ -203,26 +203,16 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     // Test sphere
     MakeNewBall(modelMatrix);
 
-    //float scale = 0.5f;
-    //// 19.5f, -1.5f, 25.0f
-    //RTRSphere* newSphere = new RTRSphere(glm::vec3(11.75f, -1.5f, 10.0f), glm::vec3(scale, scale, scale),
-    //    glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
-    //newSphere->SetRadius(scale);
-    //RTRMaterial_t sphereMat = { {0.1, 0.1, 0.1 }, { 0.5, 0.5, 0.5 }, { 0.8, 0.8, 0.8 }, 64.0 };
-    //newSphere->SetMaterial(sphereMat);
-    //newSphere->SetName("newSphere1");
-    //newSphere->Init(m_RoughMetalTexture, m_ShinyMetalTexture);
-    //DynamicObjects.push_back(newSphere);
-
     // Make 2D Uniform Grid
     // -5.0f
-    MakeUniformGrid(-6.75f, -9.75f, 14, 20, modelMatrix);
+    MakeUniformGrid(-13.5f, -19.5f, 27, 39, modelMatrix);
 }
 
 void RTRWorld::MakeNewBall(glm::mat4 modelMatrix) {
     float scale = 0.5f;
-    // 19.5f, -1.5f, 25.0f
-    RTRSphere* newSphere = new RTRSphere(glm::vec3(11.75f, -1.5f, 14.0f), glm::vec3(scale, scale, scale),
+    // 11.75f, -1.5f, 14.0f
+    // 19.5f, -2.5f, 23.0f)
+    RTRSphere* newSphere = new RTRSphere(glm::vec3(11.75f, -1.5f, 13.0f), glm::vec3(scale, scale, scale),
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     newSphere->SetRadius(scale);
     RTRMaterial_t sphereMat = { {0.1, 0.1, 0.1 }, { 0.5, 0.5, 0.5 }, { 0.8, 0.8, 0.8 }, 64.0 };
@@ -329,7 +319,7 @@ void RTRWorld::MakeUniformGrid(float xOffset, float zOffset, int horizontal, int
     int count = 0;
 
     for (glm::vec3 positions : UniformGridPositions) {
-        RTRGrid* uniformGrid = new RTRGrid(positions, glm::vec3(1.0f, 1.0f, 1.0f),
+        RTRGrid* uniformGrid = new RTRGrid(positions, glm::vec3(0.5f, 0.5f, 0.5f),
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
         uniformGrid->SetMaterial(lineMat);
         uniformGrid->SetName("uniformGrid" + std::to_string(count));
@@ -343,9 +333,10 @@ std::vector<glm::vec3> RTRWorld::MakeGridPositions(float xOffset, float zOffset,
 
     for (int j = 0; j <= vertical; ++j) {
         for (int i = 0; i <= horizontal; ++i) {
-            float x = ((float)i / (float)horizontal * (float)horizontal) + xOffset;
+            float x = (((float)i / (float)horizontal * (float)horizontal) + xOffset) * 0.5f;
             float y = -1.0f;
-            float z = ((float)j / (float)vertical * (float)vertical) + zOffset;
+            float z = (((float)j / (float)vertical * (float)vertical) + zOffset) * 0.5f;
+
             positions.push_back(glm::vec3(x, y, z));
         }
     }
