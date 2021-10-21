@@ -1,19 +1,11 @@
-﻿  MainApp.cpp
-C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\MainApp.cpp(87,32): warning C4244: '=': conversion from 'Sint32' to 'float', possible loss of data
-C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\MainApp.cpp(88,32): warning C4244: '=': conversion from 'Sint32' to 'float', possible loss of data
-C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\MainApp.cpp(170,50): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
-C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\MainApp.cpp(222,89): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
-  RTRPhysicsEngine.cpp
-C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(239,55): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(240,59): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(243,59): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(244,55): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(258,59): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(259,63): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(263,60): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(264,64): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(267,64): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(268,60): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
-  Generating Code...
+﻿  RTRPhysicsEngine.cpp
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(218,92): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(219,59): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(222,94): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(223,55): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(229,59): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(230,63): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(233,63): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(234,59): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
   RTRApp.vcxproj -> C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Build\Debug - x64\A2.exe
   0 File(s) copied

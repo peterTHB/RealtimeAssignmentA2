@@ -167,9 +167,10 @@ void MainApp::UpdateState(unsigned int td_milli)
 
     for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
         dynaObject->SetHasCollidedAABB(false);
-        m_RTRPhysicsEngine->MoveBall(dynaObject, m_TimeDelta);
+        //dynaObject->SetHasCollidedSphere(false);
         m_RTRPhysicsEngine->Collisions(dynaObject, allCollidableObjects);
         m_RTRPhysicsEngine->CollisionsSpheres(dynaObject, m_RTRWorld->GetDynamicObjects());
+        m_RTRPhysicsEngine->MoveBall(dynaObject, m_TimeDelta);
     }
 
     // Shoot current ball

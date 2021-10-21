@@ -47,8 +47,8 @@ public:
 	virtual void SetUniformGrid(std::vector<std::vector<GridInfo>> grid) { m_UniformGrid2D = grid; };
 	virtual void SetUpUniformGrid();
 	virtual void UniformGridCollision();
-	virtual void AddToGrid();
-	virtual void RemoveFromGrid();
+	virtual void AddToGrid(RTRObject* currObject);
+	virtual void RemoveFromGrid(RTRObject* currObject);
 	virtual void Done();
 
 private:

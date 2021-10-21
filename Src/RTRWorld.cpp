@@ -203,6 +203,17 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     // Test sphere
     MakeNewBall(modelMatrix);
 
+    //float scale = 0.5f;
+    //// 19.5f, -1.5f, 25.0f
+    //RTRSphere* newSphere = new RTRSphere(glm::vec3(11.75f, -1.5f, 10.0f), glm::vec3(scale, scale, scale),
+    //    glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
+    //newSphere->SetRadius(scale);
+    //RTRMaterial_t sphereMat = { {0.1, 0.1, 0.1 }, { 0.5, 0.5, 0.5 }, { 0.8, 0.8, 0.8 }, 64.0 };
+    //newSphere->SetMaterial(sphereMat);
+    //newSphere->SetName("newSphere1");
+    //newSphere->Init(m_RoughMetalTexture, m_ShinyMetalTexture);
+    //DynamicObjects.push_back(newSphere);
+
     // Make 2D Uniform Grid
     // -5.0f
     MakeUniformGrid(-6.75f, -9.75f, 14, 20, modelMatrix);
@@ -210,6 +221,7 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
 
 void RTRWorld::MakeNewBall(glm::mat4 modelMatrix) {
     float scale = 0.5f;
+    // 19.5f, -1.5f, 25.0f
     RTRSphere* newSphere = new RTRSphere(glm::vec3(11.75f, -1.5f, 14.0f), glm::vec3(scale, scale, scale),
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     newSphere->SetRadius(scale);
