@@ -164,10 +164,10 @@ void MainApp::UpdateState(unsigned int td_milli)
     m_ViewMatrix = m_Camera->GetViewMatrix();
 
     // Reset collisions
-    //for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
-    //    dynaObject->SetHasCollidedAABB(false);
-    //    dynaObject->SetHasCollidedSphere(false);
-    //}
+    for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
+        dynaObject->SetHasCollidedAABB(false);
+        dynaObject->SetHasCollidedSphere(false);
+    }
 
     // Clear grid
     m_RTRPhysicsEngine->ClearGrid();
@@ -219,10 +219,12 @@ void MainApp::RenderFrame()
 
     //For all other dynamic objects, i.e: pinball ball
     for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
-        m_RTRRenderer->RenderWithShaders(2, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
-            dynaObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
-        if (m_DebugModeOn) m_RTRRenderer->RenderBoundingBoxes(4, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
-            dynaObject->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
+        if (!dynaObject->GetDestroyed()) {
+            m_RTRRenderer->RenderWithShaders(2, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+                dynaObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
+            if (m_DebugModeOn) m_RTRRenderer->RenderBoundingBoxes(4, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+                dynaObject->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
+        }
     }
 
     // For plunger use
@@ -234,10 +236,12 @@ void MainApp::RenderFrame()
     m_RTRWorld->GetDynamicPinballObjects().at(0)->GetBoundingVolume()->SetTransformMatrix(transformedPlungerPosition);
     m_RTRWorld->GetDynamicPinballObjects().at(0)->GetBoundingVolume()->SetPosition(glm::vec3(transformedPlungerPosition[3]));
 
-    m_RTRRenderer->RenderWithShaders(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
-        m_RTRWorld->GetDynamicPinballObjects().at(0), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
-    if (m_DebugModeOn) m_RTRRenderer->RenderBoundingBoxes(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
-        m_RTRWorld->GetDynamicPinballObjects().at(0)->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
+    for (RTRObject* dynaPBObject : m_RTRWorld->GetDynamicPinballObjects()) {
+        m_RTRRenderer->RenderWithShaders(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+            dynaPBObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
+        if (m_DebugModeOn) m_RTRRenderer->RenderBoundingBoxes(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+            dynaPBObject->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
+    }
 
     if (!m_UsePlunger && !m_ShootBall) {
         m_RTRPhysicsEngine->ResetPower();

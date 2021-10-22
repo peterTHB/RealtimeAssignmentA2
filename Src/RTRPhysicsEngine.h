@@ -6,7 +6,7 @@
 #include "RTRObject.h"
 #include "RTRWorld.h"
 #include "Console.h"
-#include <typeinfo>
+#include <algorithm>
 
 enum class Direction {
 	NORTH,
@@ -25,6 +25,8 @@ typedef std::tuple<glm::vec3, float, std::vector<RTRObject*>> GridInfo;
 
 static const float DEFAULT_PLUNGER_Z_TRANS = 0.0f;
 static const float GRAVITY = 9.18f;
+// For lagging reasons involving uniform grid
+static const float HARDCODED_DT = 0.02f;
 
 class RTRPhysicsEngine {
 public:
