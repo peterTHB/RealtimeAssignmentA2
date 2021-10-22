@@ -32,6 +32,8 @@ class RTRPhysicsEngine {
 public:
 	RTRPhysicsEngine(RTRWorld* rtrworld);
 	glm::mat4 UsePlunger(bool usingPlunger, float timer, glm::mat4 position);
+	glm::mat4 UseRightFlipper(bool usingBumper);
+	glm::mat4 UseLeftFlipper(bool usingBumper);
 	virtual float GetPower() { return power; };
 	virtual void ResetPower() { power = 0.0f; };
 	virtual void MoveBall(RTRSphere* sphere, float dt);

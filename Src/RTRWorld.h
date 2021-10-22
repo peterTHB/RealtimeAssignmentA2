@@ -2,19 +2,22 @@
 #include "RTRLighting.h"
 #include "RTRObject.h"
 
-static const float DEFAULT_ANGLE = 0.22f;
+static const float DEFAULT_ANGLE = 0.2f;
 
 class RTRWorld {
 public:
 	RTRWorld(glm::mat4 modelMatrix);
     virtual void StartLighting();
     virtual void StartObjects(glm::mat4 modelMatrix);
+    virtual void IncreaseTableAngle() { m_TableAngle += 0.001f; };
+    virtual void DecreaseTableAngle() { m_TableAngle -= 0.001f; };
     virtual void MakeNewBall(glm::mat4 modelMatrix);
     virtual unsigned int loadCubeMap(std::vector<std::string> faces);
-    virtual void SetAngle(float angle) { tableAngle = angle; };
-    virtual float GetAngle() { return tableAngle; };
-    virtual void SetCurrBall(int num) { currBall = num; };
-    virtual int GetCurrBall() { return currBall; };
+    virtual void SetTableAngle(float angle) { m_TableAngle = angle; };
+    virtual float GetTableAngle() { return m_TableAngle; };
+    virtual void ChangeAllObjectsAngle();
+    virtual void SetCurrBall(int num) { m_CurrBall = num; };
+    virtual int GetCurrBall() { return m_CurrBall; };
     virtual void DrawSkybox();
     virtual void MakeUniformGrid(float xOffset, float zOffset, int horizontal, int vertical, glm::mat4 modelMatrix);
     virtual std::vector<glm::vec3> MakeGridPositions(float xOffset, float zOffset, int horizontal, int vertical);
@@ -54,8 +57,8 @@ public:
     unsigned int cubemapTexture{ 0 };
     unsigned int skyboxVAO, skyboxVBO{ 0 };
 
-    int currBall{ 0 };
-    float tableAngle{ DEFAULT_ANGLE };
+    int m_CurrBall{ 0 };
+    float m_TableAngle{ DEFAULT_ANGLE };
 
     std::vector<std::string> skyboxFaces{
         "Src/Skybox/rightSpace.jpg",

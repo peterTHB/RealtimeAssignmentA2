@@ -25,6 +25,8 @@ int RTRApp::Init()
     SDL_GL_SetAttribute(SDL_GL_DOUBLEBUFFER, 1);
     SDL_GL_SetAttribute(SDL_GL_DEPTH_SIZE, 24);
 
+    if (SDL_GL_SetSwapInterval(-1) < 0) SDL_GL_SetSwapInterval(1);
+
     if (m_FullScreen == true) {
         m_SDLWindow = SDL_CreateWindow(
             m_MainWindowTitle.c_str(),

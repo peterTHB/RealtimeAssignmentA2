@@ -40,6 +40,10 @@ private:
     bool m_ShootBall{ false };
     int m_NumBallsShot{ 0 };
     bool m_UsePlunger{ false };
+    bool m_UseRightFlipper{ false };
+    bool m_UseLeftFlipper{ false };
+    bool m_TableAngleUp{ false };
+    bool m_TableAngleDown{ false };
     bool m_DebugModeOn{ false };
     float lastTime{ 0 };
     float timer{ 0 };

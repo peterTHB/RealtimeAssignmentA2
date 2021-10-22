@@ -123,6 +123,24 @@ void MainApp::CheckInput()
                         m_UsePlunger = true;
                         break;
 
+                    // Flippers
+                    case SDLK_LEFT:
+                        m_UseLeftFlipper = true;
+                        break;
+
+                    case SDLK_RIGHT:
+                        m_UseRightFlipper = true;
+                        break;
+
+                    // Increase/Decrease table angle
+                    //case SDLK_UP:
+                    //    m_TableAngleUp = true;
+                    //    break;
+
+                    //case SDLK_DOWN:
+                    //    m_TableAngleDown = true;
+                    //    break;
+
                     // Debug mode toggle
                     case SDLK_p:
                         m_DebugModeOn = !m_DebugModeOn;
@@ -137,6 +155,24 @@ void MainApp::CheckInput()
                         m_UsePlunger = false;
                         m_ShootBall = true;
                         break;
+
+                    // Flippers release
+                    case SDLK_LEFT:
+                        m_UseLeftFlipper = false;
+                        break;
+
+                    case SDLK_RIGHT:
+                        m_UseRightFlipper = false;
+                        break;
+
+                    // Stop rotating table angle
+                    //case SDLK_UP:
+                    //    m_TableAngleUp = false;
+                    //    break;
+
+                    //case SDLK_DOWN:
+                    //    m_TableAngleDown = false;
+                    //    break;
                 }
                 break;
         }
@@ -196,6 +232,17 @@ void MainApp::UpdateState(unsigned int td_milli)
         }
         m_ShootBall = false;
     }
+
+    // Change angle of table
+    if (m_TableAngleUp) {
+        m_RTRWorld->IncreaseTableAngle();
+        m_RTRWorld->ChangeAllObjectsAngle();
+    }
+
+    if (m_TableAngleDown) {
+        m_RTRWorld->DecreaseTableAngle();
+        m_RTRWorld->ChangeAllObjectsAngle();
+    }
 }
 
 void MainApp::RenderFrame()
@@ -236,19 +283,32 @@ void MainApp::RenderFrame()
     m_RTRWorld->GetDynamicPinballObjects().at(0)->GetBoundingVolume()->SetTransformMatrix(transformedPlungerPosition);
     m_RTRWorld->GetDynamicPinballObjects().at(0)->GetBoundingVolume()->SetPosition(glm::vec3(transformedPlungerPosition[3]));
 
-    for (RTRObject* dynaPBObject : m_RTRWorld->GetDynamicPinballObjects()) {
-        m_RTRRenderer->RenderWithShaders(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
-            dynaPBObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
-        if (m_DebugModeOn) m_RTRRenderer->RenderBoundingBoxes(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
-            dynaPBObject->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
-    }
-
     if (!m_UsePlunger && !m_ShootBall) {
         m_RTRPhysicsEngine->ResetPower();
         if (m_RTRWorld->GetDynamicObjects().at(m_RTRWorld->GetCurrBall())->GetDidExit()) {
             m_RTRWorld->SetCurrBall(m_RTRWorld->GetCurrBall() + 1);
             m_RTRWorld->MakeNewBall(m_ModelMatrix);
         }
+    }
+
+    // Using flippers
+    glm::mat4 transformedRightFlipper = m_RTRPhysicsEngine->UseRightFlipper(m_UseRightFlipper);
+    m_RTRWorld->GetDynamicPinballObjects().at(1)->SetTransformMatrix(transformedRightFlipper);
+    m_RTRWorld->GetDynamicPinballObjects().at(1)->SetPosition(glm::vec3(transformedRightFlipper[3]));
+    m_RTRWorld->GetDynamicPinballObjects().at(1)->GetBoundingVolume()->SetTransformMatrix(transformedRightFlipper);
+    m_RTRWorld->GetDynamicPinballObjects().at(1)->GetBoundingVolume()->SetPosition(glm::vec3(transformedRightFlipper[3]));
+
+    glm::mat4 transformedLeftFlipper = m_RTRPhysicsEngine->UseLeftFlipper(m_UseLeftFlipper);
+    m_RTRWorld->GetDynamicPinballObjects().at(2)->SetTransformMatrix(transformedLeftFlipper);
+    m_RTRWorld->GetDynamicPinballObjects().at(2)->SetPosition(glm::vec3(transformedLeftFlipper[3]));
+    m_RTRWorld->GetDynamicPinballObjects().at(2)->GetBoundingVolume()->SetTransformMatrix(transformedLeftFlipper);
+    m_RTRWorld->GetDynamicPinballObjects().at(2)->GetBoundingVolume()->SetPosition(glm::vec3(transformedLeftFlipper[3]));
+
+    for (RTRObject* dynaPBObject : m_RTRWorld->GetDynamicPinballObjects()) {
+        m_RTRRenderer->RenderWithShaders(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+            dynaPBObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
+        if (m_DebugModeOn) m_RTRRenderer->RenderBoundingBoxes(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+            dynaPBObject->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
     }
 
     // Drawing skybox

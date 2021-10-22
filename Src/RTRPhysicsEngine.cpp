@@ -4,7 +4,6 @@ RTRPhysicsEngine::RTRPhysicsEngine(RTRWorld* rtrworld)
 {
 	m_RTRWorld = rtrworld;
 	plungerZTrans = DEFAULT_PLUNGER_Z_TRANS;
-	m_tableAngle = rtrworld->GetAngle();
 	SetUpUniformGrid();
 }
 
@@ -27,6 +26,44 @@ glm::mat4 RTRPhysicsEngine::UsePlunger(bool usingPlunger, float timer, glm::mat4
 
 	position = glm::translate(position, translation);
 	return position;
+}
+
+glm::mat4 RTRPhysicsEngine::UseRightFlipper(bool usingFlipper) {
+	glm::mat4 currPosition = glm::mat4(1.0f);
+
+	currPosition = glm::rotate(currPosition, m_RTRWorld->GetTableAngle(), glm::vec3(1.0f, 0.0f, 0.0f));
+	currPosition = glm::translate(currPosition, glm::vec3(1.56f, -0.75f, 7.64f));
+	currPosition = glm::rotate(currPosition, (float)(195 * M_PI / 180), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	if (usingFlipper) {
+		currPosition = glm::rotate(currPosition, (float)(-45.0f * M_PI / 180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		currPosition = glm::scale(currPosition, glm::vec3(1.5f, 1.0f, 0.25f));
+	}
+	else {
+		currPosition = glm::rotate(currPosition, (float)(15.0f * M_PI / 180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		currPosition = glm::scale(currPosition, glm::vec3(1.5f, 1.0f, 0.25f));
+	}
+
+	return currPosition;
+}
+
+glm::mat4 RTRPhysicsEngine::UseLeftFlipper(bool usingFlipper) {
+	glm::mat4 currPosition = glm::mat4(1.0f);
+
+	currPosition = glm::rotate(currPosition, m_RTRWorld->GetTableAngle(), glm::vec3(1.0f, 0.0f, 0.0f));
+	currPosition = glm::translate(currPosition, glm::vec3(-3.33f, -0.75f, 7.64f));
+	currPosition = glm::rotate(currPosition, (float)(-15 * M_PI / 180), glm::vec3(0.0f, 1.0f, 0.0f));
+
+	if (usingFlipper) {
+		currPosition = glm::rotate(currPosition, (float)(45.0f * M_PI / 180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		currPosition = glm::scale(currPosition, glm::vec3(1.5f, 1.0f, 0.25f));
+	}
+	else {
+		currPosition = glm::rotate(currPosition, (float)(-15.0f * M_PI / 180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
+		currPosition = glm::scale(currPosition, glm::vec3(1.5f, 1.0f, 0.25f));
+	}
+
+	return currPosition;
 }
 
 // Originally set up to have dt, but lag became too much of an issue with 
@@ -101,7 +138,7 @@ void RTRPhysicsEngine::TranslateBall(RTRSphere* sphere, float x, float y, float 
 float RTRPhysicsEngine::DownwardsForce(RTRSphere* sphere, float dt) {
 	float force = 0;
 
-	force = HARDCODED_DT * GRAVITY / 2.0f * DEFAULT_ANGLE * 2.0f;
+	force = HARDCODED_DT * GRAVITY / 2.0f * m_RTRWorld->GetTableAngle() * 2.0f;
 
 	return force;
 }
@@ -111,7 +148,7 @@ void RTRPhysicsEngine::CollisionsAABB(RTRSphere* currBall, RTRObject* object) {
 
 	if (collided && !currBall->GetHasCollidedAABB()) {
 		currBall->SetHasCollidedAABB(true);
-		currBall->SetVerticalPower(currBall->GetVerticalPower() * 0.9f);
+		currBall->SetVerticalPower(currBall->GetVerticalPower() * 0.95f);
 
 		if (object->GetName() == "m_TiltedBlock") {
 			currBall->SetVerticalPower(fabs(currBall->GetVerticalPower()));
@@ -140,13 +177,13 @@ void RTRPhysicsEngine::CollisionsAABB(RTRSphere* currBall, RTRObject* object) {
 		if (object->GetName() == "m_LeftBar") {
 			currBall->SetMovingLeft(false);
 			currBall->SetMovingRight(true);
-			currBall->SetHorizontalPower(currBall->GetHorizontalPower() * 0.9f);
+			currBall->SetHorizontalPower(currBall->GetHorizontalPower() * 0.95f);
 			TranslateBall(currBall, 0.2f, 0, 0);
 		}
 		else if (object->GetName() == "m_RightBar" || object->GetName() == "m_SideShootBar") {
 			currBall->SetMovingLeft(true);
 			currBall->SetMovingRight(false);
-			currBall->SetHorizontalPower(currBall->GetHorizontalPower() * 0.9f);
+			currBall->SetHorizontalPower(currBall->GetHorizontalPower() * 0.95f);
 
 			if (object->GetName() == "m_RightBar") {
 				TranslateBall(currBall, -0.2f, 0, 0);
@@ -162,6 +199,36 @@ void RTRPhysicsEngine::CollisionsAABB(RTRSphere* currBall, RTRObject* object) {
 				}
 			}
 		}
+		if (object->GetName() == "m_RightSlider") {
+			currBall->SetMovingLeft(true);
+			currBall->SetMovingRight(false);
+			currBall->SetVerticalPower(-fabs(currBall->GetVerticalPower()));
+			if (fabs(currBall->GetVerticalPower()) <= 0.1f) {
+				currBall->SetMovingForward(false);
+				currBall->SetCanMove(false);
+			}
+		}
+		if (object->GetName() == "m_LeftSlider") {
+			currBall->SetMovingLeft(false);
+			currBall->SetMovingRight(true);
+			currBall->SetVerticalPower(-fabs(currBall->GetVerticalPower()));
+			if (fabs(currBall->GetVerticalPower()) <= 0.1f) {
+				currBall->SetMovingForward(false);
+				currBall->SetCanMove(false);
+			}
+		}
+		if ((object->GetName() == "m_RightFlipper") || (object->GetName() == "m_LeftFlipper")) {
+			if (!currBall->GetMovingForward()) {
+				currBall->SetVerticalPower(-fabs(currBall->GetVerticalPower()));
+				currBall->SetVerticalPower(currBall->GetVerticalPower() + 0.25f);
+				currBall->SetMovingForward(true);
+				currBall->SetCanMove(true);
+			}
+		}
+
+		if (object->GetName().find("Bumper") != std::string::npos) {
+
+		}
 	}
 }
 
@@ -176,13 +243,21 @@ void RTRPhysicsEngine::CollisionsSpheresSingle(RTRSphere* currBall, RTRSphere* o
 			Direction dir = std::get<1>(collided);
 
 			if (dir == Direction::NORTH || dir == Direction::NORTH_EAST || dir == Direction::NORTH_WEST) {
-				currBall->SetVerticalPower(fabs(currBall->GetVerticalPower()));
-				otherBall->SetVerticalPower(-fabs(currBall->GetVerticalPower()));
+				if (currBall->GetName().find("Bumper") == std::string::npos) {
+					currBall->SetVerticalPower(fabs(currBall->GetVerticalPower()));
+				}
+				if (otherBall->GetName().find("Bumper") == std::string::npos) {
+					otherBall->SetVerticalPower(-fabs(currBall->GetVerticalPower()));
+				}
 				SphereVerticalCol(currBall, otherBall);
 			}
 			if (dir == Direction::SOUTH || dir == Direction::SOUTH_EAST || dir == Direction::SOUTH_WEST) {
-				currBall->SetVerticalPower(-fabs(currBall->GetVerticalPower()));
-				otherBall->SetVerticalPower(fabs(currBall->GetVerticalPower()));
+				if (currBall->GetName().find("Bumper") == std::string::npos) {
+					currBall->SetVerticalPower(-fabs(currBall->GetVerticalPower()));
+				}
+				if (otherBall->GetName().find("Bumper") == std::string::npos) {
+					otherBall->SetVerticalPower(fabs(currBall->GetVerticalPower()));
+				}
 				SphereVerticalCol(currBall, otherBall);
 				if (fabs(currBall->GetVerticalPower()) <= 0.1f) {
 					currBall->SetMovingForward(false);
@@ -190,17 +265,25 @@ void RTRPhysicsEngine::CollisionsSpheresSingle(RTRSphere* currBall, RTRSphere* o
 				}
 			}
 			if (dir == Direction::WEST || dir == Direction::NORTH_WEST || dir == Direction::SOUTH_WEST) {
-				currBall->SetMovingLeft(false);
-				currBall->SetMovingRight(true);
-				otherBall->SetMovingLeft(true);
-				otherBall->SetMovingRight(false);
+				if (currBall->GetName().find("Bumper") == std::string::npos) {
+					currBall->SetMovingLeft(false);
+					currBall->SetMovingRight(true);
+				}
+				if (otherBall->GetName().find("Bumper") == std::string::npos) {
+					otherBall->SetMovingLeft(true);
+					otherBall->SetMovingRight(false);
+				}
 				SphereHorizontalCol(currBall, otherBall);
 			}
 			if (dir == Direction::EAST || dir == Direction::NORTH_EAST || dir == Direction::SOUTH_EAST) {
-				currBall->SetMovingLeft(true);
-				currBall->SetMovingRight(false);
-				otherBall->SetMovingLeft(false);
-				otherBall->SetMovingRight(true);
+				if (currBall->GetName().find("Bumper") == std::string::npos) {
+					currBall->SetMovingLeft(true);
+					currBall->SetMovingRight(false);
+				}
+				if (otherBall->GetName().find("Bumper") == std::string::npos) {
+					otherBall->SetMovingLeft(false);
+					otherBall->SetMovingRight(true);
+				}
 				SphereHorizontalCol(currBall, otherBall);
 			}
 		}
@@ -208,7 +291,7 @@ void RTRPhysicsEngine::CollisionsSpheresSingle(RTRSphere* currBall, RTRSphere* o
 }
 
 void RTRPhysicsEngine::SphereVerticalCol(RTRSphere* currBall, RTRSphere* sphere) {
-	if (currBall->GetVerticalPower() > sphere->GetVerticalPower()) {
+	if (fabs(currBall->GetVerticalPower()) > fabs(sphere->GetVerticalPower())) {
 		sphere->SetVerticalPower(sphere->GetVerticalPower() + currBall->GetVerticalPower() * 0.5 - GRAVITY / 10);
 		currBall->SetVerticalPower(currBall->GetVerticalPower() - (currBall->GetVerticalPower() * 0.5));
 	}
@@ -219,7 +302,7 @@ void RTRPhysicsEngine::SphereVerticalCol(RTRSphere* currBall, RTRSphere* sphere)
 }
 
 void RTRPhysicsEngine::SphereHorizontalCol(RTRSphere* currBall, RTRSphere* sphere) {
-	if (currBall->GetHorizontalPower() > sphere->GetHorizontalPower()) {
+	if (fabs(currBall->GetHorizontalPower()) > fabs(sphere->GetHorizontalPower())) {
 		sphere->SetHorizontalPower(sphere->GetHorizontalPower() + currBall->GetHorizontalPower() * 0.5 - GRAVITY / 10);
 		currBall->SetHorizontalPower(currBall->GetHorizontalPower() - (currBall->GetHorizontalPower() * 0.5));
 	}
@@ -316,21 +399,21 @@ Direction RTRPhysicsEngine::VectorDirection(glm::vec2 target)
 	return (Direction)best_match;
 }
 
-// 41x29 grid
+// 21x15 grid
 void RTRPhysicsEngine::SetUpUniformGrid() {
-	int row = 39;
-	int column = 27;
+	int row = 20;
+	int column = 14;
 
 	for (int j = 0; j <= row; ++j) {
 		std::vector<GridInfo> newGrid;
 		for (int i = 0; i <= column; ++i) {
 			glm::mat4 model = glm::mat4(1.0f);
 
-			float x = (((float)i / (float)column * (float)column) + -13.5f) * 0.5f;
+			float x = (((float)i / (float)column * (float)column) + -6.75f);
 			float y = -1.0f;
-			float z = (((float)j / (float)row * (float)row) + -19.5f) * 0.5f;
+			float z = (((float)j / (float)row * (float)row) + -9.75f);
 
-			model = glm::rotate(model, DEFAULT_ANGLE, glm::vec3(1.0f, 0, 0));
+			model = glm::rotate(model, m_RTRWorld->GetTableAngle(), glm::vec3(1.0f, 0, 0));
 			model = glm::translate(model, glm::vec3(x, y, z));
 			model = glm::scale(model, glm::vec3(0.5f, 0.5f, 0.5f));
 
@@ -362,8 +445,8 @@ void RTRPhysicsEngine::PopulateGrid() {
 }
 
 void RTRPhysicsEngine::UniformGridCollision() {
-	int row = 39;
-	int column = 27;
+	int row = 20;
+	int column = 14;
 	for (int j = 0; j <= row; ++j) {
 		for (int i = 0; i <= column; ++i) {
 			std::vector<RTRObject*> objects = std::get<2>(m_UniformGrid2D[j][i]);
@@ -371,7 +454,10 @@ void RTRPhysicsEngine::UniformGridCollision() {
 			if (objects.size() > 1) {
 				for (int i = 0; i < objects.size(); i++) {
 					for (int j = i + 1; j < objects.size(); j++) {
-						DetermineCollisionType(objects.at(i), objects.at(j));
+						if ((objects.at(i)->GetName().find("newSphere") != std::string::npos) ||
+							(objects.at(j)->GetName().find("newSphere") != std::string::npos)) {
+							DetermineCollisionType(objects.at(i), objects.at(j));
+						}
 					}
 				}
 			}
@@ -394,8 +480,12 @@ void RTRPhysicsEngine::DetermineCollisionType(RTRObject* object, RTRObject* obje
 		objectSphere2->SetHasCollidedSphere(false);
 		CollisionsAABB((RTRSphere*)objectSphere2, object);
 	}
-	else if ((object->GetName().find("newSphere") != std::string::npos) && 
-		(object2->GetName().find("newSphere") != std::string::npos)) {
+	else if (((object->GetName().find("newSphere") != std::string::npos) && 
+		(object2->GetName().find("newSphere") != std::string::npos)) ||
+		((object->GetName().find("newSphere") != std::string::npos) &&
+		(object2->GetName().find("Bumper") != std::string::npos)) || 
+		((object->GetName().find("Bumper") != std::string::npos) &&
+		(object2->GetName().find("newSphere") != std::string::npos))) {
 		RTRSphere* objectSphere = (RTRSphere*)object;
 		RTRSphere* objectSphere2 = (RTRSphere*)object2;
 		objectSphere->SetHasCollidedSphere(false);
@@ -406,8 +496,8 @@ void RTRPhysicsEngine::DetermineCollisionType(RTRObject* object, RTRObject* obje
 
 void RTRPhysicsEngine::AddToGrid(RTRObject* currObject)
 {
-	int row = 39;
-	int column = 27;
+	int row = 20;
+	int column = 14;
 
 	glm::vec3 objectPosition = currObject->GetPosition();
 	float objectScaleX = currObject->GetScale().x;
@@ -463,8 +553,8 @@ void RTRPhysicsEngine::AddToGrid(RTRObject* currObject)
 }
 
 void RTRPhysicsEngine::ClearGrid() {
-	int row = 39;
-	int column = 27;
+	int row = 20;
+	int column = 14;
 
 	for (int j = 0; j <= row; ++j) {
 		for (int i = 0; i <= column; ++i) {
@@ -474,8 +564,8 @@ void RTRPhysicsEngine::ClearGrid() {
 }
 
 void RTRPhysicsEngine::Done() {
-	int row = 39;
-	int column = 27;
+	int row = 20;
+	int column = 14;
 
 	plungerZTrans = 0;
 	power = 0;
