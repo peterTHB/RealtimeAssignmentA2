@@ -13,10 +13,7 @@
 class RTRObject
 {
 public:
-    RTRObject(glm::vec3 translation, glm::vec3 scale, glm::vec3 rotation, glm::mat4 modelMatrix, float angle) {
-        m_Translation = translation;
-        m_Scale = scale;
-        m_Rotation = rotation;
+    RTRObject(glm::mat4 modelMatrix, float angle) {
         m_TransformMatrix = modelMatrix;
         m_Angle = angle;
     }
@@ -38,6 +35,8 @@ public:
     virtual void SetRotation(glm::vec3 rotation) { m_Rotation = rotation; };
     virtual glm::vec3 GetRotation() { return m_Rotation; };
     virtual void DoRotation(glm::vec3 rotation, float angleRads);
+    virtual void DoTranslation(glm::vec3 translation);
+    virtual void DoScale(glm::vec3 scale);
     virtual void SetAngle(float angle) { m_Angle = angle; };
     virtual float GetAngle() { return m_Angle; };
     virtual RTRBoundingVolume* GetBoundingVolume(){ return m_BoundingVolume; };
@@ -67,19 +66,20 @@ protected:
 class RTRCube : public RTRObject
 {
 public:
-    RTRCube(glm::vec3 translation, glm::vec3 scale, glm::vec3 rotation, glm::mat4 modelMatrix, float angle) :
-        RTRObject(translation, scale, rotation, modelMatrix, angle) {}
+    RTRCube(glm::mat4 modelMatrix, float angle) :
+        RTRObject(modelMatrix, angle) {}
     ~RTRCube() {}
     virtual void Init(unsigned int texture, unsigned int texture2);
 };
 
 class RTRSphere : public RTRObject {
 public:
-    RTRSphere(glm::vec3 translation, glm::vec3 scale, glm::vec3 rotation, glm::mat4 modelMatrix, float angle) :
-        RTRObject(translation, scale, rotation, modelMatrix, angle) {}
+    RTRSphere(glm::mat4 modelMatrix, float angle) :
+        RTRObject(modelMatrix, angle) {}
     ~RTRSphere() {}
     virtual void Init(unsigned int texture, unsigned int texture2);
     virtual void Render(RTRShader* shader);
+    virtual void End();
     virtual void InitSphere(std::vector<RTRPoint_t5> vertices, std::vector<int> indices);
     virtual std::vector<RTRPoint_t5> MakeSphereVertices(int stacks, int slices);
     virtual std::vector<int> MakeSphereIndex(int stacks, int slices);
@@ -107,6 +107,8 @@ public:
     virtual bool GetDidExit() { return m_DidExit; };
     virtual void SetHitBottom(bool hit) { m_HitBottom = hit; };
     virtual bool GetHitBottom() { return m_HitBottom; };
+    virtual void SetDestroyed(bool destroyed) { m_Destroyed = destroyed; };
+    virtual bool GetDestroyed() { return m_Destroyed; };
 
 private:
     float m_Radius{ 0 };
@@ -121,29 +123,30 @@ private:
     bool m_MovingLeft{ false };
     bool m_DidExit{ false };
     bool m_HitBottom{ false };
-};
-
-class RTRCylinder : public RTRObject {
-public:
-    RTRCylinder(glm::vec3 translation, glm::vec3 scale, glm::vec3 rotation, glm::mat4 modelMatrix, float angle) :
-        RTRObject(translation, scale, rotation, modelMatrix, angle) {}
-    ~RTRCylinder() {}
-    virtual void Init(unsigned int texture, unsigned int texture2);
+    bool m_Destroyed{ false };
 };
 
 class RTRPrism : public RTRObject {
 public:
-    RTRPrism(glm::vec3 translation, glm::vec3 scale, glm::vec3 rotation, glm::mat4 modelMatrix, float angle) :
-        RTRObject(translation, scale, rotation, modelMatrix, angle) {}
+    RTRPrism(glm::mat4 modelMatrix, float angle) :
+        RTRObject(modelMatrix, angle) {}
     ~RTRPrism() {}
+    virtual void Init(unsigned int texture, unsigned int texture2);
+};
+
+class RTRSideCube : public RTRObject {
+public:
+    RTRSideCube(glm::mat4 modelMatrix, float angle) :
+        RTRObject(modelMatrix, angle) {}
+    ~RTRSideCube() {}
     virtual void Init(unsigned int texture, unsigned int texture2);
 };
 
 class RTRGrid : public RTRObject
 {
 public:
-    RTRGrid(glm::vec3 translation, glm::vec3 scale, glm::vec3 rotation, glm::mat4 modelMatrix, float angle) :
-        RTRObject(translation, scale, rotation, modelMatrix, angle) {}
+    RTRGrid(glm::mat4 modelMatrix, float angle) :
+        RTRObject(modelMatrix, angle) {}
     virtual void Init();
     virtual void InitGrid();
     virtual void Render(RTRShader* shader);

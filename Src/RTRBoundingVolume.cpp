@@ -42,10 +42,10 @@ void RTRBV_AABB::Init()
 	//RTRPoint_t3 coord3 = { xMax, 0, zMin };
 	//RTRPoint_t3 coord4 = { xMin, 0, zMin };
 
-	xMin = m_Position.x - (m_Scale.x / 2);
-	xMax = m_Position.x + (m_Scale.x / 2);
-	zMin = m_Position.z - (m_Scale.z / 2);
-	zMax = m_Position.z + (m_Scale.z / 2);
+	//xMin = m_Position.x - (m_Scale.x / 2);
+	//xMax = m_Position.x + (m_Scale.x / 2);
+	//zMin = m_Position.z - (m_Scale.z / 2);
+	//zMax = m_Position.z + (m_Scale.z / 2);
 
 	RTRPoint_t3 coord1 = { -0.5f, 0, 0.5f };
 	RTRPoint_t3 coord2 = { 0.5f, 0, 0.5f };

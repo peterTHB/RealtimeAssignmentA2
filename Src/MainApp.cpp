@@ -19,7 +19,7 @@ int MainApp::Init()
 
     glEnable(GL_DEPTH_TEST);
 
-    // Setup projection matrix and viewport transform.
+    // Setup projection matrix and viewport transform. 
     // These won't need to change as we're not worrying about screen size changes for this assignment
     m_ProjectionMatrix = glm::perspective(glm::radians(60.0f), (float)m_WindowWidth / (float)m_WindowHeight, 0.1f, 100.0f);
     glViewport(0, 0, m_WindowWidth, m_WindowHeight);
@@ -47,7 +47,7 @@ void MainApp::Done()
 
     m_RTRRenderer->Done();
     delete m_RTRRenderer;
-
+    
     m_RTRPhysicsEngine->Done();
     delete m_RTRPhysicsEngine;
 
@@ -200,10 +200,10 @@ void MainApp::UpdateState(unsigned int td_milli)
     m_ViewMatrix = m_Camera->GetViewMatrix();
 
     // Reset collisions
-    //for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
-    //    dynaObject->SetHasCollidedAABB(false);
-    //    dynaObject->SetHasCollidedSphere(false);
-    //}
+    for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
+        dynaObject->SetHasCollidedAABB(false);
+        dynaObject->SetHasCollidedSphere(false);
+    }
 
     // Clear grid
     m_RTRPhysicsEngine->ClearGrid();
@@ -266,10 +266,12 @@ void MainApp::RenderFrame()
 
     //For all other dynamic objects, i.e: pinball ball
     for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
-        m_RTRRenderer->RenderWithShaders(2, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
-            dynaObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
-        if (m_DebugModeOn) m_RTRRenderer->RenderBoundingBoxes(4, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
-            dynaObject->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
+        if (!dynaObject->GetDestroyed()) {
+            m_RTRRenderer->RenderWithShaders(2, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+                dynaObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
+            if (m_DebugModeOn) m_RTRRenderer->RenderBoundingBoxes(4, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+                dynaObject->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
+        }
     }
 
     // For plunger use
@@ -281,11 +283,6 @@ void MainApp::RenderFrame()
     m_RTRWorld->GetDynamicPinballObjects().at(0)->GetBoundingVolume()->SetTransformMatrix(transformedPlungerPosition);
     m_RTRWorld->GetDynamicPinballObjects().at(0)->GetBoundingVolume()->SetPosition(glm::vec3(transformedPlungerPosition[3]));
 
-    m_RTRRenderer->RenderWithShaders(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
-        m_RTRWorld->GetDynamicPinballObjects().at(0), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
-    if (m_DebugModeOn) m_RTRRenderer->RenderBoundingBoxes(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
-        m_RTRWorld->GetDynamicPinballObjects().at(0)->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
-
     if (!m_UsePlunger && !m_ShootBall) {
         m_RTRPhysicsEngine->ResetPower();
         if (m_RTRWorld->GetDynamicObjects().at(m_RTRWorld->GetCurrBall())->GetDidExit()) {
@@ -295,17 +292,17 @@ void MainApp::RenderFrame()
     }
 
     // Using flippers
-    glm::mat4 transformedRightFlipper = m_RTRPhysicsEngine->UseRightFlipper(m_UseRightFlipper);
-    m_RTRWorld->GetDynamicPinballObjects().at(1)->SetTransformMatrix(transformedRightFlipper);
-    m_RTRWorld->GetDynamicPinballObjects().at(1)->SetPosition(glm::vec3(transformedRightFlipper[3]));
-    m_RTRWorld->GetDynamicPinballObjects().at(1)->GetBoundingVolume()->SetTransformMatrix(transformedRightFlipper);
-    m_RTRWorld->GetDynamicPinballObjects().at(1)->GetBoundingVolume()->SetPosition(glm::vec3(transformedRightFlipper[3]));
+    //glm::mat4 transformedRightFlipper = m_RTRPhysicsEngine->UseRightFlipper(m_UseRightFlipper);
+    //m_RTRWorld->GetDynamicPinballObjects().at(1)->SetTransformMatrix(transformedRightFlipper);
+    //m_RTRWorld->GetDynamicPinballObjects().at(1)->SetPosition(glm::vec3(transformedRightFlipper[3]));
+    //m_RTRWorld->GetDynamicPinballObjects().at(1)->GetBoundingVolume()->SetTransformMatrix(transformedRightFlipper);
+    //m_RTRWorld->GetDynamicPinballObjects().at(1)->GetBoundingVolume()->SetPosition(glm::vec3(transformedRightFlipper[3]));
 
-    glm::mat4 transformedLeftFlipper = m_RTRPhysicsEngine->UseLeftFlipper(m_UseLeftFlipper);
-    m_RTRWorld->GetDynamicPinballObjects().at(2)->SetTransformMatrix(transformedLeftFlipper);
-    m_RTRWorld->GetDynamicPinballObjects().at(2)->SetPosition(glm::vec3(transformedLeftFlipper[3]));
-    m_RTRWorld->GetDynamicPinballObjects().at(2)->GetBoundingVolume()->SetTransformMatrix(transformedLeftFlipper);
-    m_RTRWorld->GetDynamicPinballObjects().at(2)->GetBoundingVolume()->SetPosition(glm::vec3(transformedLeftFlipper[3]));
+    //glm::mat4 transformedLeftFlipper = m_RTRPhysicsEngine->UseLeftFlipper(m_UseLeftFlipper);
+    //m_RTRWorld->GetDynamicPinballObjects().at(2)->SetTransformMatrix(transformedLeftFlipper);
+    //m_RTRWorld->GetDynamicPinballObjects().at(2)->SetPosition(glm::vec3(transformedLeftFlipper[3]));
+    //m_RTRWorld->GetDynamicPinballObjects().at(2)->GetBoundingVolume()->SetTransformMatrix(transformedLeftFlipper);
+    //m_RTRWorld->GetDynamicPinballObjects().at(2)->GetBoundingVolume()->SetPosition(glm::vec3(transformedLeftFlipper[3]));
 
     for (RTRObject* dynaPBObject : m_RTRWorld->GetDynamicPinballObjects()) {
         m_RTRRenderer->RenderWithShaders(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,

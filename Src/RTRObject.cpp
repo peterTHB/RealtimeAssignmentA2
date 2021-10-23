@@ -80,6 +80,16 @@ void RTRObject::DoRotation(glm::vec3 rotation, float angleRads)
     m_TransformMatrix = glm::rotate(m_TransformMatrix, angleRads, rotation);
 }
 
+void RTRObject::DoTranslation(glm::vec3 translation)
+{
+    m_TransformMatrix = glm::translate(m_TransformMatrix, translation);
+}
+
+void RTRObject::DoScale(glm::vec3 scale)
+{
+    m_TransformMatrix = glm::scale(m_TransformMatrix, scale);
+}
+
 //-----------------------------------------------------------------------------
 
 void RTRCube::Init(unsigned int texture, unsigned int texture2)
@@ -113,11 +123,6 @@ void RTRCube::Init(unsigned int texture, unsigned int texture2)
         { 0, 1, 2 }, {0, 2, 3}
     };
 
-    if (m_Rotation != glm::vec3(0)) {
-        m_TransformMatrix = glm::rotate(m_TransformMatrix, m_Angle, m_Rotation);
-    }
-    m_TransformMatrix = glm::scale(m_TransformMatrix, m_Scale);
-    m_TransformMatrix = glm::translate(m_TransformMatrix, m_Translation);
     m_Position = glm::vec3(m_TransformMatrix[3]);
 
     m_BoundingVolume = new RTRBV_AABB(m_Position, m_Scale, m_TransformMatrix);
@@ -133,11 +138,6 @@ void RTRSphere::Init(unsigned int texture, unsigned int texture2)
     std::vector<RTRPoint_t5> allVertices = RTRSphere::MakeSphereVertices(24, 64);
     std::vector<int> allIndices = RTRSphere::MakeSphereIndex(24, 64);
 
-    if (m_Rotation != glm::vec3(0)) {
-        m_TransformMatrix = glm::rotate(m_TransformMatrix, m_Angle, m_Rotation);
-    }
-    m_TransformMatrix = glm::scale(m_TransformMatrix, m_Scale);
-    m_TransformMatrix = glm::translate(m_TransformMatrix, m_Translation);
     m_Position = glm::vec3(m_TransformMatrix[3]);
 
     m_BoundingVolume = new RTRBV_2DCircle(m_Position, m_Scale, m_TransformMatrix, 64, m_Radius);
@@ -238,17 +238,84 @@ std::vector<int> RTRSphere::MakeSphereIndex(int stacks, int slices) {
     return indices;
 }
 
-//-----------------------------------------------------------------------------
+void RTRSphere::End() {
 
-void RTRCylinder::Init(unsigned int texture, unsigned int texture2)
-{
-    RTRObject::Init(texture, texture2);
 }
 
 //-----------------------------------------------------------------------------
 
 void RTRPrism::Init(unsigned int texture, unsigned int texture2)
 {
+    m_NumVertices = 24;
+    m_NumFaces = 2;
+
+    m_VertexPoints = new RTRPoint_t5[]{
+        // Position TexCoords
+        // Left
+        { -0.5f, -0.5f, -0.5f, 1.0f, 0 }, { -0.5f, -0.5f, 0.5f, 0, 0 }, { -0.5f, 0.5f, 0.5f, 0, 1.0f },
+        { -0.5f, -0.5f, -0.5f, 1.0f, 0 }, { -0.5f, 0.5f, 0.5f, 0, 1.0f }, { -0.5f, 0.5f, -0.5f, 1.0f, 1.0f },
+        // Top
+        { -0.5f, 0.5f, 0.5f, 1.0f, 0 }, { 0.5f, 0.5f, -0.5f, 0, 1.0f }, { -0.5f, 0.5f, -0.5f, 1.0f, 1.0f },
+        // Bottom
+        { -0.5f, -0.5f, 0.5f, 0, 1.0f }, { -0.5f, -0.5f, -0.5f, 0, 0 }, { 0.5f, -0.5f, -0.5f, 1.0f, 0 },
+        // Front
+        { -0.5f, -0.5f, 0.5f, 0, 0 }, { 0.5f, -0.5f, -0.5f, 1.0f, 0 }, { 0.5f, 0.5f, -0.5f, 1.0f, 1.0f },
+        { -0.5f, -0.5f, 0.5f, 0, 0 }, { 0.5f, 0.5f, -0.5f, 1.0f, 1.0f  }, { -0.5f, 0.5f, 0.5f, 0, 1.0f },
+        // Back
+        { 0.5f, -0.5f, -0.5f, 1.0f, 0 }, { -0.5f, -0.5f, -0.5f, 0, 0 }, { -0.5f, 0.5f, -0.5f, 0, 1.0f },
+        { 0.5f, -0.5f, -0.5f, 1.0f, 0 }, { -0.5f, 0.5f, -0.5f, 0, 1.0f }, { 0.5f, 0.5f, -0.5f, 1.0f, 1.0f }
+    };
+
+    m_Faces = new RTRFace_t[]{
+        { 0, 1, 2 }, {0, 2, 3}
+    };
+
+    m_Position = glm::vec3(m_TransformMatrix[3]);
+
+    m_BoundingVolume = new RTRBV_AABB(m_Position, m_Scale, m_TransformMatrix);
+    m_BoundingVolume->Init();
+
+    RTRObject::Init(texture, texture2);
+}
+
+//-----------------------------------------------------------------------------
+
+void RTRSideCube::Init(unsigned int texture, unsigned int texture2)
+{
+    m_NumVertices = 36;
+    m_NumFaces = 2;
+
+    m_VertexPoints = new RTRPoint_t5[]{
+        // Position TexCoords
+        // Right
+        { 1.0f, -0.5f, 0.5f, 1.0f, 0 }, { 1.0f, -0.5f, -0.5f, 0, 0 }, { 1.0f, 0.5f, -0.5f, 0, 1.0f },
+        { 1.0f, -0.5f, 0.5f, 1.0f, 0 }, { 1.0f, 0.5f, -0.5f, 0, 1.0f }, { 1.0f, 0.5f, 0.5f, 1.0f, 1.0f },
+        // Left
+        { 0, -0.5f, -0.5f, 1.0f, 0 }, { 0, -0.5f, 0.5f, 0, 0 }, { 0, 0.5f, 0.5f, 0, 1.0f },
+        { 0, -0.5f, -0.5f, 1.0f, 0 }, { 0, 0.5f, 0.5f, 0, 1.0f }, { 0, 0.5f, -0.5f, 1.0f, 1.0f },
+        // Top
+        { 0, 0.5f, 0.5f, 1.0f, 0 }, { 1.0f, 0.5f, 0.5f, 0, 0  }, { 1.0f, 0.5f, -0.5f, 0, 1.0f },
+        { 0, 0.5f, 0.5f, 1.0f, 0 }, { 1.0f, 0.5f, -0.5f, 0, 1.0f }, { 0, 0.5f, -0.5f, 1.0f, 1.0f },
+        // Bottom
+        { 0, -0.5f, -0.5f, 1.0f, 0 }, { 1.0f, -0.5f, -0.5f, 0, 0 }, { 1.0f, -0.5f, 0.5f, 0, 1.0f },
+        { 0, -0.5f, -0.5f, 1.0f, 0 }, { 1.0f, -0.5f, 0.5f, 0, 1.0f }, { 0, -0.5f, 0.5f, 1.0f, 1.0f },
+        // Front
+        { 0, -0.5f, 0.5f, 1.0f, 0 }, { 1.0f, -0.5f, 0.5f, 0, 0  }, { 1.0f, 0.5f, 0.5f, 0, 1.0f },
+        { 0, -0.5f, 0.5f, 1.0f, 0 }, { 1.0f, 0.5f, 0.5f, 0, 1.0f  }, { 0, 0.5f, 0.5f, 1.0f, 1.0f },
+        // Back
+        { 1.0f, -0.5f, -0.5f, 1.0f, 0 }, { 0, -0.5f, -0.5f, 0, 0 }, { 0, 0.5f, -0.5f, 0, 1.0f },
+        { 1.0f, -0.5f, -0.5f, 1.0f, 0 }, { 0, 0.5f, -0.5f, 0, 1.0f }, { 1.0f, 0.5f, -0.5f, 1.0f, 1.0f }
+    };
+
+    m_Faces = new RTRFace_t[]{
+        { 0, 1, 2 }, {0, 2, 3}
+    };
+
+    m_Position = glm::vec3(m_TransformMatrix[3]);
+
+    m_BoundingVolume = new RTRBV_AABB(m_Position, m_Scale, m_TransformMatrix);
+    m_BoundingVolume->Init();
+
     RTRObject::Init(texture, texture2);
 }
 
@@ -259,11 +326,6 @@ void RTRGrid::Init()
     m_NumVertices = 6;
     m_NumFaces = 2;
 
-    if (m_Rotation != glm::vec3(0)) {
-        m_TransformMatrix = glm::rotate(m_TransformMatrix, m_Angle, m_Rotation);
-    }
-    m_TransformMatrix = glm::translate(m_TransformMatrix, m_Translation);
-    m_TransformMatrix = glm::scale(m_TransformMatrix, m_Scale);
     m_Position = glm::vec3(m_TransformMatrix[3]);
 
     m_VertexPoints3 = new RTRPoint_t3[]{
