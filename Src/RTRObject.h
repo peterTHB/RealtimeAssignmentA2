@@ -20,6 +20,7 @@ public:
     ~RTRObject() {}
     virtual void Init(unsigned int texture, unsigned int texture2);
     virtual void Render(RTRShader* shader);
+    virtual void RenderEnvMapping(RTRShader* shader);
     virtual void End();
     void SetMaterial(RTRMaterial_t mat) { m_Material = mat; }
     virtual void SetName(std::string name) { m_ObjectName = name; };

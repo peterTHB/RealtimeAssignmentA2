@@ -112,6 +112,15 @@
     <None Include="Src\RTRShaderNoTexture.vert">
       <Filter>Shader Files</Filter>
     </None>
+    <None Include="Src\RTRShaderEnvMapping.vert">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="Src\RTRShaderEnvMapping.frag">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="Src\RTRShaderEnvMapping.geom">
+      <Filter>Shader Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Src\Skybox\backSpace.jpg">

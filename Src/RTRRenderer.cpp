@@ -17,14 +17,21 @@ RTRRenderer::RTRRenderer()
     m_NoTextureShader = new RTRShader();
     m_NoTextureShader->Load("Src/RTRShaderNoTexture.vert", "Src/RTRShaderNoTexture.frag", "Src/RTRShaderNoTexture.geom");
 
+    m_EnvMappingShader = new RTRShader();
+    m_EnvMappingShader->Load("Src/RTRShaderEnvMapping.vert", "Src/RTRShaderEnvMapping.frag", "Src/RTRShaderEnvMapping.geom");
+
     glUseProgram(m_SkyboxShader->GetId());
     m_SkyboxShader->SetInt("skybox", 0);
+
+    glUseProgram(m_EnvMappingShader->GetId());
+    m_EnvMappingShader->SetInt("skybox", 0);
 
     ShaderVector.push_back(m_PinballStaticShader);
     ShaderVector.push_back(m_PinballDynamicShader);
     ShaderVector.push_back(m_DynamicObjectsShader);
     ShaderVector.push_back(m_SkyboxShader);
     ShaderVector.push_back(m_NoTextureShader);
+    ShaderVector.push_back(m_EnvMappingShader);
 
     lastTime = 0.0f;
     timer = 0.0f;
@@ -35,9 +42,8 @@ void RTRRenderer::SetUp() {
     glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 }
 
-void RTRRenderer::RenderWithShaders(int shaderPos, glm::mat4 modelMatrix, glm::mat4 viewMatrix,
-    glm::mat4 projectionMatrix, RTRObject* object, RTRCamera* camera, RTRLightingModel* lightingModel,
-    int curTime, int timeDelta) {
+void RTRRenderer::RenderWithShaders(int shaderPos, glm::mat4 viewMatrix, glm::mat4 projectionMatrix, 
+    RTRObject* object, RTRCamera* camera, RTRLightingModel* lightingModel, int curTime, int timeDelta) {
 
     glUseProgram(ShaderVector.at(shaderPos)->GetId());
     ShaderVector.at(shaderPos)->SetFloat("u_CurTime", (float)curTime);
@@ -51,8 +57,8 @@ void RTRRenderer::RenderWithShaders(int shaderPos, glm::mat4 modelMatrix, glm::m
     object->Render(ShaderVector.at(shaderPos));
 }
 
-void RTRRenderer::RenderBoundingBoxes(int shaderPos, glm::mat4 modelMatrix, glm::mat4 viewMatrix,
-    glm::mat4 projectionMatrix, RTRBoundingVolume* boundingVolume, RTRCamera* camera, RTRLightingModel* lightingModel,
+void RTRRenderer::RenderBoundingBoxes(int shaderPos, glm::mat4 viewMatrix, glm::mat4 projectionMatrix, 
+    RTRBoundingVolume* boundingVolume, RTRCamera* camera, RTRLightingModel* lightingModel,
     int curTime, int timeDelta) {
 
     glUseProgram(ShaderVector.at(shaderPos)->GetId());
@@ -71,6 +77,17 @@ void RTRRenderer::RenderSkybox(glm::mat4 viewMatrix, glm::mat4 projectionMatrix)
     glUseProgram(ShaderVector.at(3)->GetId());
     ShaderVector.at(3)->SetMat4("u_ViewMatrix", viewMatrix);
     ShaderVector.at(3)->SetMat4("u_ProjectionMatrix", projectionMatrix);
+}
+
+void RTRRenderer::RenderEnvMapping(RTRObject* object, glm::mat4 viewMatrix, 
+    glm::mat4 projectionMatrix, RTRCamera* camera) {
+    glUseProgram(ShaderVector.at(5)->GetId());
+    ShaderVector.at(5)->SetVec3("u_CameraPos", *camera->GetCameraPos());
+    ShaderVector.at(5)->SetMat4("u_ModelMatrix", object->GetTransformMatrix());
+    ShaderVector.at(5)->SetMat4("u_ViewMatrix", viewMatrix);
+    ShaderVector.at(5)->SetMat4("u_ProjectionMatrix", projectionMatrix);
+
+    object->RenderEnvMapping(ShaderVector.at(5));
 }
 
 void RTRRenderer::DebugInfo(Console* console, int FPS, RTRCamera* camera) {

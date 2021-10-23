@@ -251,27 +251,37 @@ void MainApp::RenderFrame()
 {
     m_RTRRenderer->SetUp();
 
+    // Drawing skybox
+    glm::mat4 skyboxView = glm::mat4(glm::mat3(m_Camera->GetViewMatrix()));
+    m_RTRRenderer->RenderSkybox(skyboxView, m_ProjectionMatrix);
+    m_RTRWorld->DrawSkybox();
+
     //For all static pinball objects
     for (RTRObject* staticPBObject : m_RTRWorld->GetStaticPinballObjects()) {
-        m_RTRRenderer->RenderWithShaders(0, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+        m_RTRRenderer->RenderWithShaders(0, m_ViewMatrix, m_ProjectionMatrix,
             staticPBObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
-        if (m_DebugModeOn) m_RTRRenderer->RenderBoundingBoxes(4, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+        if (m_DebugModeOn) m_RTRRenderer->RenderBoundingBoxes(4, m_ViewMatrix, m_ProjectionMatrix,
             staticPBObject->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
     }
 
     for (RTRObject* staticCPBObject : m_RTRWorld->GetStaticCollidablePinballObjects()) {
-        m_RTRRenderer->RenderWithShaders(0, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
-            staticCPBObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
-        if (m_DebugModeOn) m_RTRRenderer->RenderBoundingBoxes(4, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+        if (staticCPBObject->GetName().find("Bar") != std::string::npos) {
+            m_RTRRenderer->RenderEnvMapping(staticCPBObject, m_ViewMatrix, m_ProjectionMatrix, m_Camera);
+        }
+        else {
+            m_RTRRenderer->RenderWithShaders(0, m_ViewMatrix, m_ProjectionMatrix,
+                staticCPBObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
+        }
+        if (m_DebugModeOn) m_RTRRenderer->RenderBoundingBoxes(4, m_ViewMatrix, m_ProjectionMatrix,
             staticCPBObject->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
     }
 
     //For all other dynamic objects, i.e: pinball ball
     for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
         if (!dynaObject->GetDestroyed()) {
-            m_RTRRenderer->RenderWithShaders(2, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+            m_RTRRenderer->RenderWithShaders(2, m_ViewMatrix, m_ProjectionMatrix,
                 dynaObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
-            if (m_DebugModeOn) m_RTRRenderer->RenderBoundingBoxes(4, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+            if (m_DebugModeOn) m_RTRRenderer->RenderBoundingBoxes(4, m_ViewMatrix, m_ProjectionMatrix,
                 dynaObject->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
         }
     }
@@ -309,26 +319,21 @@ void MainApp::RenderFrame()
     m_RTRWorld->GetDynamicPinballObjects().at(2)->GetBoundingVolume()->SetPosition(glm::vec3(transformedLeftFlipper[3]));
 
     for (RTRObject* dynaPBObject : m_RTRWorld->GetDynamicPinballObjects()) {
-        m_RTRRenderer->RenderWithShaders(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+        m_RTRRenderer->RenderWithShaders(1, m_ViewMatrix, m_ProjectionMatrix,
             dynaPBObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
-        if (m_DebugModeOn) m_RTRRenderer->RenderBoundingBoxes(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+        if (m_DebugModeOn) m_RTRRenderer->RenderBoundingBoxes(1, m_ViewMatrix, m_ProjectionMatrix,
             dynaPBObject->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
     }
-
-    // Drawing skybox
-    glm::mat4 skyboxView = glm::mat4(glm::mat3(m_Camera->GetViewMatrix()));
-    m_RTRRenderer->RenderSkybox(skyboxView, m_ProjectionMatrix);
-    m_RTRWorld->DrawSkybox();
 
     if (m_DebugModeOn) {
         m_RTRRenderer->DebugInfo(m_Console, m_FPS, m_Camera);
         // For drawing uniform grid
         for (RTRGrid* gridObject : m_RTRWorld->GetUniformGridObjects()) {
-            m_RTRRenderer->RenderWithShaders(4, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+            m_RTRRenderer->RenderWithShaders(4, m_ViewMatrix, m_ProjectionMatrix,
                 gridObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
         }
         for (RTRObject* lightPos : m_RTRWorld->GetLightPositions()) {
-            m_RTRRenderer->RenderWithShaders(4, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+            m_RTRRenderer->RenderWithShaders(4, m_ViewMatrix, m_ProjectionMatrix,
                 lightPos, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
         }
     }

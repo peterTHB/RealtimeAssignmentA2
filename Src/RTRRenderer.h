@@ -11,13 +11,15 @@ class RTRRenderer {
 public:
 	RTRRenderer();
 	virtual void SetUp();
-	virtual void RenderWithShaders(int shaderPos, glm::mat4 modelMatrix, glm::mat4 viewMatrix,
-		glm::mat4 projectionMatrix, RTRObject* object, RTRCamera* camera, RTRLightingModel* lightingModel,
+	virtual void RenderWithShaders(int shaderPos, glm::mat4 viewMatrix, glm::mat4 projectionMatrix, 
+		RTRObject* object, RTRCamera* camera, RTRLightingModel* lightingModel,
 		int curTime, int timeDelta);
-	virtual void RenderBoundingBoxes(int shaderPos, glm::mat4 modelMatrix, glm::mat4 viewMatrix,
-		glm::mat4 projectionMatrix, RTRBoundingVolume* boundingVolume, RTRCamera* camera, RTRLightingModel* lightingModel,
+	virtual void RenderBoundingBoxes(int shaderPos, glm::mat4 viewMatrix, glm::mat4 projectionMatrix, 
+		RTRBoundingVolume* boundingVolume, RTRCamera* camera, RTRLightingModel* lightingModel,
 		int curTime, int timeDelta);
 	virtual void RenderSkybox(glm::mat4 viewMatrix, glm::mat4 projectionMatrix);
+	virtual void RenderEnvMapping(RTRObject* object, glm::mat4 viewMatrix,glm::mat4 projectionMatrix, 
+		RTRCamera* camera);
 	virtual void DebugInfo(Console* console, int FPS, RTRCamera* camera);
 	virtual void Done();
 
@@ -27,7 +29,7 @@ public:
 	RTRShader* m_DynamicObjectsShader{ nullptr };
 	RTRShader* m_SkyboxShader{ nullptr };
 	RTRShader* m_NoTextureShader{ nullptr };
-	RTRShader* m_CircleShader{ nullptr };
+	RTRShader* m_EnvMappingShader{ nullptr };
 
 private:
 	float lastTime{ 0 };

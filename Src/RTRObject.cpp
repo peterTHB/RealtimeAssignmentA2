@@ -67,6 +67,14 @@ void RTRObject::Render(RTRShader* shader)
     glBindVertexArray(0);
 }
 
+void RTRObject::RenderEnvMapping(RTRShader* shader)
+{
+    glUseProgram(shader->GetId());
+    glBindVertexArray(m_VertexArray);
+    glDrawArrays(GL_TRIANGLES, 0, m_NumVertices);
+    glBindVertexArray(0);
+}
+
 void RTRObject::End()
 {
     glDeleteVertexArrays(1, &m_VertexArray); m_VertexArray = 0;

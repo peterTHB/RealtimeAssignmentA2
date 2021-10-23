@@ -45,6 +45,15 @@
     <ClInclude Include="Src\RTRShader.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Src\RTRShaderEnvMapping.geom">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="Src\RTRShaderEnvMapping.frag">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="Src\RTRShaderEnvMapping.vert">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </None>
     <None Include="Src\RTRShaderNoTexture.geom">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </None>

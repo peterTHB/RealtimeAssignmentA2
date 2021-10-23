@@ -236,13 +236,13 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     m_TiltedBlock->SetMaterial(tiltedBlockMat);
     m_TiltedBlock->Init(m_DarkWoodTexture, m_OuterRimTexture);
 
-    RTRCube* m_SideShootBar = new RTRCube(modelMatrix, m_TableAngle);
-    m_SideShootBar->SetName("m_SideShootBar");
-    m_SideShootBar->SetScale(glm::vec3(0.5f, 2.0f, 14.0f));
-    m_SideShootBar->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
-    m_SideShootBar->DoScale(glm::vec3(0.5f, 2.0f, 14.0f));
-    m_SideShootBar->DoTranslation(glm::vec3(10.0f, -0.13f, 0.18f));
-    m_SideShootBar->Init(m_DarkWoodTexture, m_OuterRimTexture);
+    RTRCube* m_SideShootLane = new RTRCube(modelMatrix, m_TableAngle);
+    m_SideShootLane->SetName("m_SideShootLane");
+    m_SideShootLane->SetScale(glm::vec3(0.5f, 2.0f, 14.0f));
+    m_SideShootLane->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
+    m_SideShootLane->DoScale(glm::vec3(0.5f, 2.0f, 14.0f));
+    m_SideShootLane->DoTranslation(glm::vec3(10.0f, -0.13f, 0.18f));
+    m_SideShootLane->Init(m_DarkWoodTexture, m_OuterRimTexture);
 
     RTRPrism* m_RightSlider = new RTRPrism( modelMatrix, -m_TableAngle);
     m_RightSlider->SetName("m_RightSlider");
@@ -267,7 +267,7 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     StaticCollidablePinballObjects.push_back(m_LeftBar);
     StaticCollidablePinballObjects.push_back(m_RightBar);
     StaticCollidablePinballObjects.push_back(m_TiltedBlock);
-    StaticCollidablePinballObjects.push_back(m_SideShootBar);
+    StaticCollidablePinballObjects.push_back(m_SideShootLane);
     StaticCollidablePinballObjects.push_back(m_RightSlider);
     StaticCollidablePinballObjects.push_back(m_LeftSlider);
 

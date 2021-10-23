@@ -175,7 +175,7 @@ void RTRPhysicsEngine::CollisionsAABB(RTRSphere* currBall, RTRObject* object) {
 			currBall->SetHorizontalPower(currBall->GetHorizontalPower() * 0.95f);
 			TranslateBall(currBall, 0.2f, 0, 0);
 		}
-		else if (object->GetName() == "m_RightBar" || object->GetName() == "m_SideShootBar") {
+		else if (object->GetName() == "m_RightBar" || object->GetName() == "m_SideShootLane") {
 			currBall->SetMovingLeft(true);
 			currBall->SetMovingRight(false);
 			currBall->SetHorizontalPower(currBall->GetHorizontalPower() * 0.95f);
@@ -184,7 +184,7 @@ void RTRPhysicsEngine::CollisionsAABB(RTRSphere* currBall, RTRObject* object) {
 				TranslateBall(currBall, -0.2f, 0, 0);
 			}
 
-			if (object->GetName() == "m_SideShootBar") {
+			if (object->GetName() == "m_SideShootLane") {
 				Collision topCol = CheckTopCollision(currBall, object);
 				if (std::get<1>(topCol) == Direction::NORTH ||
 					std::get<1>(topCol) == Direction::NORTH_EAST ||

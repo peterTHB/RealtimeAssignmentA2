@@ -1,9 +1,29 @@
-﻿  RTRWorld.cpp
+﻿  MainApp.cpp
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\MainApp.cpp(87,32): warning C4244: '=': conversion from 'Sint32' to 'float', possible loss of data
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\MainApp.cpp(88,32): warning C4244: '=': conversion from 'Sint32' to 'float', possible loss of data
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\MainApp.cpp(217,50): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\MainApp.cpp(236,33): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\MainApp.cpp(291,89): warning C4244: 'argument': conversion from 'unsigned int' to 'float', possible loss of data
+  RTRObject.cpp
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRObject.cpp(228,36): warning C4267: '=': conversion from 'size_t' to 'unsigned int', possible loss of data
+  RTRPhysicsEngine.cpp
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(316,55): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(317,59): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(320,59): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(321,55): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(327,59): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(328,63): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(331,63): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRPhysicsEngine.cpp(332,59): warning C4244: 'argument': conversion from 'double' to 'float', possible loss of data
+  RTRRenderer.cpp
+  RTRWorld.cpp
 C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRWorld.cpp(231,76): warning C4305: 'argument': truncation from 'double' to 'float'
 C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRWorld.cpp(250,76): warning C4305: 'argument': truncation from 'double' to 'float'
 C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRWorld.cpp(259,74): warning C4305: 'argument': truncation from 'double' to 'float'
 C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRWorld.cpp(280,74): warning C4305: 'argument': truncation from 'double' to 'float'
 C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRWorld.cpp(290,74): warning C4305: 'argument': truncation from 'double' to 'float'
 C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Src\RTRWorld.cpp(300,73): warning C4305: 'argument': truncation from 'double' to 'float'
+  Generating Code...
+  LINK : C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\\Build\Debug - x64\A2.exe not found or not built by the last incremental link; performing full link
   RTRApp.vcxproj -> C:\Users\User\Documents\RMITY3S2\RealtimeRendering\RealtimeRenderingA2\RealtimeAssignmentA2\Build\Debug - x64\A2.exe
   0 File(s) copied
