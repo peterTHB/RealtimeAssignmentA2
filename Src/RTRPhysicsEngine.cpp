@@ -28,48 +28,6 @@ glm::mat4 RTRPhysicsEngine::UsePlunger(bool usingPlunger, float timer, glm::mat4
 	return position;
 }
 
-<<<<<<< HEAD
-glm::mat4 RTRPhysicsEngine::UseRightFlipper(bool usingFlipper) {
-	glm::mat4 currPosition = glm::mat4(1.0f);
-
-	currPosition = glm::rotate(currPosition, m_RTRWorld->GetTableAngle(), glm::vec3(1.0f, 0.0f, 0.0f));
-	currPosition = glm::translate(currPosition, glm::vec3(1.56f, -0.75f, 7.64f));
-	currPosition = glm::rotate(currPosition, (float)(195 * M_PI / 180), glm::vec3(0.0f, 1.0f, 0.0f));
-
-	if (usingFlipper) {
-		currPosition = glm::rotate(currPosition, (float)(-45.0f * M_PI / 180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		currPosition = glm::scale(currPosition, glm::vec3(1.5f, 1.0f, 0.25f));
-	}
-	else {
-		currPosition = glm::rotate(currPosition, (float)(15.0f * M_PI / 180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		currPosition = glm::scale(currPosition, glm::vec3(1.5f, 1.0f, 0.25f));
-	}
-
-	return currPosition;
-}
-
-glm::mat4 RTRPhysicsEngine::UseLeftFlipper(bool usingFlipper) {
-	glm::mat4 currPosition = glm::mat4(1.0f);
-
-	currPosition = glm::rotate(currPosition, m_RTRWorld->GetTableAngle(), glm::vec3(1.0f, 0.0f, 0.0f));
-	currPosition = glm::translate(currPosition, glm::vec3(-3.33f, -0.75f, 7.64f));
-	currPosition = glm::rotate(currPosition, (float)(-15 * M_PI / 180), glm::vec3(0.0f, 1.0f, 0.0f));
-
-	if (usingFlipper) {
-		currPosition = glm::rotate(currPosition, (float)(45.0f * M_PI / 180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		currPosition = glm::scale(currPosition, glm::vec3(1.5f, 1.0f, 0.25f));
-	}
-	else {
-		currPosition = glm::rotate(currPosition, (float)(-15.0f * M_PI / 180.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-		currPosition = glm::scale(currPosition, glm::vec3(1.5f, 1.0f, 0.25f));
-	}
-
-	return currPosition;
-}
-
-// Originally set up to have dt, but lag became too much of an issue with 
-// uniform grid setup
-// DT will be kept as a parameter for future testing purposes
 =======
 >>>>>>> parent of bd11b32 (Save current changes)
 void RTRPhysicsEngine::MoveBall(RTRSphere* sphere, float dt)
@@ -138,11 +96,7 @@ void RTRPhysicsEngine::TranslateBall(RTRSphere* sphere, float x, float y, float 
 float RTRPhysicsEngine::DownwardsForce(RTRSphere* sphere, float dt) {
 	float force = 0;
 
-<<<<<<< HEAD
-	force = HARDCODED_DT * GRAVITY / 2.0f * m_RTRWorld->GetTableAngle() * 2.0f;
-=======
 	force = (dt / 1000.0f) * GRAVITY / 2.0f * DEFAULT_ANGLE * 2.0f;
->>>>>>> parent of bd11b32 (Save current changes)
 
 	return force;
 }
@@ -475,10 +429,10 @@ void RTRPhysicsEngine::DetermineCollisionType(RTRObject* object, RTRObject* obje
 		objectSphere2->SetHasCollidedSphere(false);
 		CollisionsAABB((RTRSphere*)objectSphere2, object);
 	}
-	else if (((object->GetName().find("newSphere") != std::string::npos) && 
+	else if (((object->GetName().find("newSphere") != std::string::npos) &&
 		(object2->GetName().find("newSphere") != std::string::npos)) ||
 		((object->GetName().find("newSphere") != std::string::npos) &&
-		(object2->GetName().find("Bumper") != std::string::npos)) || 
+		(object2->GetName().find("Bumper") != std::string::npos)) ||
 		((object->GetName().find("Bumper") != std::string::npos) &&
 		(object2->GetName().find("newSphere") != std::string::npos))) {
 		RTRSphere* objectSphere = (RTRSphere*)object;

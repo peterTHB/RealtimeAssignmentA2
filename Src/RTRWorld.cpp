@@ -135,77 +135,28 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     m_OuterRimTexture = LoadTexture("Src/Textures/outer_container.png");
 
     // Test cube
-<<<<<<< HEAD
-    //RTRCube* TestCube = new RTRCube(modelMatrix, m_TableAngle);
-=======
     //RTRCube* TestCube = new RTRCube(glm::vec3(0.0f, 2.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f),
     //    glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
->>>>>>> parent of bd11b32 (Save current changes)
+    //RTRCube* TestCube = new RTRCube(glm::vec3(0.0f, 2.0f, 0.0f), glm::vec3(1.0f, 1.0f, 1.0f),
+    //    glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     //TestCube->SetName("TestCube");
     //TestCube->Init(m_SmoothWoodTexture, m_OuterRimTexture);
 
     //StaticPinballObjects.push_back(TestCube);
-<<<<<<< HEAD
-    
-    // Static Pinball machine and related objects
-    RTRCube* m_BottomPlane = new RTRCube(modelMatrix, m_TableAngle);
-    m_BottomPlane->SetName("m_BottomPlane");
-    m_BottomPlane->SetScale(glm::vec3(14.0f, 0.5f, 20.0f));
-    m_BottomPlane->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
-    m_BottomPlane->DoScale(glm::vec3(14.0f, 0.5f, 20.0f));
-    m_BottomPlane->DoTranslation(glm::vec3(0.0f, -3.0f, 0.0f));
-=======
 
     // Static Pinball machine and related objects
-    RTRCube* m_BottomPlane = new RTRCube(glm::vec3(0.0f, -3.0f, 0.0f), glm::vec3(14.0f, 0.5f, 20.0f), 
+    RTRCube* m_BottomPlane = new RTRCube(glm::vec3(0.0f, -3.0f, 0.0f), glm::vec3(14.0f, 0.5f, 20.0f),
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     m_BottomPlane->SetName("m_BottomPlane");
->>>>>>> parent of bd11b32 (Save current changes)
+
+    // Static Pinball machine and related objects
+    RTRCube* m_BottomPlane = new RTRCube(glm::vec3(0.0f, -3.0f, 0.0f), glm::vec3(14.0f, 0.5f, 20.0f),
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
+    m_BottomPlane->SetName("m_BottomPlane");
     m_BottomPlane->Init(m_SmoothWoodTexture, m_RoughMetalTexture);
 
     StaticPinballObjects.push_back(m_BottomPlane);
 
-<<<<<<< HEAD
-    RTRCube* m_TopBar = new RTRCube(modelMatrix, m_TableAngle);
-    m_TopBar->SetName("m_TopBar");
-    m_TopBar->SetScale(glm::vec3(14.0f, 2.0f, 0.5f));
-    m_TopBar->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
-    m_TopBar->DoScale(glm::vec3(14.0f, 2.0f, 0.5f));
-    m_TopBar->DoTranslation(glm::vec3(0.0f, -0.13f, -19.5f));
-    m_TopBar->Init(m_DarkWoodTexture, m_OuterRimTexture);
-
-    RTRCube* m_BottomBar = new RTRCube(modelMatrix, m_TableAngle);
-    m_BottomBar->SetName("m_BottomBar");
-    m_BottomBar->SetScale(glm::vec3(14.0f, 2.0f, 0.5f));
-    m_BottomBar->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
-    m_BottomBar->DoScale(glm::vec3(14.0f, 2.0f, 0.5f));
-    m_BottomBar->DoTranslation(glm::vec3(0.0f, -0.13f, 19.5f));
-    m_BottomBar->Init(m_DarkWoodTexture, m_OuterRimTexture);
-
-    RTRCube* m_LeftBar = new RTRCube(modelMatrix, m_TableAngle);
-    m_LeftBar->SetName("m_LeftBar");
-    m_LeftBar->SetScale(glm::vec3(0.5f, 2.0f, 19.0f));
-    m_LeftBar->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
-    m_LeftBar->DoScale(glm::vec3(0.5f, 2.0f, 19.0f));
-    m_LeftBar->DoTranslation(glm::vec3(-13.5f, -0.13f, 0.0f));
-    m_LeftBar->Init(m_DarkWoodTexture, m_OuterRimTexture);
-
-    RTRCube* m_RightBar = new RTRCube(modelMatrix, m_TableAngle);
-    m_RightBar->SetName("m_RightBar");
-    m_RightBar->SetScale(glm::vec3(0.5f, 2.0f, 19.0f));
-    m_RightBar->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
-    m_RightBar->DoScale(glm::vec3(0.5f, 2.0f, 19.0f));
-    m_RightBar->DoTranslation(glm::vec3(13.5f, -0.13f, 0.0f));
-    m_RightBar->Init(m_DarkWoodTexture, m_OuterRimTexture);
-
-    RTRPrism* m_TiltedBlock = new RTRPrism(modelMatrix, -m_TableAngle);
-    m_TiltedBlock->SetName("m_TiltedBlock");
-    m_TiltedBlock->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
-    m_TiltedBlock->DoRotation(glm::vec3(0.0f, 1.0f, 0.0f), -90 * M_PI / 180);
-    m_TiltedBlock->DoRotation(glm::vec3(0.0f, 0.0f, 1.0f), -m_TableAngle);
-    m_TiltedBlock->DoScale(glm::vec3(1.0f, 1.0f, 1.0f));
-    m_TiltedBlock->DoTranslation(glm::vec3(-9.0f, -0.75f, -6.0f));
-=======
     RTRCube* m_TopBar = new RTRCube(glm::vec3(0.0f, -0.13f, -19.5f), glm::vec3(14.0f, 2.0f, 0.5f),
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     m_TopBar->SetName("m_TopBar");
@@ -229,175 +180,46 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     RTRCube* m_TiltedBlock = new RTRCube(glm::vec3(18.3f, 0.0f, -3.1f), glm::vec3(0.5f, 1.0f, 1.8f),
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     m_TiltedBlock->DoRotation(glm::vec3(0.0f, 1.0f, 0.0f), 0.4f);
->>>>>>> parent of bd11b32 (Save current changes)
+
+    RTRCube* m_TopBar = new RTRCube(glm::vec3(0.0f, -0.13f, -19.5f), glm::vec3(14.0f, 2.0f, 0.5f),
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
+    m_TopBar->SetName("m_TopBar");
+    m_TopBar->Init(m_DarkWoodTexture, m_OuterRimTexture);
+
+    RTRCube* m_BottomBar = new RTRCube(glm::vec3(0.0f, -0.13f, 19.5f), glm::vec3(14.0f, 2.0f, 0.5f),
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
+    m_BottomBar->SetName("m_BottomBar");
+    m_BottomBar->Init(m_DarkWoodTexture, m_OuterRimTexture);
+
+    RTRCube* m_LeftBar = new RTRCube(glm::vec3(-13.5f, -0.13f, 0.0f), glm::vec3(0.5f, 2.0f, 19.0f),
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
+    m_LeftBar->SetName("m_LeftBar");
+    m_LeftBar->Init(m_DarkWoodTexture, m_OuterRimTexture);
+
+    RTRCube* m_RightBar = new RTRCube(glm::vec3(13.5f, -0.13f, 0.0f), glm::vec3(0.5f, 2.0f, 19.0f),
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
+    m_RightBar->SetName("m_RightBar");
+    m_RightBar->Init(m_DarkWoodTexture, m_OuterRimTexture);
+
+    RTRCube* m_TiltedBlock = new RTRCube(glm::vec3(18.3f, 0.0f, -3.1f), glm::vec3(0.5f, 1.0f, 1.8f),
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
+    m_TiltedBlock->DoRotation(glm::vec3(0.0f, 1.0f, 0.0f), 0.4f);
     RTRMaterial_t tiltedBlockMat = { {0.5, 0.5, 0.5 }, { 0.4, 0.4, 0.4 }, { 0.7, 0.7, 0.7 }, 64.0 };
     m_TiltedBlock->SetMaterial(tiltedBlockMat);
     m_TiltedBlock->SetName("m_TiltedBlock");
     m_TiltedBlock->Init(m_DarkWoodTexture, m_RoughMetalTexture);
 
-<<<<<<< HEAD
-    RTRCube* m_SideShootBar = new RTRCube(modelMatrix, m_TableAngle);
-    m_SideShootBar->SetName("m_SideShootBar");
-    m_SideShootBar->SetScale(glm::vec3(0.5f, 2.0f, 14.0f));
-    m_SideShootBar->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
-    m_SideShootBar->DoScale(glm::vec3(0.5f, 2.0f, 14.0f));
-    m_SideShootBar->DoTranslation(glm::vec3(10.0f, -0.13f, 0.18f));
-    m_SideShootBar->Init(m_DarkWoodTexture, m_OuterRimTexture);
-
-    RTRPrism* m_RightSlider = new RTRPrism( modelMatrix, -m_TableAngle);
-    m_RightSlider->SetName("m_RightSlider");
-    m_RightSlider->SetScale(glm::vec3(2.0f, 1.5f, 1.0f));
-    m_RightSlider->DoRotation(glm::vec3(0.0f, 1.0f, 0.0f), 180 * M_PI / 180);
-    m_RightSlider->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), -m_TableAngle);
-    m_RightSlider->DoScale(glm::vec3(2.0f, 1.5f, 1.0f));
-    m_RightSlider->DoTranslation(glm::vec3(-1.25f, -0.35f, -7.0f));
-    m_RightSlider->Init(m_DarkWoodTexture, m_OuterRimTexture);
-
-    RTRPrism* m_LeftSlider = new RTRPrism(modelMatrix, m_TableAngle);
-    m_LeftSlider->SetName("m_LeftSlider");
-    m_LeftSlider->SetScale(glm::vec3(1.0f, 1.5f, 2.0f));
-    m_LeftSlider->DoRotation(glm::vec3(0.0f, 1.0f, 0.0f), 90 * M_PI / 180);
-    m_LeftSlider->DoRotation(glm::vec3(0.0f, 0.0f, 1.0f), m_TableAngle);
-    m_LeftSlider->DoScale(glm::vec3(1.0f, 1.5f, 2.0f));
-    m_LeftSlider->DoTranslation(glm::vec3(-7.0f, -0.35f, -2.125f));
-    m_LeftSlider->Init(m_DarkWoodTexture, m_OuterRimTexture);
-
-=======
     RTRCube* m_SideShootBar = new RTRCube(glm::vec3(10.0f, -0.13f, 0.18f), glm::vec3(0.5f, 2.0f, 14.0f),
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     m_SideShootBar->SetName("m_SideShootBar");
     m_SideShootBar->Init(m_DarkWoodTexture, m_OuterRimTexture);
 
->>>>>>> parent of bd11b32 (Save current changes)
     StaticCollidablePinballObjects.push_back(m_TopBar);
     StaticCollidablePinballObjects.push_back(m_BottomBar);
     StaticCollidablePinballObjects.push_back(m_LeftBar);
     StaticCollidablePinballObjects.push_back(m_RightBar);
     StaticCollidablePinballObjects.push_back(m_TiltedBlock);
     StaticCollidablePinballObjects.push_back(m_SideShootBar);
-
-    RTRMaterial_t bumperMat = { {0.2, 0.2, 0.2 }, { 0.5, 0.5, 0.5 }, { 0.8, 0.8, 0.8 }, 64.0 };
-    RTRCube* m_BumperZero = new RTRCube(modelMatrix, m_TableAngle);
-    m_BumperZero->SetName("m_BumperZero");
-    m_BumperZero->SetMaterial(bumperMat);
-    m_BumperZero->SetScale(glm::vec3(1.0f, 2.0f, 0.5f));
-    m_BumperZero->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
-    m_BumperZero->DoRotation(glm::vec3(0.0f, 1.0f, 0.0f), 30 * M_PI / 180);
-    m_BumperZero->DoScale(glm::vec3(1.0f, 2.0f, 0.5f));
-    m_BumperZero->DoTranslation(glm::vec3(-5.0f, -0.13f, 1.0f));
-    m_BumperZero->Init(m_ShinyMetalTexture, m_RoughMetalTexture);
-
-    RTRCube* m_BumperOne = new RTRCube(modelMatrix, m_TableAngle);
-    m_BumperOne->SetName("m_BumperOne");
-    m_BumperOne->SetMaterial(bumperMat);
-    m_BumperOne->SetScale(glm::vec3(1.0f, 2.0f, 0.5f));
-    m_BumperOne->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
-    m_BumperOne->DoRotation(glm::vec3(0.0f, 1.0f, 0.0f), -30 * M_PI / 180);
-    m_BumperOne->DoScale(glm::vec3(1.0f, 2.0f, 0.5f));
-    m_BumperOne->DoTranslation(glm::vec3(2.0f, -0.13f, -2.0f));
-    m_BumperOne->Init(m_ShinyMetalTexture, m_RoughMetalTexture);
-
-    RTRCube* m_BumperTwo = new RTRCube(modelMatrix, m_TableAngle);
-    m_BumperTwo->SetName("m_BumperTwo");
-    m_BumperTwo->SetMaterial(bumperMat);
-    m_BumperTwo->SetScale(glm::vec3(1.0f, 2.0f, 0.5f));
-    m_BumperTwo->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
-    m_BumperTwo->DoRotation(glm::vec3(0.0f, 1.0f, 0.0f), 60 * M_PI / 180);
-    m_BumperTwo->DoScale(glm::vec3(1.0f, 2.0f, 0.5f));
-    m_BumperTwo->DoTranslation(glm::vec3(3.0f, -0.13f, -15.0f));
-    m_BumperTwo->Init(m_ShinyMetalTexture, m_RoughMetalTexture);
-
-    float scale = 0.2f;
-    RTRMaterial_t pegMat = { {0.8, 0.2, 0.0 }, { 0.8, 0.8, 0.8 }, { 1.0, 1.0, 1.0 }, 64.0 };
-    RTRSphere* m_PegZero = new RTRSphere(modelMatrix, m_TableAngle);
-    m_PegZero->SetRadius(scale);
-    m_PegZero->SetMaterial(pegMat);
-    m_PegZero->SetName("m_PegZero" + std::to_string(m_CurrBall));
-    m_PegZero->SetScale(glm::vec3(scale, scale, scale));
-    m_PegZero->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
-    m_PegZero->DoScale(glm::vec3(scale, 1.0f, scale));
-    m_PegZero->DoTranslation(glm::vec3(-20.0f, -0.5f, -2.0f));
-    m_PegZero->Init(m_FloorWoodTexture, m_RoughMetalTexture);
-
-    RTRSphere* m_PegOne = new RTRSphere(modelMatrix, m_TableAngle);
-    m_PegOne->SetRadius(scale);
-    m_PegOne->SetMaterial(pegMat);
-    m_PegOne->SetName("m_PegZero" + std::to_string(m_CurrBall));
-    m_PegOne->SetScale(glm::vec3(scale, scale, scale));
-    m_PegOne->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
-    m_PegOne->DoScale(glm::vec3(scale, 1.0f, scale));
-    m_PegOne->DoTranslation(glm::vec3(3.0f, -0.5f, -25.0f));
-    m_PegOne->Init(m_FloorWoodTexture, m_RoughMetalTexture);
-
-    RTRSphere* m_PegTwo = new RTRSphere(modelMatrix, m_TableAngle);
-    m_PegTwo->SetRadius(scale);
-    m_PegTwo->SetMaterial(pegMat);
-    m_PegTwo->SetName("m_PegZero" + std::to_string(m_CurrBall));
-    m_PegTwo->SetScale(glm::vec3(scale, scale, scale));
-    m_PegTwo->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
-    m_PegTwo->DoScale(glm::vec3(scale, 1.0f, scale));
-    m_PegTwo->DoTranslation(glm::vec3(10.0f, -0.5f, 25.0f));
-    m_PegTwo->Init(m_FloorWoodTexture, m_RoughMetalTexture);
-
-    RTRSphere* m_PegThree = new RTRSphere(modelMatrix, m_TableAngle);
-    m_PegThree->SetRadius(scale);
-    m_PegThree->SetMaterial(pegMat);
-    m_PegThree->SetName("m_PegZero" + std::to_string(m_CurrBall));
-    m_PegThree->SetScale(glm::vec3(scale, scale, scale));
-    m_PegThree->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
-    m_PegThree->DoScale(glm::vec3(scale, 1.0f, scale));
-    m_PegThree->DoTranslation(glm::vec3(-8.0f, -0.5f, 20.0f));
-    m_PegThree->Init(m_FloorWoodTexture, m_RoughMetalTexture);
-
-    RTRSphere* m_PegFour = new RTRSphere(modelMatrix, m_TableAngle);
-    m_PegFour->SetRadius(scale);
-    m_PegFour->SetMaterial(pegMat);
-    m_PegFour->SetName("m_PegZero" + std::to_string(m_CurrBall));
-    m_PegFour->SetScale(glm::vec3(scale, scale, scale));
-    m_PegFour->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
-    m_PegFour->DoScale(glm::vec3(scale, 1.0f, scale));
-    m_PegFour->DoTranslation(glm::vec3(0.0f, -0.5f, 2.0f));
-    m_PegFour->Init(m_FloorWoodTexture, m_RoughMetalTexture);
-
-    StaticCollidablePinballObjects.push_back(m_BumperZero);
-    StaticCollidablePinballObjects.push_back(m_BumperOne);
-    StaticCollidablePinballObjects.push_back(m_BumperTwo);
-    StaticCollidablePinballObjects.push_back(m_PegZero);
-    StaticCollidablePinballObjects.push_back(m_PegOne);
-    StaticCollidablePinballObjects.push_back(m_PegTwo);
-    StaticCollidablePinballObjects.push_back(m_PegThree);
-    StaticCollidablePinballObjects.push_back(m_PegFour);
-
-    // Dynamic pinball objects
-<<<<<<< HEAD
-    RTRCube* m_Plunger = new RTRCube(modelMatrix, m_TableAngle);
-    RTRMaterial_t plungerMat = { {0.1, 0.8, 0.1 }, { 0.4, 0.4, 0.4 }, { 0.7, 0.7, 0.7 }, 64.0 };
-    m_Plunger->SetMaterial(plungerMat);
-    m_Plunger->SetName("m_Plunger");
-    m_Plunger->SetScale(glm::vec3(0.5f, 0.5f, 3.0f));
-    m_Plunger->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
-    m_Plunger->DoScale(glm::vec3(0.5f, 0.5f, 3.0f));
-    m_Plunger->DoTranslation(glm::vec3(11.75f, -1.5f, 3.2f));
-    m_Plunger->Init(m_ShinyMetalTexture, m_RoughMetalTexture);
-
-    RTRSideCube* m_RightFlipper = new RTRSideCube(modelMatrix, m_TableAngle);
-    m_RightFlipper->SetName("m_RightFlipper");
-    RTRMaterial_t rightFlipperMat = { {0.4, 0.4, 0.4 }, { 0.5, 0.5, 0.5 }, { 0.8, 0.8, 0.8 }, 64.0 };
-    m_RightFlipper->SetMaterial(rightFlipperMat);
-    m_RightFlipper->SetScale(glm::vec3(1.5f, 1.0f, 0.25f));
-    m_RightFlipper->Init(m_ShinyMetalTexture, m_RoughMetalTexture);
-
-    RTRSideCube* m_LeftFlipper = new RTRSideCube(modelMatrix, m_TableAngle);
-    m_LeftFlipper->SetName("m_LeftFlipper");
-    RTRMaterial_t leftFlipperMat = { {0.4, 0.4, 0.4 }, { 0.5, 0.5, 0.5 }, { 0.8, 0.8, 0.8 }, 64.0 };
-    m_LeftFlipper->SetMaterial(leftFlipperMat);
-    m_LeftFlipper->SetScale(glm::vec3(1.5f, 1.0f, 0.25f));
-    m_LeftFlipper->Init(m_ShinyMetalTexture, m_RoughMetalTexture);
-
-    DynamicPinballObjects.push_back(m_Plunger);
-    DynamicPinballObjects.push_back(m_RightFlipper);
-    DynamicPinballObjects.push_back(m_LeftFlipper);
-=======
     RTRCube* m_Plunger = new RTRCube(glm::vec3(11.75f, -1.5f, 3.2f), glm::vec3(0.5f, 0.5f, 3.0f),
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     RTRMaterial_t plungerMat = { {0.1, 0.8, 0.1 }, { 0.4, 0.4, 0.4 }, { 0.7, 0.7, 0.7 }, 64.0 };
@@ -406,7 +228,17 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     m_Plunger->Init(m_ShinyMetalTexture, m_RoughMetalTexture);
 
     DynamicPinballObjects.push_back(m_Plunger);
->>>>>>> parent of bd11b32 (Save current changes)
+=======
+
+    // Dynamic pinball objects
+    RTRCube* m_Plunger = new RTRCube(glm::vec3(11.75f, -1.5f, 3.2f), glm::vec3(0.5f, 0.5f, 3.0f),
+        glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
+    RTRMaterial_t plungerMat = { {0.1, 0.8, 0.1 }, { 0.4, 0.4, 0.4 }, { 0.7, 0.7, 0.7 }, 64.0 };
+    m_Plunger->SetMaterial(plungerMat);
+    m_Plunger->SetName("m_Plunger");
+    m_Plunger->Init(m_ShinyMetalTexture, m_RoughMetalTexture);
+
+    DynamicPinballObjects.push_back(m_Plunger);
 
     // Test sphere
     MakeNewBall(modelMatrix);
@@ -419,24 +251,13 @@ void RTRWorld::MakeNewBall(glm::mat4 modelMatrix) {
     float scale = 0.5f;
     // 11.75f, -1.5f, 14.0f
     // 19.5f, -2.5f, 23.0f)
-<<<<<<< HEAD
-    RTRSphere* newSphere = new RTRSphere(modelMatrix, m_TableAngle);
-    newSphere->SetRadius(scale);
-    RTRMaterial_t sphereMat = { {0.1, 0.1, 0.1 }, { 0.5, 0.5, 0.5 }, { 0.8, 0.8, 0.8 }, 64.0 };
-    newSphere->SetMaterial(sphereMat);
-    newSphere->SetName("newSphere" + std::to_string(m_CurrBall));
-    newSphere->SetScale(glm::vec3(scale, scale, scale));
-    newSphere->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
-    newSphere->DoScale(glm::vec3(scale, scale, scale));
-    newSphere->DoTranslation(glm::vec3(11.75f, -1.5f, 13.0f));
-=======
     RTRSphere* newSphere = new RTRSphere(glm::vec3(11.75f, -1.5f, 13.0f), glm::vec3(scale, scale, scale),
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
     newSphere->SetRadius(scale);
     RTRMaterial_t sphereMat = { {0.1, 0.1, 0.1 }, { 0.5, 0.5, 0.5 }, { 0.8, 0.8, 0.8 }, 64.0 };
     newSphere->SetMaterial(sphereMat);
     newSphere->SetName("newSphere" + std::to_string(currBall));
->>>>>>> parent of bd11b32 (Save current changes)
+
     newSphere->Init(m_RoughMetalTexture, m_ShinyMetalTexture);
     DynamicObjects.push_back(newSphere);
 }
@@ -538,21 +359,10 @@ void RTRWorld::MakeUniformGrid(float xOffset, float zOffset, int horizontal, int
     int count = 0;
 
     for (glm::vec3 positions : UniformGridPositions) {
-<<<<<<< HEAD
-        RTRGrid* uniformGrid = new RTRGrid(modelMatrix, m_TableAngle);
-        uniformGrid->SetMaterial(lineMat);
-        uniformGrid->SetName("uniformGrid" + std::to_string(count));
-        uniformGrid->SetScale(glm::vec3(1.0f));
-        uniformGrid->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
-        uniformGrid->DoTranslation(positions);
-=======
         RTRGrid* uniformGrid = new RTRGrid(positions, glm::vec3(0.5f, 0.5f, 0.5f),
         glm::vec3(1.0f, 0.0f, 0.0f), modelMatrix, DEFAULT_ANGLE);
         uniformGrid->SetMaterial(lineMat);
         uniformGrid->SetName("uniformGrid" + std::to_string(count));
->>>>>>> parent of bd11b32 (Save current changes)
-        uniformGrid->Init();
-        UniformGridObjects.push_back(uniformGrid);
     }
 }
 

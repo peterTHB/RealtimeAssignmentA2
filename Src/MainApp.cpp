@@ -19,7 +19,7 @@ int MainApp::Init()
 
     glEnable(GL_DEPTH_TEST);
 
-    // Setup projection matrix and viewport transform. 
+    // Setup projection matrix and viewport transform.
     // These won't need to change as we're not worrying about screen size changes for this assignment
     m_ProjectionMatrix = glm::perspective(glm::radians(60.0f), (float)m_WindowWidth / (float)m_WindowHeight, 0.1f, 100.0f);
     glViewport(0, 0, m_WindowWidth, m_WindowHeight);
@@ -47,7 +47,7 @@ void MainApp::Done()
 
     m_RTRRenderer->Done();
     delete m_RTRRenderer;
-    
+
     m_RTRPhysicsEngine->Done();
     delete m_RTRPhysicsEngine;
 
@@ -281,14 +281,11 @@ void MainApp::RenderFrame()
     m_RTRWorld->GetDynamicPinballObjects().at(0)->GetBoundingVolume()->SetTransformMatrix(transformedPlungerPosition);
     m_RTRWorld->GetDynamicPinballObjects().at(0)->GetBoundingVolume()->SetPosition(glm::vec3(transformedPlungerPosition[3]));
 
-<<<<<<< HEAD
-=======
     m_RTRRenderer->RenderWithShaders(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
         m_RTRWorld->GetDynamicPinballObjects().at(0), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
     if (m_DebugModeOn) m_RTRRenderer->RenderBoundingBoxes(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
         m_RTRWorld->GetDynamicPinballObjects().at(0)->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
 
->>>>>>> parent of bd11b32 (Save current changes)
     if (!m_UsePlunger && !m_ShootBall) {
         m_RTRPhysicsEngine->ResetPower();
         if (m_RTRWorld->GetDynamicObjects().at(m_RTRWorld->GetCurrBall())->GetDidExit()) {
