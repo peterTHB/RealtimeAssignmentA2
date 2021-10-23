@@ -59,6 +59,8 @@ public:
 	virtual void CollisionsSpheresSingle(RTRSphere* currBall, RTRSphere* otherBall);
 
 private:
+	int m_GridRow{ 0 };
+	int m_GridColumn{ 0 };
 	float plungerZTrans{ 0 };
 	float power{ 0 };
 	RTRWorld* m_RTRWorld{nullptr};

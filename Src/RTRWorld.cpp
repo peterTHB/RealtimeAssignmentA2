@@ -180,8 +180,6 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     RTRCube* m_RightBar = new RTRCube(modelMatrix, m_TableAngle);
     m_RightBar->SetName("m_RightBar");
     m_RightBar->SetScale(glm::vec3(0.5f, 2.0f, 19.0f));
-    m_RightBar->SetRotation(glm::vec3(1.0f, 0.0f, 0.0f));
-    m_RightBar->SetTranslation(glm::vec3(13.5f, -0.13f, 0.0f));
     m_RightBar->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
     m_RightBar->DoScale(glm::vec3(0.5f, 2.0f, 19.0f));
     m_RightBar->DoTranslation(glm::vec3(13.5f, -0.13f, 0.0f));
@@ -316,14 +314,14 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     m_PegFour->DoTranslation(glm::vec3(0.0f, -0.5f, 2.0f));
     m_PegFour->Init(m_FloorWoodTexture, m_RoughMetalTexture);
 
-    //StaticCollidablePinballObjects.push_back(m_BumperZero);
-    //StaticCollidablePinballObjects.push_back(m_BumperOne);
-    //StaticCollidablePinballObjects.push_back(m_BumperTwo);
-    //StaticCollidablePinballObjects.push_back(m_PegZero);
-    //StaticCollidablePinballObjects.push_back(m_PegOne);
-    //StaticCollidablePinballObjects.push_back(m_PegTwo);
-    //StaticCollidablePinballObjects.push_back(m_PegThree);
-    //StaticCollidablePinballObjects.push_back(m_PegFour);
+    StaticCollidablePinballObjects.push_back(m_BumperZero);
+    StaticCollidablePinballObjects.push_back(m_BumperOne);
+    StaticCollidablePinballObjects.push_back(m_BumperTwo);
+    StaticCollidablePinballObjects.push_back(m_PegZero);
+    StaticCollidablePinballObjects.push_back(m_PegOne);
+    StaticCollidablePinballObjects.push_back(m_PegTwo);
+    StaticCollidablePinballObjects.push_back(m_PegThree);
+    StaticCollidablePinballObjects.push_back(m_PegFour);
 
     // Dynamic pinball objects
     RTRCube* m_Plunger = new RTRCube(modelMatrix, m_TableAngle);
@@ -351,14 +349,14 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     m_LeftFlipper->Init(m_ShinyMetalTexture, m_RoughMetalTexture);
 
     DynamicPinballObjects.push_back(m_Plunger);
-    //DynamicPinballObjects.push_back(m_RightFlipper);
-    //DynamicPinballObjects.push_back(m_LeftFlipper);
+    DynamicPinballObjects.push_back(m_RightFlipper);
+    DynamicPinballObjects.push_back(m_LeftFlipper);
 
     // Test sphere
     MakeNewBall(modelMatrix);
 
     // Make 2D Uniform Grid
-    MakeUniformGrid(-6.75, -9.75, 14, 20, modelMatrix);
+    MakeUniformGrid(-6.75, -9.75, m_GridColumn, m_GridRow, modelMatrix);
 }
 
 void RTRWorld::MakeNewBall(glm::mat4 modelMatrix) {
@@ -483,6 +481,7 @@ void RTRWorld::MakeUniformGrid(float xOffset, float zOffset, int horizontal, int
         uniformGrid->DoTranslation(positions);
         uniformGrid->Init();
         UniformGridObjects.push_back(uniformGrid);
+        count++;
     }
 }
 
@@ -503,8 +502,6 @@ std::vector<glm::vec3> RTRWorld::MakeGridPositions(float xOffset, float zOffset,
 }
 
 void RTRWorld::ChangeAllObjectsAngle() {
-    std::cout << m_TableAngle << std::endl;
-
     std::vector<RTRObject*> allObjects;
 
     allObjects.insert(std::end(allObjects), std::begin(StaticPinballObjects), std::end(StaticPinballObjects));

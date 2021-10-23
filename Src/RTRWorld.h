@@ -11,6 +11,8 @@ public:
     virtual void StartObjects(glm::mat4 modelMatrix);
     virtual void IncreaseTableAngle() { m_TableAngle += 0.001f; };
     virtual void DecreaseTableAngle() { m_TableAngle -= 0.001f; };
+    virtual int GetGridRow() { return m_GridRow; };
+    virtual int GetGridColumn() { return m_GridColumn; };
     virtual void MakeNewBall(glm::mat4 modelMatrix);
     virtual unsigned int loadCubeMap(std::vector<std::string> faces);
     virtual void SetTableAngle(float angle) { m_TableAngle = angle; };
@@ -57,6 +59,8 @@ public:
     unsigned int cubemapTexture{ 0 };
     unsigned int skyboxVAO, skyboxVBO{ 0 };
 
+    int m_GridRow{ 20 };
+    int m_GridColumn{ 14 };
     int m_CurrBall{ 0 };
     float m_TableAngle{ DEFAULT_ANGLE };
 

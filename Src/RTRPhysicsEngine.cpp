@@ -4,6 +4,8 @@ RTRPhysicsEngine::RTRPhysicsEngine(RTRWorld* rtrworld)
 {
 	m_RTRWorld = rtrworld;
 	plungerZTrans = DEFAULT_PLUNGER_Z_TRANS;
+	m_GridRow = m_RTRWorld->GetGridRow();
+	m_GridColumn = m_RTRWorld->GetGridColumn();
 	SetUpUniformGrid();
 }
 
@@ -86,8 +88,8 @@ void RTRPhysicsEngine::MoveBall(RTRSphere* sphere, float dt)
 	if (sphere->GetCanMove()) zIncrement += DownwardsForce(sphere, dt);
 
 	if (sphere->GetMovingForward()) {
-		sphere->SetVerticalPower(sphere->GetVerticalPower() + (HARDCODED_DT * GRAVITY * 0.9f));
-		zIncrement += HARDCODED_DT * sphere->GetVerticalPower();
+		sphere->SetVerticalPower(sphere->GetVerticalPower() + (dt / 1000.0f * GRAVITY * 0.95f));
+		zIncrement += dt / 1000.0f * sphere->GetVerticalPower();
 		if (fabs(sphere->GetVerticalPower()) <= 0.1f) {
 			sphere->SetVerticalPower(0.0f);
 			sphere->SetCanMove(false);
@@ -98,8 +100,8 @@ void RTRPhysicsEngine::MoveBall(RTRSphere* sphere, float dt)
 	if (sphere->GetMovingRight() || sphere->GetMovingLeft()) {
 		sphere->SetHorizontalPower(sphere->GetHorizontalPower() - (0.02f * GRAVITY / 10));
 	}
-	if (sphere->GetMovingRight()) xIncrement += HARDCODED_DT * GRAVITY / 10 * fabs(sphere->GetHorizontalPower());
-	else if (sphere->GetMovingLeft()) xIncrement -= HARDCODED_DT * GRAVITY / 10 * fabs(sphere->GetHorizontalPower());
+	if (sphere->GetMovingRight()) xIncrement += dt / 1000.0f * GRAVITY / 10 * fabs(sphere->GetHorizontalPower());
+	else if (sphere->GetMovingLeft()) xIncrement -= dt / 1000.0f * GRAVITY / 10 * fabs(sphere->GetHorizontalPower());
 	if (sphere->GetHorizontalPower() <= 0.0f) {
 		sphere->SetMovingLeft(false);
 		sphere->SetMovingRight(false);
@@ -138,7 +140,7 @@ void RTRPhysicsEngine::TranslateBall(RTRSphere* sphere, float x, float y, float 
 float RTRPhysicsEngine::DownwardsForce(RTRSphere* sphere, float dt) {
 	float force = 0;
 
-	force = HARDCODED_DT * GRAVITY / 2.0f * m_RTRWorld->GetTableAngle() * 2.0f;
+	force = dt / 1000.0f * GRAVITY / 2.0f * m_RTRWorld->GetTableAngle() * 2.0f;
 
 	return force;
 }
@@ -181,7 +183,6 @@ void RTRPhysicsEngine::CollisionsAABB(RTRSphere* currBall, RTRObject* object) {
 			TranslateBall(currBall, 0.2f, 0, 0);
 		}
 		else if (object->GetName() == "m_RightBar" || object->GetName() == "m_SideShootBar") {
-			std::cout << object->GetName() << std::endl;
 			currBall->SetMovingLeft(true);
 			currBall->SetMovingRight(false);
 			currBall->SetHorizontalPower(currBall->GetHorizontalPower() * 0.95f);
@@ -219,20 +220,24 @@ void RTRPhysicsEngine::CollisionsAABB(RTRSphere* currBall, RTRObject* object) {
 			}
 		}
 		if ((object->GetName() == "m_RightFlipper") || (object->GetName() == "m_LeftFlipper")) {
-			if (!currBall->GetMovingForward()) {
-				currBall->SetVerticalPower(-fabs(currBall->GetVerticalPower()));
-				currBall->SetVerticalPower(currBall->GetVerticalPower() + 0.25f);
-				currBall->SetMovingForward(true);
-				currBall->SetCanMove(true);
-			}
+			std::cout << object->GetName() << std::endl;
+			//if (!currBall->GetMovingForward()) {
+			//	currBall->SetVerticalPower(-fabs(currBall->GetVerticalPower()));
+			//	currBall->SetVerticalPower(currBall->GetVerticalPower() + 0.25f);
+			//	currBall->SetMovingForward(true);
+			//	currBall->SetCanMove(true);
+			//}
 		}
 
 		if (object->GetName().find("Bumper") != std::string::npos) {
 			if (!currBall->GetMovingForward()) {
-				currBall->SetVerticalPower(-fabs(currBall->GetVerticalPower()));
-				currBall->SetVerticalPower(currBall->GetVerticalPower() * 2);
+				currBall->SetVerticalPower(-currBall->GetVerticalPower());
+				currBall->SetVerticalPower(currBall->GetVerticalPower() * 1.5f);
+				currBall->SetHorizontalPower(currBall->GetHorizontalPower() * 1.5f);
 				currBall->SetMovingForward(true);
 				currBall->SetCanMove(true);
+				currBall->SetMovingLeft(!currBall->GetMovingLeft());
+				currBall->SetMovingRight(!currBall->GetMovingRight());
 			}
 		}
 	}
@@ -345,7 +350,8 @@ bool RTRPhysicsEngine::CheckCollisions_AABB_Circle(RTRSphere* sphere, RTRObject*
 
 	float distance = std::sqrtf(totalX + totalZ);
 
-	return distance < sphere->GetScale().x;
+	// GetScale().x
+	return distance < sphere->GetRadius();
 }
 
 Collision RTRPhysicsEngine::CheckTopCollision(RTRSphere* sphere, RTRObject* object) {
@@ -407,17 +413,14 @@ Direction RTRPhysicsEngine::VectorDirection(glm::vec2 target)
 
 // 21x15 grid
 void RTRPhysicsEngine::SetUpUniformGrid() {
-	int row = 20;
-	int column = 14;
-
-	for (int j = 0; j <= row; ++j) {
+	for (int j = 0; j <= m_GridRow; ++j) {
 		std::vector<GridInfo> newGrid;
-		for (int i = 0; i <= column; ++i) {
+		for (int i = 0; i <= m_GridColumn; ++i) {
 			glm::mat4 model = glm::mat4(1.0f);
 
-			float x = (((float)i / (float)column * (float)column) + -6.75f);
+			float x = (((float)i / (float)m_GridColumn * (float)m_GridColumn) + -6.75f);
 			float y = -1.0f;
-			float z = (((float)j / (float)row * (float)row) + -9.75f);
+			float z = (((float)j / (float)m_GridRow * (float)m_GridRow) + -9.75f);
 
 			model = glm::rotate(model, m_RTRWorld->GetTableAngle(), glm::vec3(1.0f, 0, 0));
 			model = glm::translate(model, glm::vec3(x, y, z));
@@ -425,7 +428,7 @@ void RTRPhysicsEngine::SetUpUniformGrid() {
 
 			glm::vec3 transformedPos = glm::vec3(model[3]);
 
-			newGrid.push_back(std::make_tuple(transformedPos, 0.25f, std::vector<RTRObject*>()));
+			newGrid.push_back(std::make_tuple(transformedPos, 0.5f, std::vector<RTRObject*>()));
 		}
 		m_UniformGrid2D.push_back(newGrid);
 	}
@@ -451,20 +454,17 @@ void RTRPhysicsEngine::PopulateGrid() {
 }
 
 void RTRPhysicsEngine::UniformGridCollision() {
-	int row = 20;
-	int column = 14;
-	for (int j = 0; j <= row; ++j) {
-		for (int i = 0; i <= column; ++i) {
+	for (int j = 0; j <= m_GridRow; ++j) {
+		for (int i = 0; i <= m_GridColumn; ++i) {
 			std::vector<RTRObject*> objects = std::get<2>(m_UniformGrid2D[j][i]);
 
 			if (objects.size() > 1) {
 				for (int i = 0; i < objects.size(); i++) {
 					for (int j = i + 1; j < objects.size(); j++) {
-						DetermineCollisionType(objects.at(i), objects.at(j));
-						//if ((objects.at(i)->GetName().find("newSphere") != std::string::npos) ||
-						//	(objects.at(j)->GetName().find("newSphere") != std::string::npos)) {
-						//	DetermineCollisionType(objects.at(i), objects.at(j));
-						//}
+						if ((objects.at(i)->GetName().find("newSphere") != std::string::npos) ||
+							(objects.at(j)->GetName().find("newSphere") != std::string::npos)) {
+							DetermineCollisionType(objects.at(i), objects.at(j));
+						}
 					}
 				}
 			}
@@ -503,9 +503,6 @@ void RTRPhysicsEngine::DetermineCollisionType(RTRObject* object, RTRObject* obje
 
 void RTRPhysicsEngine::AddToGrid(RTRObject* currObject)
 {
-	int row = 20;
-	int column = 14;
-
 	glm::vec3 objectPosition = currObject->GetPosition();
 	float objectScaleX = currObject->GetScale().x;
 	float objectScaleZ = currObject->GetScale().z;
@@ -515,8 +512,8 @@ void RTRPhysicsEngine::AddToGrid(RTRObject* currObject)
 	float minObjectZ = objectPosition.z - objectScaleZ / 2;
 	float maxObjectZ = objectPosition.z + objectScaleZ / 2;
 
-	for (int j = 0; j <= row; ++j) {
-		for (int i = 0; i <= column; ++i) {
+	for (int j = 0; j <= m_GridRow; ++j) {
+		for (int i = 0; i <= m_GridColumn; ++i) {
 			std::vector<RTRObject*> objects = std::get<2>(m_UniformGrid2D[j][i]);
 			bool alreadyInserted = false;
 
@@ -560,26 +557,20 @@ void RTRPhysicsEngine::AddToGrid(RTRObject* currObject)
 }
 
 void RTRPhysicsEngine::ClearGrid() {
-	int row = 20;
-	int column = 14;
-
-	for (int j = 0; j <= row; ++j) {
-		for (int i = 0; i <= column; ++i) {
+	for (int j = 0; j <= m_GridRow; ++j) {
+		for (int i = 0; i <= m_GridColumn; ++i) {
 			std::get<2>(m_UniformGrid2D[j][i]).clear();
 		}
 	}
 }
 
 void RTRPhysicsEngine::Done() {
-	int row = 20;
-	int column = 14;
-
 	plungerZTrans = 0;
 	power = 0;
 	m_tableAngle = 0;
 
-	for (int j = 0; j <= row; ++j) {
-		for (int i = 0; i <= column; ++i) {
+	for (int j = 0; j <= m_GridRow; ++j) {
+		for (int i = 0; i <= m_GridColumn; ++i) {
 			for (RTRObject* objects : std::get<2>(m_UniformGrid2D[j][i])) {
 				objects->End();
 			}
@@ -589,6 +580,6 @@ void RTRPhysicsEngine::Done() {
 	}
 	m_UniformGrid2D.clear();
 
-	row = 0;
-	column = 0;
+	m_GridRow = 0;
+	m_GridColumn = 0;
 }
