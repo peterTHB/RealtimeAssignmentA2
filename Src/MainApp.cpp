@@ -234,15 +234,15 @@ void MainApp::UpdateState(unsigned int td_milli)
     }
 
     // Change angle of table
-    if (m_TableAngleUp) {
-        m_RTRWorld->IncreaseTableAngle();
-        m_RTRWorld->ChangeAllObjectsAngle();
-    }
+    //if (m_TableAngleUp) {
+    //    m_RTRWorld->IncreaseTableAngle();
+    //    m_RTRWorld->ChangeAllObjectsAngle();
+    //}
 
-    if (m_TableAngleDown) {
-        m_RTRWorld->DecreaseTableAngle();
-        m_RTRWorld->ChangeAllObjectsAngle();
-    }
+    //if (m_TableAngleDown) {
+    //    m_RTRWorld->DecreaseTableAngle();
+    //    m_RTRWorld->ChangeAllObjectsAngle();
+    //}
 }
 
 void MainApp::RenderFrame()
@@ -292,17 +292,19 @@ void MainApp::RenderFrame()
     }
 
     // Using flippers
-    //glm::mat4 transformedRightFlipper = m_RTRPhysicsEngine->UseRightFlipper(m_UseRightFlipper);
-    //m_RTRWorld->GetDynamicPinballObjects().at(1)->SetTransformMatrix(transformedRightFlipper);
-    //m_RTRWorld->GetDynamicPinballObjects().at(1)->SetPosition(glm::vec3(transformedRightFlipper[3]));
-    //m_RTRWorld->GetDynamicPinballObjects().at(1)->GetBoundingVolume()->SetTransformMatrix(transformedRightFlipper);
-    //m_RTRWorld->GetDynamicPinballObjects().at(1)->GetBoundingVolume()->SetPosition(glm::vec3(transformedRightFlipper[3]));
+    glm::mat4 transformedRightFlipper = m_RTRPhysicsEngine->UseRightFlipper(m_UseRightFlipper, 
+        (RTRCube*)m_RTRWorld->GetDynamicPinballObjects().at(1));
+    m_RTRWorld->GetDynamicPinballObjects().at(1)->SetTransformMatrix(transformedRightFlipper);
+    m_RTRWorld->GetDynamicPinballObjects().at(1)->SetPosition(glm::vec3(transformedRightFlipper[3]));
+    m_RTRWorld->GetDynamicPinballObjects().at(1)->GetBoundingVolume()->SetTransformMatrix(transformedRightFlipper);
+    m_RTRWorld->GetDynamicPinballObjects().at(1)->GetBoundingVolume()->SetPosition(glm::vec3(transformedRightFlipper[3]));
 
-    //glm::mat4 transformedLeftFlipper = m_RTRPhysicsEngine->UseLeftFlipper(m_UseLeftFlipper);
-    //m_RTRWorld->GetDynamicPinballObjects().at(2)->SetTransformMatrix(transformedLeftFlipper);
-    //m_RTRWorld->GetDynamicPinballObjects().at(2)->SetPosition(glm::vec3(transformedLeftFlipper[3]));
-    //m_RTRWorld->GetDynamicPinballObjects().at(2)->GetBoundingVolume()->SetTransformMatrix(transformedLeftFlipper);
-    //m_RTRWorld->GetDynamicPinballObjects().at(2)->GetBoundingVolume()->SetPosition(glm::vec3(transformedLeftFlipper[3]));
+    glm::mat4 transformedLeftFlipper = m_RTRPhysicsEngine->UseLeftFlipper(m_UseLeftFlipper, 
+        (RTRCube*)m_RTRWorld->GetDynamicPinballObjects().at(2));
+    m_RTRWorld->GetDynamicPinballObjects().at(2)->SetTransformMatrix(transformedLeftFlipper);
+    m_RTRWorld->GetDynamicPinballObjects().at(2)->SetPosition(glm::vec3(transformedLeftFlipper[3]));
+    m_RTRWorld->GetDynamicPinballObjects().at(2)->GetBoundingVolume()->SetTransformMatrix(transformedLeftFlipper);
+    m_RTRWorld->GetDynamicPinballObjects().at(2)->GetBoundingVolume()->SetPosition(glm::vec3(transformedLeftFlipper[3]));
 
     for (RTRObject* dynaPBObject : m_RTRWorld->GetDynamicPinballObjects()) {
         m_RTRRenderer->RenderWithShaders(1, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,

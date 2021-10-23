@@ -280,47 +280,6 @@ void RTRPrism::Init(unsigned int texture, unsigned int texture2)
 
 //-----------------------------------------------------------------------------
 
-void RTRSideCube::Init(unsigned int texture, unsigned int texture2)
-{
-    m_NumVertices = 36;
-    m_NumFaces = 2;
-
-    m_VertexPoints = new RTRPoint_t5[]{
-        // Position TexCoords
-        // Right
-        { 1.0f, -0.5f, 0.5f, 1.0f, 0 }, { 1.0f, -0.5f, -0.5f, 0, 0 }, { 1.0f, 0.5f, -0.5f, 0, 1.0f },
-        { 1.0f, -0.5f, 0.5f, 1.0f, 0 }, { 1.0f, 0.5f, -0.5f, 0, 1.0f }, { 1.0f, 0.5f, 0.5f, 1.0f, 1.0f },
-        // Left
-        { 0, -0.5f, -0.5f, 1.0f, 0 }, { 0, -0.5f, 0.5f, 0, 0 }, { 0, 0.5f, 0.5f, 0, 1.0f },
-        { 0, -0.5f, -0.5f, 1.0f, 0 }, { 0, 0.5f, 0.5f, 0, 1.0f }, { 0, 0.5f, -0.5f, 1.0f, 1.0f },
-        // Top
-        { 0, 0.5f, 0.5f, 1.0f, 0 }, { 1.0f, 0.5f, 0.5f, 0, 0  }, { 1.0f, 0.5f, -0.5f, 0, 1.0f },
-        { 0, 0.5f, 0.5f, 1.0f, 0 }, { 1.0f, 0.5f, -0.5f, 0, 1.0f }, { 0, 0.5f, -0.5f, 1.0f, 1.0f },
-        // Bottom
-        { 0, -0.5f, -0.5f, 1.0f, 0 }, { 1.0f, -0.5f, -0.5f, 0, 0 }, { 1.0f, -0.5f, 0.5f, 0, 1.0f },
-        { 0, -0.5f, -0.5f, 1.0f, 0 }, { 1.0f, -0.5f, 0.5f, 0, 1.0f }, { 0, -0.5f, 0.5f, 1.0f, 1.0f },
-        // Front
-        { 0, -0.5f, 0.5f, 1.0f, 0 }, { 1.0f, -0.5f, 0.5f, 0, 0  }, { 1.0f, 0.5f, 0.5f, 0, 1.0f },
-        { 0, -0.5f, 0.5f, 1.0f, 0 }, { 1.0f, 0.5f, 0.5f, 0, 1.0f  }, { 0, 0.5f, 0.5f, 1.0f, 1.0f },
-        // Back
-        { 1.0f, -0.5f, -0.5f, 1.0f, 0 }, { 0, -0.5f, -0.5f, 0, 0 }, { 0, 0.5f, -0.5f, 0, 1.0f },
-        { 1.0f, -0.5f, -0.5f, 1.0f, 0 }, { 0, 0.5f, -0.5f, 0, 1.0f }, { 1.0f, 0.5f, -0.5f, 1.0f, 1.0f }
-    };
-
-    m_Faces = new RTRFace_t[]{
-        { 0, 1, 2 }, {0, 2, 3}
-    };
-
-    m_Position = glm::vec3(m_TransformMatrix[3]);
-
-    m_BoundingVolume = new RTRBV_AABB(m_Position, m_Scale, m_TransformMatrix);
-    m_BoundingVolume->Init();
-
-    RTRObject::Init(texture, texture2);
-}
-
-//-----------------------------------------------------------------------------
-
 void RTRGrid::Init()
 {
     m_NumVertices = 6;

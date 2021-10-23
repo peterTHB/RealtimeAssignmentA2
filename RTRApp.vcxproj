@@ -25,7 +25,6 @@
     <ClCompile Include="Src\RTRPhysicsEngine.cpp" />
     <ClCompile Include="Src\RTRRenderer.cpp" />
     <ClCompile Include="Src\RTRCamera.cpp" />
-    <ClCompile Include="Src\RTRLightingModel.cpp" />
     <ClCompile Include="Src\RTRObject.cpp" />
     <ClCompile Include="Src\Console.cpp" />
     <ClCompile Include="Src\RTRApp.cpp" />

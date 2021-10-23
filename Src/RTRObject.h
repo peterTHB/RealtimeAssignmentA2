@@ -134,14 +134,6 @@ public:
     virtual void Init(unsigned int texture, unsigned int texture2);
 };
 
-class RTRSideCube : public RTRObject {
-public:
-    RTRSideCube(glm::mat4 modelMatrix, float angle) :
-        RTRObject(modelMatrix, angle) {}
-    ~RTRSideCube() {}
-    virtual void Init(unsigned int texture, unsigned int texture2);
-};
-
 class RTRGrid : public RTRObject
 {
 public:

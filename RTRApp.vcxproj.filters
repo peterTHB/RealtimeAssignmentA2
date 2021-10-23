@@ -39,9 +39,6 @@
     <ClCompile Include="Src\RTRCamera.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Src\RTRLightingModel.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Src\RTRPhysicsEngine.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
