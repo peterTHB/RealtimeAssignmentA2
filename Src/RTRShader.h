@@ -90,6 +90,7 @@ public:
         SetFloat(MakeStructName(name, "Quadratic"), light.Quadratic);
         SetFloat(MakeStructName(name, "CutOff"), light.Cutoff);
         SetFloat(MakeStructName(name, "OuterCutoff"), light.OuterCutoff);
+        SetBool(MakeStructName(name, "LightsOn"), light.LightsOn);
     }
     void SetArrayLight(const char* name, int array_index, RTRLight_t& light) {
         char full_name[MAX_UNIFORM_NAME + 1];
@@ -105,6 +106,7 @@ public:
         SetFloat(MakeStructName(full_name, "Quadratic"), light.Quadratic);
         SetFloat(MakeStructName(full_name, "CutOff"), light.Cutoff);
         SetFloat(MakeStructName(full_name, "OuterCutoff"), light.OuterCutoff);
+        SetBool(MakeStructName(full_name, "LightsOn"), light.LightsOn);
     }
     void SetLightingModel(RTRLightingModel& light_model) {
         SetInt("u_NumLights", light_model.GetNumLights());

@@ -43,22 +43,23 @@ void RTRObject::Init(unsigned int texture, unsigned int texture2)
 
 void RTRObject::Render(RTRShader* shader)
 {
-    shader->SetMaterial("u_ObjectMaterial", m_Material);
-    shader->SetInt("u_ObjectMaterial.Diffuse", 0);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, m_Texture);
+    if ((m_Texture != 0) && (m_Texture2 != 0)) {
+        shader->SetMaterial("u_ObjectMaterial", m_Material);
+        shader->SetInt("u_ObjectMaterial.Diffuse", 0);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, m_Texture);
+        shader->SetInt("u_ObjectMaterial.Specular", 1);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, m_Texture2);
 
-    shader->SetInt("u_ObjectMaterial.Specular", 1);
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, m_Texture2);
-
-    glUseProgram(shader->GetId());
-    shader->SetInt("texture1", 2);
-    glActiveTexture(GL_TEXTURE2);
-    glBindTexture(GL_TEXTURE_2D, m_Texture);
-    shader->SetInt("texture2", 3);
-    glActiveTexture(GL_TEXTURE3);
-    glBindTexture(GL_TEXTURE_2D, m_Texture2);
+        glUseProgram(shader->GetId());
+        shader->SetInt("texture1", 2);
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, m_Texture);
+        shader->SetInt("texture2", 3);
+        glActiveTexture(GL_TEXTURE3);
+        glBindTexture(GL_TEXTURE_2D, m_Texture2);
+    }
 
     glUseProgram(shader->GetId());
     glBindVertexArray(m_VertexArray);
@@ -150,21 +151,23 @@ void RTRSphere::Init(unsigned int texture, unsigned int texture2)
 
 void RTRSphere::Render(RTRShader* shader)
 {
-    shader->SetMaterial("u_ObjectMaterial", m_Material);
-    shader->SetInt("u_ObjectMaterial.Diffuse", 0);
-    glActiveTexture(GL_TEXTURE0);
-    glBindTexture(GL_TEXTURE_2D, m_Texture);
-    shader->SetInt("u_ObjectMaterial.Specular", 1);
-    glActiveTexture(GL_TEXTURE1);
-    glBindTexture(GL_TEXTURE_2D, m_Texture2);
+    if ((m_Texture != 0) && (m_Texture2 != 0)) {
+        shader->SetMaterial("u_ObjectMaterial", m_Material);
+        shader->SetInt("u_ObjectMaterial.Diffuse", 0);
+        glActiveTexture(GL_TEXTURE0);
+        glBindTexture(GL_TEXTURE_2D, m_Texture);
+        shader->SetInt("u_ObjectMaterial.Specular", 1);
+        glActiveTexture(GL_TEXTURE1);
+        glBindTexture(GL_TEXTURE_2D, m_Texture2);
 
-    glUseProgram(shader->GetId());
-    shader->SetInt("texture1", 2);
-    glActiveTexture(GL_TEXTURE2);
-    glBindTexture(GL_TEXTURE_2D, m_Texture);
-    shader->SetInt("texture2", 3);
-    glActiveTexture(GL_TEXTURE3);
-    glBindTexture(GL_TEXTURE_2D, m_Texture2);
+        glUseProgram(shader->GetId());
+        shader->SetInt("texture1", 2);
+        glActiveTexture(GL_TEXTURE2);
+        glBindTexture(GL_TEXTURE_2D, m_Texture);
+        shader->SetInt("texture2", 3);
+        glActiveTexture(GL_TEXTURE3);
+        glBindTexture(GL_TEXTURE_2D, m_Texture2);
+    }
 
     glBindVertexArray(m_VertexArray);
     glDrawArrays(GL_TRIANGLE_STRIP, 0, m_NumVertices);
@@ -239,10 +242,25 @@ std::vector<int> RTRSphere::MakeSphereIndex(int stacks, int slices) {
 }
 
 void RTRSphere::End() {
+    m_Radius = 0;
+    m_TotalDT = 0;
+    m_VertPower = 0;
+    m_HoriPower = 0;
+    m_CanMove = false;
+    m_HasCollidedAABB = false;
+    m_HasCollidedSphere = false;
+    m_MovingForward = false;
+    m_MovingRight = false;
+    m_MovingLeft = false;
+    m_DidExit = false;
+    m_HitBottom = false;
+    m_Destroyed = false;
 
+    RTRObject::End();
 }
 
 //-----------------------------------------------------------------------------
+
 
 void RTRPrism::Init(unsigned int texture, unsigned int texture2)
 {

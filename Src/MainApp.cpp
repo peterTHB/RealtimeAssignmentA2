@@ -233,6 +233,8 @@ void MainApp::UpdateState(unsigned int td_milli)
         m_ShootBall = false;
     }
 
+    m_RTRWorld->PointLightColOn(td_milli);
+
     // Change angle of table
     //if (m_TableAngleUp) {
     //    m_RTRWorld->IncreaseTableAngle();
@@ -324,6 +326,10 @@ void MainApp::RenderFrame()
         for (RTRGrid* gridObject : m_RTRWorld->GetUniformGridObjects()) {
             m_RTRRenderer->RenderWithShaders(4, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
                 gridObject, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
+        }
+        for (RTRObject* lightPos : m_RTRWorld->GetLightPositions()) {
+            m_RTRRenderer->RenderWithShaders(4, m_ModelMatrix, m_ViewMatrix, m_ProjectionMatrix,
+                lightPos, m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
         }
     }
 

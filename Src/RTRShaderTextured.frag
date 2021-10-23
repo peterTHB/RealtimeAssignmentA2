@@ -39,6 +39,8 @@ struct RTRLight {
     float Quadratic;
     float Cutoff;
     float OuterCutoff;
+    bool LightsOn;
+    float TotalTime;
 };
 
 struct RTRMaterial {
@@ -64,6 +66,47 @@ uniform float u_CurTime;
 uniform sampler2D texture1;
 uniform sampler2D texture2;
 
+vec3 MakeFinalColor(vec3 N, RTRLight light) {
+    vec3 final_color = vec3(0.0, 0.0, 0.0);
+
+    float attenuation = 1.0;
+
+    // calc ambient
+    vec3 ambient = light.Ambient * u_ObjectMaterial.Ambient;
+    
+    // calc diffuse
+    vec3 L;
+    if (light.Type == RTRDirectionalLight) {
+        L = -light.Direction;
+    }
+    else {
+        L = light.Position - fs_in.FragPos;
+        float Ld = length(L);
+        attenuation = min(
+            1.0 / (
+                (light.Constant) +
+                (light.Linear * Ld) +
+                (light.Quadratic * Ld * Ld)
+            ), 1);
+    }
+    L = normalize(L);
+    float d = max(dot(N, L), 0.0);
+    // vec3 diffuse = u_Lights[cur_light].Diffuse * u_ObjectMaterial.Diffuse * d;
+    vec3 diffuse = light.Diffuse * vec3(texture(u_ObjectMaterial.Diffuse, fs_in.TexCoord)) * d;
+    
+    // calc specular
+    vec3 V = normalize(u_Camera.Position - fs_in.FragPos);
+    // Blinn-Phong
+    vec3 H = normalize(L + V);
+    float s = pow(max(dot(N, H), 0.0), u_ObjectMaterial.Shininess);
+    // vec3 specular = u_Lights[cur_light].Specular * u_ObjectMaterial.Specular * s;
+    vec3 specular = light.Specular * vec3(texture(u_ObjectMaterial.Specular, fs_in.TexCoord)) * s;
+
+    final_color += (ambient + attenuation*(diffuse + specular));
+
+    return final_color;
+}
+
 void main() 
 {
     //vec3 N = normalize(cross(dFdx(fs_in.FragPos), dFdy(fs_in.FragPos)));
@@ -71,46 +114,17 @@ void main()
     
     vec3 final_color = vec3(0.0, 0.0, 0.0);
     for (int cur_light=0; cur_light<u_NumLights; cur_light++) {
-        float attenuation = 1.0;
-
-        // calc ambient
-        vec3 ambient = u_Lights[cur_light].Ambient * u_ObjectMaterial.Ambient;
-    
-        // calc diffuse
-        vec3 L;
-        if (u_Lights[cur_light].Type == RTRDirectionalLight) {
-            L = -u_Lights[cur_light].Direction;
-        }
+        if (u_Lights[cur_light].Type == 1) {
+            if (u_Lights[cur_light].LightsOn == true) {
+                final_color += MakeFinalColor(N, u_Lights[cur_light]); 
+            }
+        } 
         else {
-            L = u_Lights[cur_light].Position - fs_in.FragPos;
-            float Ld = length(L);
-            attenuation = min(
-                1.0 / (
-                  (u_Lights[cur_light].Constant) +
-                  (u_Lights[cur_light].Linear * Ld) +
-                  (u_Lights[cur_light].Quadratic * Ld * Ld)
-                ), 1);
+            final_color += MakeFinalColor(N, u_Lights[cur_light]);
         }
-        L = normalize(L);
-        float d = max(dot(N, L), 0.0);
-//        vec3 diffuse = u_Lights[cur_light].Diffuse * u_ObjectMaterial.Diffuse * d;
-        vec3 diffuse = u_Lights[cur_light].Diffuse * vec3(texture(u_ObjectMaterial.Diffuse, fs_in.TexCoord)) * d;
-    
-        // calc specular
-        vec3 V = normalize(u_Camera.Position - fs_in.FragPos);
-        // Phong
-        //vec3 R = reflect(-L, N);  
-        //float s = pow(max(dot(R, V), 0.0), u_ObjectMaterial.Shininess);
-        // Blinn-Phong
-        vec3 H = normalize(L + V);
-        float s = pow(max(dot(N, H), 0.0), u_ObjectMaterial.Shininess);
-//        vec3 specular = u_Lights[cur_light].Specular * u_ObjectMaterial.Specular * s;
-        vec3 specular = u_Lights[cur_light].Specular * vec3(texture(u_ObjectMaterial.Specular, fs_in.TexCoord)) * s;
-
-        final_color += (ambient + attenuation*(diffuse + specular));
     }
     
     f_FragColor = vec4(final_color, 1.0) * mix(texture(texture1, fs_in.TexCoord), texture(texture2, fs_in.TexCoord), 0.5);
-//    f_FragColor = vec4(final_color, 1.0);
+    // f_FragColor = vec4(final_color, 1.0);
 }
 

@@ -7,7 +7,7 @@ static const float DEFAULT_ANGLE = 0.2f;
 class RTRWorld {
 public:
 	RTRWorld(glm::mat4 modelMatrix);
-    virtual void StartLighting();
+    virtual void StartLighting(glm::mat4 modelMatrix);
     virtual void StartObjects(glm::mat4 modelMatrix);
     virtual void IncreaseTableAngle() { m_TableAngle += 0.001f; };
     virtual void DecreaseTableAngle() { m_TableAngle -= 0.001f; };
@@ -23,11 +23,13 @@ public:
     virtual void DrawSkybox();
     virtual void MakeUniformGrid(float xOffset, float zOffset, int horizontal, int vertical, glm::mat4 modelMatrix);
     virtual std::vector<glm::vec3> MakeGridPositions(float xOffset, float zOffset, int horizontal, int vertical);
+    virtual void PointLightColOn(float dt);
     virtual void Done();
     RTRLightingModel* GetLightingModel() { return m_LightingModel; };
     std::vector<RTRObject*> GetStaticPinballObjects() { return StaticPinballObjects; };
     std::vector<RTRObject*> GetStaticCollidablePinballObjects() { return StaticCollidablePinballObjects; };
     std::vector<RTRObject*> GetDynamicPinballObjects() { return DynamicPinballObjects; };
+    std::vector<RTRObject*> GetLightPositions() { return LightPositions; };
     std::vector<RTRSphere*> GetDynamicObjects() { return DynamicObjects; };
     std::vector<RTRGrid*> GetUniformGridObjects() { return UniformGridObjects; };
     std::vector<glm::vec3> GetUniformGridPositions() { return UniformGridPositions; };
@@ -46,6 +48,7 @@ public:
     std::vector<RTRObject*> StaticCollidablePinballObjects;
     std::vector<RTRObject*> DynamicPinballObjects;
     std::vector<RTRSphere*> DynamicObjects;
+    std::vector<RTRObject*> LightPositions;
     std::vector<RTRGrid*> UniformGridObjects;
     std::vector<glm::vec3> UniformGridPositions;
 

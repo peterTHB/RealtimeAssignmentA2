@@ -31,6 +31,7 @@ struct RTRLight {
     float Quadratic;
     float Cutoff;
     float OuterCutoff;
+    bool LightsOn;
 };
 
 struct RTRMaterial {

@@ -40,13 +40,15 @@ public:
     virtual void SetAngle(float angle) { m_Angle = angle; };
     virtual float GetAngle() { return m_Angle; };
     virtual RTRBoundingVolume* GetBoundingVolume(){ return m_BoundingVolume; };
+    virtual void SetTimer(float dt) { m_LightPosTimer += dt; };
+    virtual float GetTimer() { return m_LightPosTimer; };
 
 protected:
     unsigned int m_NumVertices{ 0 };
     unsigned int m_NumFaces{ 0 };
     RTRPoint_t5* m_VertexPoints{ nullptr };
     RTRFace_t* m_Faces{ nullptr };
-    RTRMaterial_t m_Material{ {1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f }, { 1.0f, 1.0f, 1.0f }, 64.0f };
+    RTRMaterial_t m_Material{ {0.2f, 0.2f, 0.2f }, { 0.5f, 0.5f, 0.5f }, { 0.8f, 0.8f, 0.8f }, 64.0f };
     unsigned int m_VertexBuffer{ 0 };
     unsigned int m_VertexArray{ 0 };
     unsigned int m_FaceElementBuffer{ 0 };
@@ -60,6 +62,7 @@ protected:
     unsigned int m_Texture2{ 0 };
     std::string m_ObjectName{ "" };
     RTRBoundingVolume* m_BoundingVolume{ nullptr };
+    float m_LightPosTimer{ 0 };
 };
 
 //-----------------------------------------------------------------------------

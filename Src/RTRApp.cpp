@@ -81,6 +81,9 @@ int RTRApp::Init()
     glCullFace(GL_BACK);
     glFrontFace(GL_CCW);
 
+    glEnable(GL_LINE_WIDTH);
+    glLineWidth(2.0f);
+
     std::cout << "RTR:MESSAGE: OpenGL version " << GLVersion.major << "." << GLVersion.minor << " initialised." << std::endl;
     return 0;
 }

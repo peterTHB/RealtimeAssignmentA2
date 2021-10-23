@@ -29,6 +29,7 @@ struct RTRLight_t
     float Quadratic;        //   Point, Spot
     float Cutoff;           //   Spot
     float OuterCutoff;      //   Spot
+    bool LightsOn;          //   Turn light on
 };
 
 struct RTRMaterial_t
@@ -52,6 +53,7 @@ public:
         m_NumLights++;
         return 0;
     }
+    virtual RTRLight_t* GetAllLights() { return m_Lights; };
 
 protected:
     int m_NumLights{ 0 };

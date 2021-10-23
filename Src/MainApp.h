@@ -45,8 +45,6 @@ private:
     bool m_TableAngleUp{ false };
     bool m_TableAngleDown{ false };
     bool m_DebugModeOn{ false };
-    float lastTime{ 0 };
-    float timer{ 0 };
 
     glm::mat4 m_ModelMatrix{ 1.0 };
     glm::mat4 m_ViewMatrix{ 1.0 };

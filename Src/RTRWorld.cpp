@@ -2,14 +2,14 @@
 
 RTRWorld::RTRWorld(glm::mat4 modelMatrix)
 {
-    StartLighting();
     StartObjects(modelMatrix);
+    StartLighting(modelMatrix);
     cubemapTexture = loadCubeMap(skyboxFaces);
     // Load Skybox
     LoadSkyboxVAO();
 }
 
-void RTRWorld::StartLighting()
+void RTRWorld::StartLighting(glm::mat4 modelMatrix)
 {
     // Create and initialise lighting model
     m_LightingModel = new RTRLightingModel();
@@ -20,106 +20,145 @@ void RTRWorld::StartLighting()
         .Ambient = glm::vec3(0.5, 0.5, 0.5),
         .Diffuse = glm::vec3(1.0, 1.0, 1.0),
         .Specular = glm::vec3(0.8, 0.8, 0.8),
-        .Direction = glm::vec3(1.0, 0.0, 0.0)
+        .Direction = glm::vec3(1.0, 0.0, 0.0),
+        .LightsOn = true
         });
-    //// Cornflower
-    //m_LightingModel->AddLight({
-    //    .Type = RTRLightType::PointLight,
-    //    .Ambient = glm::vec3(100.0f / 255.0f * 0.5f, 149.0f / 255.0f * 0.5f, 237.0f / 255.0f * 0.5f),
-    //    .Diffuse = glm::vec3(100.0f / 255.0f * 0.5f, 149.0f / 255.0f * 0.5f, 237.0f / 255.0f * 0.5f),
-    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
-    //    .Position = glm::vec3(15.0f, 0.0, 0.0),
-    //    .Constant = 0.5f,
-    //    .Linear = 0.35f,
-    //    .Quadratic = 0.44f
-    //    });
-    //// Navy
-    //m_LightingModel->AddLight({
-    //    .Type = RTRLightType::PointLight,
-    //    .Ambient = glm::vec3(0.0, 0.0, 128.0f / 255.0f * 0.5f),
-    //    .Diffuse = glm::vec3(0.0, 0.0, 128.0f / 255.0f * 0.5f),
-    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
-    //    .Position = glm::vec3(-15.0f, 0.0, 0.0),
-    //    .Constant = 0.5f,
-    //    .Linear = 0.35f,
-    //    .Quadratic = 0.44f
-    //    });
-    //// Medium Sea Green
-    //m_LightingModel->AddLight({
-    //    .Type = RTRLightType::PointLight,
-    //    .Ambient = glm::vec3(60.0f / 255.0f * 0.5f, 179.0f / 255.0f * 0.5f, 113.0f / 255.0f * 0.5f),
-    //    .Diffuse = glm::vec3(60.0f / 255.0f * 0.5f, 179.0f / 255.0f * 0.5f, 113.0f / 255.0f * 0.5f),
-    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
-    //    .Position = glm::vec3(0.0, 5.0f, 0.0),
-    //    .Constant = 0.5f,
-    //    .Linear = 0.35f,
-    //    .Quadratic = 0.44f
-    //    });
+
+    // Navy 0
+    m_LightingModel->AddLight({
+        .Type = RTRLightType::PointLight,
+        .Ambient = glm::vec3(0.0, 0.0, 128.0f / 255.0f),
+        .Diffuse = glm::vec3(0.0, 0.0, 128.0f / 255.0f),
+        .Specular = glm::vec3(1.0, 1.0, 1.0),
+        .Position = glm::vec3(-4.0f, 0.0, -1.0),
+        .Constant = 1.0f,
+        .Linear = 0.22f,
+        .Quadratic = 0.20f,
+        .LightsOn = false
+        });
+    RTRCube* PointLightZero = new RTRCube(modelMatrix, 0);
+    PointLightZero->SetName("PointLightZero");
+    PointLightZero->DoTranslation(glm::vec3(-4.0f, 0.0, -1.0));
+    PointLightZero->Init(0, 0);
+    LightPositions.push_back(PointLightZero);
+
+    // Firebrick 1
+    m_LightingModel->AddLight({
+        .Type = RTRLightType::PointLight,
+        .Ambient = glm::vec3(178.0f / 255.0f, 34.0f / 255.0f, 34.0f / 255.0f),
+        .Diffuse = glm::vec3(178.0f / 255.0f, 34.0f / 255.0f, 34.0f / 255.0f),
+        .Specular = glm::vec3(1.0, 1.0, 1.0),
+        .Position = glm::vec3(1.25, 1.0, -6.0),
+        .Constant = 1.0f,
+        .Linear = 0.22f,
+        .Quadratic = 0.20f,
+        .LightsOn = false
+        });
+    RTRCube* PointLightOne = new RTRCube(modelMatrix, 0);
+    PointLightOne->SetName("PointLightOne");
+    PointLightOne->DoTranslation(glm::vec3(1.25, 1.0, -6.0));
+    PointLightOne->Init(0, 0);
+    LightPositions.push_back(PointLightOne);
+
+    // Maroon 2
+    m_LightingModel->AddLight({
+        .Type = RTRLightType::PointLight,
+        .Ambient = glm::vec3(128.0f / 255.0f, 0.0, 0.0),
+        .Diffuse = glm::vec3(128.0f / 255.0f, 0.0, 0.0),
+        .Specular = glm::vec3(1.0, 1.0, 1.0),
+        .Position = glm::vec3(2.0, -1.0, 4.0),
+        .Constant = 1.0f,
+        .Linear = 0.22f,
+        .Quadratic = 0.20f,
+        .LightsOn = false
+        });
+    RTRCube* PointLightTwo = new RTRCube(modelMatrix, 0);
+    PointLightTwo->SetName("PointLightTwo");
+    PointLightTwo->DoTranslation(glm::vec3(2.0, -1.0, 4.0));
+    PointLightTwo->Init(0, 0);
+    LightPositions.push_back(PointLightTwo);
+
+    // Medium Sea Green 3
+    m_LightingModel->AddLight({
+        .Type = RTRLightType::PointLight,
+        .Ambient = glm::vec3(60.0f / 255.0f, 179.0f / 255.0f, 113.0f / 255.0f),
+        .Diffuse = glm::vec3(60.0f / 255.0f, 179.0f / 255.0f, 113.0f / 255.0f),
+        .Specular = glm::vec3(1.0, 1.0, 1.0),
+        .Position = glm::vec3(-2.4, -1.25, 4.75f),
+        .Constant = 1.0f,
+        .Linear = 0.22f,
+        .Quadratic = 0.20f,
+        .LightsOn = false
+        });
+    RTRCube* PointLightThree = new RTRCube(modelMatrix, 0);
+    PointLightThree->SetName("PointLightThree");
+    PointLightThree->DoTranslation(glm::vec3(-2.4, -1.25, 4.75f));
+    PointLightThree->Init(0, 0);
+    LightPositions.push_back(PointLightThree);
+
+    // Cornflower 4
+    m_LightingModel->AddLight({
+        .Type = RTRLightType::PointLight,
+        .Ambient = glm::vec3(100.0f / 255.0f, 149.0f / 255.0f, 237.0f / 255.0f),
+        .Diffuse = glm::vec3(100.0f / 255.0f, 149.0f / 255.0f, 237.0f / 255.0f),
+        .Specular = glm::vec3(1.0, 1.0, 1.0),
+        .Position = glm::vec3(0, -0.5, 0.8f),
+        .Constant = 1.0f,
+        .Linear = 0.22f,
+        .Quadratic = 0.20f,
+        .LightsOn = false
+        });
+    RTRCube* PointLightFour = new RTRCube(modelMatrix, 0);
+    PointLightFour->SetName("PointLightFour");
+    PointLightFour->DoTranslation(glm::vec3(0, -0.5, 0.8f));
+    PointLightFour->Init(0, 0);
+    LightPositions.push_back(PointLightFour);
+
+    //// Extra lights
     //// Lime Green
     //m_LightingModel->AddLight({
     //    .Type = RTRLightType::PointLight,
-    //    .Ambient = glm::vec3(50.0f / 255.0f * 0.5f, 205.0f / 255.0f * 0.5f, 50.0f / 255.0f * 0.5f),
-    //    .Diffuse = glm::vec3(50.0f / 255.0f * 0.5f, 205.0f / 255.0f * 0.5f, 50.0f / 255.0f * 0.5f),
+    //    .Ambient = glm::vec3(50.0f / 255.0f, 205.0f / 255.0f, 50.0f / 255.0f),
+    //    .Diffuse = glm::vec3(50.0f / 255.0f, 205.0f / 255.0f, 50.0f / 255.0f),
     //    .Specular = glm::vec3(1.0, 1.0, 1.0),
     //    .Position = glm::vec3(0.0, -5.0f, 0.0),
-    //    .Constant = 0.5f,
-    //    .Linear = 0.35f,
-    //    .Quadratic = 0.44f
-    //    });
-    //// Firebrick
-    //m_LightingModel->AddLight({
-    //    .Type = RTRLightType::PointLight,
-    //    .Ambient = glm::vec3(178.0f / 255.0f * 0.5f, 34.0f / 255.0f * 0.5f, 34.0f / 255.0f * 0.5f),
-    //    .Diffuse = glm::vec3(178.0f / 255.0f * 0.5f, 34.0f / 255.0f * 0.5f, 34.0f / 255.0f * 0.5f),
-    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
-    //    .Position = glm::vec3(0.0, 0.0, 25.0f),
-    //    .Constant = 0.5f,
-    //    .Linear = 0.35f,
-    //    .Quadratic = 0.44f
-    //    });
-    //// Maroon
-    //m_LightingModel->AddLight({
-    //    .Type = RTRLightType::PointLight,
-    //    .Ambient = glm::vec3(128.0f / 255.0f * 0.5f, 0.0, 0.0),
-    //    .Diffuse = glm::vec3(128.0f / 255.0f * 0.5f, 0.0, 0.0),
-    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
-    //    .Position = glm::vec3(0.0, 0.0, -25.0f),
-    //    .Constant = 0.5f,
+    //    .Constant = 1.0f,
     //    .Linear = 0.35f,
     //    .Quadratic = 0.44f
     //    });
 
-    //// Extra lights
     //// Violet
     //m_LightingModel->AddLight({
     //    .Type = RTRLightType::PointLight,
-    //    .Ambient = glm::vec3(238.0f / 255.0f * 0.5f, 130.0f / 255.0f * 0.5f, 238.0f / 255.0f * 0.5f),
-    //    .Diffuse = glm::vec3(238.0f / 255.0f * 0.5f, 130.0f / 255.0f * 0.5f, 238.0f / 255.0f * 0.5f),
+    //    .Ambient = glm::vec3(238.0f / 255.0f, 130.0f / 255.0f, 238.0f / 255.0f),
+    //    .Diffuse = glm::vec3(238.0f / 255.0f, 130.0f / 255.0f, 238.0f / 255.0f),
     //    .Specular = glm::vec3(1.0, 1.0, 1.0),
     //    .Position = glm::vec3(0.0, 0.0, 25.0f),
-    //    .Constant = 0.5f,
+    //    .Constant = 1.0f,
     //    .Linear = 0.35f,
     //    .Quadratic = 0.44f
     //    });
+    
     //// Burlywood
     //m_LightingModel->AddLight({
     //    .Type = RTRLightType::PointLight,
-    //    .Ambient = glm::vec3(222.0f / 255.0f * 0.5f, 184.0f / 255.0f * 0.5f, 135.0f / 255.0f * 0.5f),
-    //    .Diffuse = glm::vec3(222.0f / 255.0f * 0.5f, 184.0f / 255.0f * 0.5f, 135.0f / 255.0f * 0.5f),
+    //    .Ambient = glm::vec3(222.0f / 255.0f, 184.0f / 255.0f, 135.0f / 255.0f),
+    //    .Diffuse = glm::vec3(222.0f / 255.0f, 184.0f / 255.0f, 135.0f / 255.0f),
     //    .Specular = glm::vec3(1.0, 1.0, 1.0),
     //    .Position = glm::vec3(0.0, 0.0, -25.0f),
-    //    .Constant = 0.5f,
+    //    .Constant = 1.0f,
     //    .Linear = 0.35f,
     //    .Quadratic = 0.44f
     //    });
+    
     //// Brown
     //m_LightingModel->AddLight({
     //    .Type = RTRLightType::PointLight,
-    //    .Ambient = glm::vec3(255.0f / 255.0f * 0.5f, 255.0f / 255.0f * 0.5f, 0.0f),
-    //    .Diffuse = glm::vec3(255.0f / 255.0f * 0.5f, 255.0f / 255.0f * 0.5f, 0.0f),
+    //    .Ambient = glm::vec3(255.0f / 255.0f, 255.0f / 255.0f, 0.0f),
+    //    .Diffuse = glm::vec3(255.0f / 255.0f, 255.0f / 255.0f, 0.0f),
     //    .Specular = glm::vec3(1.0, 1.0, 1.0),
     //    .Position = glm::vec3(0.0, 0.0, 25.0f),
-    //    .Constant = 0.5f,
+    //    .Constant = 1.0f,
     //    .Linear = 0.35f,
     //    .Quadratic = 0.44f
     //    });
@@ -138,7 +177,8 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     // Test cube
     //RTRCube* TestCube = new RTRCube(modelMatrix, m_TableAngle);
     //TestCube->SetName("TestCube");
-    //TestCube->Init(m_SmoothWoodTexture, m_OuterRimTexture);
+    //TestCube->DoTranslation(glm::vec3(0.0f, 0.0f, 0.0f));
+    //TestCube->Init(m_RoughMetalTexture, m_ShinyMetalTexture);
 
     //StaticPinballObjects.push_back(TestCube);
     
@@ -249,7 +289,7 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     m_BumperOne->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
     m_BumperOne->DoRotation(glm::vec3(0.0f, 1.0f, 0.0f), -30 * M_PI / 180);
     m_BumperOne->DoScale(glm::vec3(1.0f, 2.0f, 0.5f));
-    m_BumperOne->DoTranslation(glm::vec3(2.0f, -0.13f, -2.0f));
+    m_BumperOne->DoTranslation(glm::vec3(2.0f, -0.13f, -5.0f));
     m_BumperOne->Init(m_ShinyMetalTexture, m_RoughMetalTexture);
 
     RTRCube* m_BumperTwo = new RTRCube(modelMatrix, m_TableAngle);
@@ -262,8 +302,8 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     m_BumperTwo->DoTranslation(glm::vec3(3.0f, -0.13f, -15.0f));
     m_BumperTwo->Init(m_ShinyMetalTexture, m_RoughMetalTexture);
 
-    float scale = 0.2f;
-    RTRMaterial_t pegMat = { {0.8, 0.2, 0.0 }, { 0.8, 0.8, 0.8 }, { 1.0, 1.0, 1.0 }, 64.0 };
+    float scale = 0.4f;
+    RTRMaterial_t pegMat = { {0.8, 0.2, 0.2 }, { 0.8, 0.2, 0.2 }, { 1.0, 1.0, 1.0 }, 64.0 };
     RTRSphere* m_PegZero = new RTRSphere(modelMatrix, m_TableAngle);
     m_PegZero->SetRadius(0.5f);
     m_PegZero->SetMaterial(pegMat);
@@ -271,7 +311,7 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     m_PegZero->SetScale(glm::vec3(scale, 1.0f, scale));
     m_PegZero->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
     m_PegZero->DoScale(glm::vec3(scale, 1.0f, scale));
-    m_PegZero->DoTranslation(glm::vec3(-20.0f, -0.5f, -2.5f));
+    m_PegZero->DoTranslation(glm::vec3(-10.0f, -0.5f, -2.5f));
     m_PegZero->Init(m_RoughMetalTexture, m_ShinyMetalTexture);
 
     RTRSphere* m_PegOne = new RTRSphere(modelMatrix, m_TableAngle);
@@ -281,7 +321,7 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     m_PegOne->SetScale(glm::vec3(scale, 1.0f, scale));
     m_PegOne->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
     m_PegOne->DoScale(glm::vec3(scale, 1.0f, scale));
-    m_PegOne->DoTranslation(glm::vec3(15.0f, -0.5f, -30.0f));
+    m_PegOne->DoTranslation(glm::vec3(3.0f, -0.5f, -15.0f));
     m_PegOne->Init(m_RoughMetalTexture, m_ShinyMetalTexture);
 
     RTRSphere* m_PegTwo = new RTRSphere(modelMatrix, m_TableAngle);
@@ -291,7 +331,7 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     m_PegTwo->SetScale(glm::vec3(scale, 1.0f, scale));
     m_PegTwo->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
     m_PegTwo->DoScale(glm::vec3(scale, 1.0f, scale));
-    m_PegTwo->DoTranslation(glm::vec3(10.0f, -0.5f, 25.0f));
+    m_PegTwo->DoTranslation(glm::vec3(5.0f, -0.5f, 10.0f));
     m_PegTwo->Init(m_RoughMetalTexture, m_ShinyMetalTexture);
 
     RTRSphere* m_PegThree = new RTRSphere(modelMatrix, m_TableAngle);
@@ -301,7 +341,7 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     m_PegThree->SetScale(glm::vec3(scale, 1.0f, scale));
     m_PegThree->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
     m_PegThree->DoScale(glm::vec3(scale, 1.0f, scale));
-    m_PegThree->DoTranslation(glm::vec3(-8.0f, -0.5f, 20.0f));
+    m_PegThree->DoTranslation(glm::vec3(-6.0f, -0.5f, 12.0f));
     m_PegThree->Init(m_RoughMetalTexture, m_ShinyMetalTexture);
 
     RTRSphere* m_PegFour = new RTRSphere(modelMatrix, m_TableAngle);
@@ -323,7 +363,7 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     StaticCollidablePinballObjects.push_back(m_PegThree);
     StaticCollidablePinballObjects.push_back(m_PegFour);
 
-    //float testScale = 0.1f;
+    //float testScale = 1.0f;
     //RTRSphere* TestSphere = new RTRSphere(modelMatrix, m_TableAngle);
     //TestSphere->SetRadius(0.5f);
     //TestSphere->SetMaterial(pegMat);
@@ -331,7 +371,7 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     //TestSphere->SetScale(glm::vec3(testScale, 1.0f, testScale));
     //TestSphere->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
     //TestSphere->DoScale(glm::vec3(testScale, 1.0f, testScale));
-    //TestSphere->DoTranslation(glm::vec3(0.0f, -0.5f, -4.0f));
+    //TestSphere->DoTranslation(glm::vec3(0.0f, -0.5f, -2.0f));
     //TestSphere->Init(m_RoughMetalTexture, m_ShinyMetalTexture);
     //StaticPinballObjects.push_back(TestSphere);
 
@@ -542,6 +582,25 @@ void RTRWorld::ChangeAllObjectsAngle() {
     }
 }
 
+void RTRWorld::PointLightColOn(float dt) {
+    float actualDT = dt / 1000.0f;
+
+    for (int i = 1; i < GetLightingModel()->GetNumLights(); i++ ) {
+        if (GetLightingModel()->GetLight(i)->LightsOn == true) {
+            int lightPos = i - 1;
+
+            LightPositions.at(lightPos)->SetTimer(LightPositions.at(lightPos)->GetTimer() + actualDT);
+
+            std::cout << "Timer num: " << LightPositions.at(lightPos)->GetTimer() << std::endl;
+
+            if (LightPositions.at(lightPos)->GetTimer() > 1000.0f) {
+                LightPositions.at(lightPos)->SetTimer(0);
+                GetLightingModel()->GetLight(i)->LightsOn = false;
+            }
+        }
+    }
+}
+
 void RTRWorld::Done() {
     for (RTRObject* object : StaticPinballObjects) {
         object->End();
@@ -563,9 +622,14 @@ void RTRWorld::Done() {
         object->End();
     }
 
+    for (RTRObject* object : LightPositions) {
+        object->End();
+    }
+
     StaticPinballObjects.clear();
     DynamicPinballObjects.clear();
     DynamicObjects.clear();
+    LightPositions.clear();
     UniformGridObjects.clear();
     UniformGridPositions.clear();
     skyboxFaces.clear();
