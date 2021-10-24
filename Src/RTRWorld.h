@@ -39,6 +39,7 @@ public:
     virtual void SetCubeMapTexture(unsigned int cubemap) { cubemapTexture = cubemap; };
     virtual unsigned int GetSkyboxVAO() { return skyboxVAO; };
     virtual void SetSkyboxVAO(unsigned int skybox) { skyboxVAO = skybox; };
+    virtual unsigned int GetParticlesTexture() { return m_StarParticlesTexture; };
     virtual std::vector<std::string> GetSkyboxFaces() { return skyboxFaces; };
     virtual void LoadSkyboxVAO();
 
@@ -58,6 +59,7 @@ public:
     unsigned int m_ShinyMetalTexture{ 0 };
     unsigned int m_RoughMetalTexture{ 0 };
     unsigned int m_OuterRimTexture{ 0 };
+    unsigned int m_StarParticlesTexture{ 0 };
 
     unsigned int cubemapTexture{ 0 };
     unsigned int skyboxVAO, skyboxVBO{ 0 };

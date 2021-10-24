@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClCompile Include="Include\glad\glad.c" />
     <ClCompile Include="Src\RTRBoundingVolume.cpp" />
+    <ClCompile Include="Src\RTRParticles.cpp" />
     <ClCompile Include="Src\RTRWorld.cpp" />
     <ClCompile Include="Src\RTRPhysicsEngine.cpp" />
     <ClCompile Include="Src\RTRRenderer.cpp" />
@@ -33,6 +34,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\RTRBoundingVolume.h" />
+    <ClInclude Include="Src\RTRParticles.h" />
     <ClInclude Include="Src\RTRWorld.h" />
     <ClInclude Include="Src\RTRPhysicsEngine.h" />
     <ClInclude Include="Src\RTRRenderer.h" />
@@ -45,6 +47,12 @@
     <ClInclude Include="Src\RTRShader.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Src\RTRShaderParticles.frag">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </None>
+    <None Include="Src\RTRShaderParticles.vert">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </None>
     <None Include="Src\RTRShaderEnvMapping.geom">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </None>
@@ -116,34 +124,22 @@
     <Image Include="Src\Textures\outer_container.png">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Image>
-    <Image Include="Src\Textures\DarkWood\Wood067_4K_Color.jpg">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </Image>
-    <Image Include="Src\Textures\FloorWood\WoodFloor046_4K_Color.jpg">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </Image>
-    <Image Include="Src\Textures\RoughMetal\Metal009_4K_Color.jpg">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </Image>
     <Image Include="Src\Textures\RoughMetal\Metal010_1K_Color.jpg">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Image>
     <Image Include="Src\Textures\ShinyMetal\Metal012_1K_Color.jpg">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Image>
-    <Image Include="Src\Textures\ShinyMetal\Metal012_4K_Color.jpg">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </Image>
     <Image Include="Src\Textures\SmoothMetal\Metal032_1K_Color.jpg">
-      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
-    </Image>
-    <Image Include="Src\Textures\SmoothMetal\Metal032_4K_Color.jpg">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Image>
     <Image Include="Src\Textures\SmoothWood\Wood066_1K_Color.jpg">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Image>
-    <Image Include="Src\Textures\SmoothWood\Wood066_4K_Color.jpg">
+    <Image Include="Src\Textures\star_01_black.jpg">
+      <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
+    </Image>
+    <Image Include="Src\Textures\star_01_clear.jpg">
       <ExcludedFromBuild Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</ExcludedFromBuild>
     </Image>
   </ItemGroup>

@@ -20,6 +20,9 @@ RTRRenderer::RTRRenderer()
     m_EnvMappingShader = new RTRShader();
     m_EnvMappingShader->Load("Src/RTRShaderEnvMapping.vert", "Src/RTRShaderEnvMapping.frag", "Src/RTRShaderEnvMapping.geom");
 
+    m_ParticlesShader = new RTRShader();
+    m_ParticlesShader->Load("Src/RTRShaderParticles.vert", "Src/RTRShaderParticles.frag");
+
     glUseProgram(m_SkyboxShader->GetId());
     m_SkyboxShader->SetInt("skybox", 0);
 
@@ -32,9 +35,7 @@ RTRRenderer::RTRRenderer()
     ShaderVector.push_back(m_SkyboxShader);
     ShaderVector.push_back(m_NoTextureShader);
     ShaderVector.push_back(m_EnvMappingShader);
-
-    lastTime = 0.0f;
-    timer = 0.0f;
+    ShaderVector.push_back(m_ParticlesShader);
 }
 
 void RTRRenderer::SetUp() {
@@ -105,7 +106,6 @@ void RTRRenderer::Done() {
     if (m_DynamicObjectsShader != nullptr) { delete m_DynamicObjectsShader; m_DynamicObjectsShader = nullptr; }
     if (m_SkyboxShader != nullptr) { delete m_SkyboxShader; m_SkyboxShader = nullptr; }
     if (m_NoTextureShader != nullptr) { delete m_NoTextureShader; m_NoTextureShader = nullptr; }
-
-    lastTime = 0;
-    timer = 0;
+    if (m_EnvMappingShader != nullptr) { delete m_EnvMappingShader; m_EnvMappingShader = nullptr; }
+    if (m_ParticlesShader != nullptr) { delete m_ParticlesShader; m_ParticlesShader = nullptr; }
 }

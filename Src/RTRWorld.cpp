@@ -24,21 +24,22 @@ void RTRWorld::StartLighting(glm::mat4 modelMatrix)
         .LightsOn = true
         });
 
+    // Point lights for pegs
     // Navy 0
     m_LightingModel->AddLight({
         .Type = RTRLightType::PointLight,
         .Ambient = glm::vec3(0.0, 0.0, 128.0f / 255.0f),
         .Diffuse = glm::vec3(0.0, 0.0, 128.0f / 255.0f),
         .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(-4.0f, 0.0, -1.0),
+        .Position = glm::vec3(-4.0f, 1.0f, -1.0),
         .Constant = 1.0f,
-        .Linear = 0.22f,
-        .Quadratic = 0.20f,
+        .Linear = 0.7f,
+        .Quadratic = 1.8f,
         .LightsOn = false
         });
     RTRCube* PointLightZero = new RTRCube(modelMatrix, 0);
     PointLightZero->SetName("PointLightZero");
-    PointLightZero->DoTranslation(glm::vec3(-4.0f, 0.0, -1.0));
+    PointLightZero->DoTranslation(glm::vec3(-4.0f, 1.0f, -1.0));
     PointLightZero->Init(0, 0);
     LightPositions.push_back(PointLightZero);
 
@@ -48,15 +49,15 @@ void RTRWorld::StartLighting(glm::mat4 modelMatrix)
         .Ambient = glm::vec3(178.0f / 255.0f, 34.0f / 255.0f, 34.0f / 255.0f),
         .Diffuse = glm::vec3(178.0f / 255.0f, 34.0f / 255.0f, 34.0f / 255.0f),
         .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(1.25, 1.0, -6.0),
+        .Position = glm::vec3(1.25, 2.0, -5.75),
         .Constant = 1.0f,
-        .Linear = 0.22f,
-        .Quadratic = 0.20f,
+        .Linear = 0.7f,
+        .Quadratic = 1.8f,
         .LightsOn = false
         });
     RTRCube* PointLightOne = new RTRCube(modelMatrix, 0);
     PointLightOne->SetName("PointLightOne");
-    PointLightOne->DoTranslation(glm::vec3(1.25, 1.0, -6.0));
+    PointLightOne->DoTranslation(glm::vec3(1.25, 2.0, -5.75));
     PointLightOne->Init(0, 0);
     LightPositions.push_back(PointLightOne);
 
@@ -66,15 +67,15 @@ void RTRWorld::StartLighting(glm::mat4 modelMatrix)
         .Ambient = glm::vec3(128.0f / 255.0f, 0.0, 0.0),
         .Diffuse = glm::vec3(128.0f / 255.0f, 0.0, 0.0),
         .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(2.0, -1.0, 4.0),
+        .Position = glm::vec3(2.0, 0, 4.0),
         .Constant = 1.0f,
-        .Linear = 0.22f,
-        .Quadratic = 0.20f,
+        .Linear = 0.7f,
+        .Quadratic = 1.8f,
         .LightsOn = false
         });
     RTRCube* PointLightTwo = new RTRCube(modelMatrix, 0);
     PointLightTwo->SetName("PointLightTwo");
-    PointLightTwo->DoTranslation(glm::vec3(2.0, -1.0, 4.0));
+    PointLightTwo->DoTranslation(glm::vec3(2.0, 0, 4.0));
     PointLightTwo->Init(0, 0);
     LightPositions.push_back(PointLightTwo);
 
@@ -84,15 +85,15 @@ void RTRWorld::StartLighting(glm::mat4 modelMatrix)
         .Ambient = glm::vec3(60.0f / 255.0f, 179.0f / 255.0f, 113.0f / 255.0f),
         .Diffuse = glm::vec3(60.0f / 255.0f, 179.0f / 255.0f, 113.0f / 255.0f),
         .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(-2.4, -1.25, 4.75f),
+        .Position = glm::vec3(-2.4, -0.25, 4.75f),
         .Constant = 1.0f,
-        .Linear = 0.22f,
-        .Quadratic = 0.20f,
+        .Linear = 0.7f,
+        .Quadratic = 1.8f,
         .LightsOn = false
         });
     RTRCube* PointLightThree = new RTRCube(modelMatrix, 0);
     PointLightThree->SetName("PointLightThree");
-    PointLightThree->DoTranslation(glm::vec3(-2.4, -1.25, 4.75f));
+    PointLightThree->DoTranslation(glm::vec3(-2.4, -0.25, 4.75f));
     PointLightThree->Init(0, 0);
     LightPositions.push_back(PointLightThree);
 
@@ -102,66 +103,90 @@ void RTRWorld::StartLighting(glm::mat4 modelMatrix)
         .Ambient = glm::vec3(100.0f / 255.0f, 149.0f / 255.0f, 237.0f / 255.0f),
         .Diffuse = glm::vec3(100.0f / 255.0f, 149.0f / 255.0f, 237.0f / 255.0f),
         .Specular = glm::vec3(1.0, 1.0, 1.0),
-        .Position = glm::vec3(0, -0.5, 0.8f),
+        .Position = glm::vec3(0, 0.5, 0.8f),
         .Constant = 1.0f,
-        .Linear = 0.22f,
-        .Quadratic = 0.20f,
+        .Linear = 0.7f,
+        .Quadratic = 1.8f,
         .LightsOn = false
         });
     RTRCube* PointLightFour = new RTRCube(modelMatrix, 0);
     PointLightFour->SetName("PointLightFour");
-    PointLightFour->DoTranslation(glm::vec3(0, -0.5, 0.8f));
+    PointLightFour->DoTranslation(glm::vec3(0, 0.5, 0.8f));
     PointLightFour->Init(0, 0);
     LightPositions.push_back(PointLightFour);
 
-    //// Extra lights
-    //// Lime Green
-    //m_LightingModel->AddLight({
-    //    .Type = RTRLightType::PointLight,
-    //    .Ambient = glm::vec3(50.0f / 255.0f, 205.0f / 255.0f, 50.0f / 255.0f),
-    //    .Diffuse = glm::vec3(50.0f / 255.0f, 205.0f / 255.0f, 50.0f / 255.0f),
-    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
-    //    .Position = glm::vec3(0.0, -5.0f, 0.0),
-    //    .Constant = 1.0f,
-    //    .Linear = 0.35f,
-    //    .Quadratic = 0.44f
-    //    });
+    // Extra point lights around scene
+    // Lime Green
+    m_LightingModel->AddLight({
+        .Type = RTRLightType::PointLight,
+        .Ambient = glm::vec3(50.0f / 255.0f, 205.0f / 255.0f, 50.0f / 255.0f),
+        .Diffuse = glm::vec3(50.0f / 255.0f, 205.0f / 255.0f, 50.0f / 255.0f),
+        .Specular = glm::vec3(1.0, 1.0, 1.0),
+        .Position = glm::vec3(0.0, 5.0f, -5.0f),
+        .Constant = 1.0f,
+        .Linear = 0.35f,
+        .Quadratic = 0.44f,
+        .LightsOn = true
+        });
+    RTRCube* PointLightFive = new RTRCube(modelMatrix, 0);
+    PointLightFive->SetName("PointLightFive");
+    PointLightFive->DoTranslation(glm::vec3(0.0, 5.0f, -5.0f));
+    PointLightFive->Init(0, 0);
+    LightPositions.push_back(PointLightFive);
 
-    //// Violet
-    //m_LightingModel->AddLight({
-    //    .Type = RTRLightType::PointLight,
-    //    .Ambient = glm::vec3(238.0f / 255.0f, 130.0f / 255.0f, 238.0f / 255.0f),
-    //    .Diffuse = glm::vec3(238.0f / 255.0f, 130.0f / 255.0f, 238.0f / 255.0f),
-    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
-    //    .Position = glm::vec3(0.0, 0.0, 25.0f),
-    //    .Constant = 1.0f,
-    //    .Linear = 0.35f,
-    //    .Quadratic = 0.44f
-    //    });
+    // Violet
+    m_LightingModel->AddLight({
+        .Type = RTRLightType::PointLight,
+        .Ambient = glm::vec3(238.0f / 255.0f, 130.0f / 255.0f, 238.0f / 255.0f),
+        .Diffuse = glm::vec3(238.0f / 255.0f, 130.0f / 255.0f, 238.0f / 255.0f),
+        .Specular = glm::vec3(1.0, 1.0, 1.0),
+        .Position = glm::vec3(10.0f, 0.0, 0.0),
+        .Constant = 1.0f,
+        .Linear = 0.35f,
+        .Quadratic = 0.44f,
+        .LightsOn = true
+        });
+    RTRCube* PointLightSix = new RTRCube(modelMatrix, 0);
+    PointLightSix->SetName("PointLightSix");
+    PointLightSix->DoTranslation(glm::vec3(10.0f, 0.0, 0.0));
+    PointLightSix->Init(0, 0);
+    LightPositions.push_back(PointLightSix);
     
-    //// Burlywood
-    //m_LightingModel->AddLight({
-    //    .Type = RTRLightType::PointLight,
-    //    .Ambient = glm::vec3(222.0f / 255.0f, 184.0f / 255.0f, 135.0f / 255.0f),
-    //    .Diffuse = glm::vec3(222.0f / 255.0f, 184.0f / 255.0f, 135.0f / 255.0f),
-    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
-    //    .Position = glm::vec3(0.0, 0.0, -25.0f),
-    //    .Constant = 1.0f,
-    //    .Linear = 0.35f,
-    //    .Quadratic = 0.44f
-    //    });
+    // Burlywood
+    m_LightingModel->AddLight({
+        .Type = RTRLightType::PointLight,
+        .Ambient = glm::vec3(222.0f / 255.0f, 184.0f / 255.0f, 135.0f / 255.0f),
+        .Diffuse = glm::vec3(222.0f / 255.0f, 184.0f / 255.0f, 135.0f / 255.0f),
+        .Specular = glm::vec3(1.0, 1.0, 1.0),
+        .Position = glm::vec3(-10.0f, 0.0, 0.0),
+        .Constant = 1.0f,
+        .Linear = 0.35f,
+        .Quadratic = 0.44f,
+        .LightsOn = true
+        });
+    RTRCube* PointLightSeven = new RTRCube(modelMatrix, 0);
+    PointLightSeven->SetName("PointLightSeven");
+    PointLightSeven->DoTranslation(glm::vec3(-10.0f, 0.0, 0.0));
+    PointLightSeven->Init(0, 0);
+    LightPositions.push_back(PointLightSeven);
     
-    //// Brown
-    //m_LightingModel->AddLight({
-    //    .Type = RTRLightType::PointLight,
-    //    .Ambient = glm::vec3(255.0f / 255.0f, 255.0f / 255.0f, 0.0f),
-    //    .Diffuse = glm::vec3(255.0f / 255.0f, 255.0f / 255.0f, 0.0f),
-    //    .Specular = glm::vec3(1.0, 1.0, 1.0),
-    //    .Position = glm::vec3(0.0, 0.0, 25.0f),
-    //    .Constant = 1.0f,
-    //    .Linear = 0.35f,
-    //    .Quadratic = 0.44f
-    //    });
+    // White
+    m_LightingModel->AddLight({
+        .Type = RTRLightType::PointLight,
+        .Ambient = glm::vec3(0.2f, 0.2f, 0.2f),
+        .Diffuse = glm::vec3(0.2f, 0.2f, 0.2f),
+        .Specular = glm::vec3(1.0, 1.0, 1.0),
+        .Position = glm::vec3(0.0, 5.0f, 5.0f),
+        .Constant = 1.0f,
+        .Linear = 0.35f,
+        .Quadratic = 0.44f,
+        .LightsOn = true
+        });
+    RTRCube* PointLightEight = new RTRCube(modelMatrix, 0);
+    PointLightEight->SetName("PointLightEight");
+    PointLightEight->DoTranslation(glm::vec3(0.0, 5.0f, 5.0f));
+    PointLightEight->Init(0, 0);
+    LightPositions.push_back(PointLightEight);
 }
 
 void RTRWorld::StartObjects(glm::mat4 modelMatrix)
@@ -173,14 +198,7 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     m_ShinyMetalTexture = LoadTexture("Src/Textures/ShinyMetal/Metal012_1K_Color.jpg");
     m_RoughMetalTexture = LoadTexture("Src/Textures/RoughMetal/Metal010_1K_Color.jpg");
     m_OuterRimTexture = LoadTexture("Src/Textures/outer_container.png");
-
-    // Test cube
-    //RTRCube* TestCube = new RTRCube(modelMatrix, m_TableAngle);
-    //TestCube->SetName("TestCube");
-    //TestCube->DoTranslation(glm::vec3(0.0f, 0.0f, 0.0f));
-    //TestCube->Init(m_RoughMetalTexture, m_ShinyMetalTexture);
-
-    //StaticPinballObjects.push_back(TestCube);
+    m_StarParticlesTexture = LoadTexture("Src/Textures/star_01_black.jpg");
     
     // Static Pinball machine and related objects
     RTRCube* m_BottomPlane = new RTRCube(modelMatrix, m_TableAngle);
@@ -383,7 +401,7 @@ void RTRWorld::StartObjects(glm::mat4 modelMatrix)
     m_Plunger->SetScale(glm::vec3(0.5f, 0.5f, 3.0f));
     m_Plunger->DoRotation(glm::vec3(1.0f, 0.0f, 0.0f), m_TableAngle);
     m_Plunger->DoScale(glm::vec3(0.5f, 0.5f, 3.0f));
-    m_Plunger->DoTranslation(glm::vec3(11.75f, -1.5f, 3.2f));
+    m_Plunger->DoTranslation(glm::vec3(11.75f, -1.5f, 3.1f));
     m_Plunger->Init(m_ShinyMetalTexture, m_RoughMetalTexture);
 
     RTRCube* m_RightFlipper = new RTRCube(modelMatrix, m_TableAngle);
@@ -584,17 +602,14 @@ void RTRWorld::ChangeAllObjectsAngle() {
 
 void RTRWorld::PointLightColOn(float dt) {
     float actualDT = dt / 1000.0f;
-
     for (int i = 1; i < GetLightingModel()->GetNumLights(); i++ ) {
-        if (GetLightingModel()->GetLight(i)->LightsOn == true) {
+        if ((GetLightingModel()->GetLight(i)->LightsOn == true) && (i > 0) && (i < 6)) {
             int lightPos = i - 1;
 
             LightPositions.at(lightPos)->SetTimer(LightPositions.at(lightPos)->GetTimer() + actualDT);
 
-            std::cout << "Timer num: " << LightPositions.at(lightPos)->GetTimer() << std::endl;
-
-            if (LightPositions.at(lightPos)->GetTimer() > 1000.0f) {
-                LightPositions.at(lightPos)->SetTimer(0);
+            if (LightPositions.at(lightPos)->GetTimer() > 2.0f) {
+                LightPositions.at(lightPos)->SetTimer(0.0f);
                 GetLightingModel()->GetLight(i)->LightsOn = false;
             }
         }

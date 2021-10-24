@@ -30,8 +30,7 @@ public:
 	RTRShader* m_SkyboxShader{ nullptr };
 	RTRShader* m_NoTextureShader{ nullptr };
 	RTRShader* m_EnvMappingShader{ nullptr };
+	RTRShader* m_ParticlesShader{ nullptr };
 
 private:
-	float lastTime{ 0 };
-	float timer{ 0 };
 };

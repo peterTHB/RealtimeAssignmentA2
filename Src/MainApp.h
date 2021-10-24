@@ -15,6 +15,7 @@
 #include "Console.h"
 #include "RTRPhysicsEngine.h"
 #include "RTRRenderer.h"
+#include "RTRParticles.h"
 
 static const float BALL_START_POS = 6.66761f;
 
@@ -56,4 +57,5 @@ private:
 
     RTRPhysicsEngine* m_RTRPhysicsEngine{ nullptr };
     RTRRenderer* m_RTRRenderer{ nullptr };
+    RTRParticles* m_RTRParticles{ nullptr };
 };

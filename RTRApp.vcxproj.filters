@@ -51,6 +51,9 @@
     <ClCompile Include="Src\RTRBoundingVolume.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Src\RTRParticles.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Src\RTRApp.h">
@@ -84,6 +87,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Src\RTRBoundingVolume.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Src\RTRParticles.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -121,6 +127,12 @@
     <None Include="Src\RTRShaderEnvMapping.geom">
       <Filter>Shader Files</Filter>
     </None>
+    <None Include="Src\RTRShaderParticles.vert">
+      <Filter>Shader Files</Filter>
+    </None>
+    <None Include="Src\RTRShaderParticles.frag">
+      <Filter>Shader Files</Filter>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <Image Include="Src\Skybox\backSpace.jpg">
@@ -139,24 +151,6 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Src\Skybox\topSpace.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Src\Textures\RoughMetal\Metal009_4K_Color.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Src\Textures\FloorWood\WoodFloor046_4K_Color.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Src\Textures\DarkWood\Wood067_4K_Color.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Src\Textures\ShinyMetal\Metal012_4K_Color.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Src\Textures\SmoothMetal\Metal032_4K_Color.jpg">
-      <Filter>Resource Files</Filter>
-    </Image>
-    <Image Include="Src\Textures\SmoothWood\Wood066_4K_Color.jpg">
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Src\Textures\outer_container.png">
@@ -178,6 +172,12 @@
       <Filter>Resource Files</Filter>
     </Image>
     <Image Include="Src\Textures\SmoothWood\Wood066_1K_Color.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Textures\star_01_black.jpg">
+      <Filter>Resource Files</Filter>
+    </Image>
+    <Image Include="Src\Textures\star_01_clear.jpg">
       <Filter>Resource Files</Filter>
     </Image>
   </ItemGroup>

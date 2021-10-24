@@ -41,7 +41,7 @@ public:
     virtual void SetAngle(float angle) { m_Angle = angle; };
     virtual float GetAngle() { return m_Angle; };
     virtual RTRBoundingVolume* GetBoundingVolume(){ return m_BoundingVolume; };
-    virtual void SetTimer(float dt) { m_LightPosTimer += dt; };
+    virtual void SetTimer(float dt) { m_LightPosTimer = dt; };
     virtual float GetTimer() { return m_LightPosTimer; };
 
 protected:

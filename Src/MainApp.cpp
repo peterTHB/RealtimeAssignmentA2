@@ -32,6 +32,7 @@ int MainApp::Init()
     m_RTRWorld = new RTRWorld(m_ModelMatrix);
     m_RTRPhysicsEngine = new RTRPhysicsEngine(m_RTRWorld);
     m_RTRRenderer = new RTRRenderer();
+    m_RTRParticles = new RTRParticles(m_RTRRenderer->ShaderVector.at(6), m_RTRWorld->GetParticlesTexture(), 100);
 
     // Create and initialise the debug console/overlay
     m_Console = new Console();
@@ -50,6 +51,9 @@ void MainApp::Done()
     
     m_RTRPhysicsEngine->Done();
     delete m_RTRPhysicsEngine;
+
+    m_RTRParticles->Done();
+    delete m_RTRParticles;
 
     m_Console->End(); delete m_Console;
 
@@ -205,6 +209,7 @@ void MainApp::UpdateState(unsigned int td_milli)
         dynaObject->SetHasCollidedSphere(false);
     }
 
+    // Uniform grid implementation
     // Clear grid
     m_RTRPhysicsEngine->ClearGrid();
     // Populate grid
@@ -212,9 +217,28 @@ void MainApp::UpdateState(unsigned int td_milli)
     // Check for collisions
     m_RTRPhysicsEngine->UniformGridCollision();
 
+    //// For testing without uniform grid
+    //// Get all collidable objects
+    //std::vector<RTRObject*> allCollidableObjects;
+    //allCollidableObjects.insert(std::end(allCollidableObjects), std::begin(m_RTRWorld->GetStaticCollidablePinballObjects()),
+    //    std::end(m_RTRWorld->GetStaticCollidablePinballObjects()));
+    //allCollidableObjects.insert(std::end(allCollidableObjects), std::begin(m_RTRWorld->GetDynamicObjects()),
+    //    std::end(m_RTRWorld->GetDynamicObjects()));
+    //allCollidableObjects.insert(std::end(allCollidableObjects), std::begin(m_RTRWorld->GetDynamicPinballObjects()),
+    //    std::end(m_RTRWorld->GetDynamicPinballObjects()));
+    //// Determine collision
+    //for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
+    //    for (RTRObject* object : allCollidableObjects) {
+    //        m_RTRPhysicsEngine->DetermineCollisionType(dynaObject, object);
+    //    }
+    //}
+
     // Move Objects
     for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
-        m_RTRPhysicsEngine->MoveBall(dynaObject, m_TimeDelta);
+        if (!dynaObject->GetDestroyed()) {
+            m_RTRPhysicsEngine->MoveBall(dynaObject, m_TimeDelta);
+            m_RTRParticles->Update(td_milli, dynaObject, 10);
+        }
     }
 
     // Shoot current ball
@@ -233,6 +257,7 @@ void MainApp::UpdateState(unsigned int td_milli)
         m_ShootBall = false;
     }
 
+    // For turning lights on
     m_RTRWorld->PointLightColOn(td_milli);
 
     // Change angle of table
@@ -285,6 +310,9 @@ void MainApp::RenderFrame()
                 dynaObject->GetBoundingVolume(), m_Camera, m_RTRWorld->GetLightingModel(), m_CurTime, m_TimeDelta);
         }
     }
+
+    //For rendering particles
+    m_RTRParticles->Render(m_ViewMatrix, m_ProjectionMatrix, 1.0f);
 
     // For plunger use
     glm::mat4 plungerPosition = m_RTRWorld->GetDynamicPinballObjects().at(0)->GetTransformMatrix();
