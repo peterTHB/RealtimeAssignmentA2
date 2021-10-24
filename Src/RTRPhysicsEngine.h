@@ -47,10 +47,11 @@ public:
 	virtual std::vector<std::vector<GridInfo>> GetUniformGrid() { return m_UniformGrid2D; };
 	virtual void SetUpUniformGrid();
 	virtual void PopulateGrid();
+	virtual void AddDynamicsToGrid();
 	virtual void UniformGridCollision();
 	virtual void DetermineCollisionType(RTRObject* object, RTRObject* object2);
 	virtual void AddToGrid(RTRObject* currObject);
-	virtual void ClearGrid();
+	virtual void ClearDynamicsFromGrid();
 	virtual void PointLightsUp(RTRSphere* sphere);
 	virtual void Done();
 

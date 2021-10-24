@@ -183,17 +183,6 @@ void MainApp::CheckInput()
     }
 }
 
-std::vector<RTRObject*> MainApp::CombineAllObjects() {
-    std::vector<RTRObject*> allObjects;
-
-    std::vector<RTRObject*> vector1 = m_RTRWorld->GetStaticCollidablePinballObjects();
-    std::vector<RTRObject*> vector2 = m_RTRWorld->GetDynamicPinballObjects();
-    allObjects.insert(std::end(allObjects), std::begin(vector1), std::end(vector1));
-    allObjects.insert(std::end(allObjects), std::begin(vector2), std::end(vector2));
-
-    return allObjects;
-}
-
 void MainApp::UpdateState(unsigned int td_milli)
 {
     // Update directional camera to align with camera forward direction
@@ -211,25 +200,24 @@ void MainApp::UpdateState(unsigned int td_milli)
 
     // Uniform grid implementation
     // Clear grid
-    m_RTRPhysicsEngine->ClearGrid();
+    m_RTRPhysicsEngine->ClearDynamicsFromGrid();
     // Populate grid
-    m_RTRPhysicsEngine->PopulateGrid();
+    m_RTRPhysicsEngine->AddDynamicsToGrid();
     // Check for collisions
     m_RTRPhysicsEngine->UniformGridCollision();
 
     //// For testing without uniform grid
     //// Get all collidable objects
-    //std::vector<RTRObject*> allCollidableObjects;
-    //allCollidableObjects.insert(std::end(allCollidableObjects), std::begin(m_RTRWorld->GetStaticCollidablePinballObjects()),
-    //    std::end(m_RTRWorld->GetStaticCollidablePinballObjects()));
-    //allCollidableObjects.insert(std::end(allCollidableObjects), std::begin(m_RTRWorld->GetDynamicObjects()),
-    //    std::end(m_RTRWorld->GetDynamicObjects()));
-    //allCollidableObjects.insert(std::end(allCollidableObjects), std::begin(m_RTRWorld->GetDynamicPinballObjects()),
-    //    std::end(m_RTRWorld->GetDynamicPinballObjects()));
     //// Determine collision
     //for (RTRSphere* dynaObject : m_RTRWorld->GetDynamicObjects()) {
-    //    for (RTRObject* object : allCollidableObjects) {
-    //        m_RTRPhysicsEngine->DetermineCollisionType(dynaObject, object);
+    //    for (RTRObject* object1 : m_RTRWorld->GetStaticCollidablePinballObjects()) {
+    //        m_RTRPhysicsEngine->DetermineCollisionType(dynaObject, object1);
+    //    }
+    //    for (RTRObject* object2 : m_RTRWorld->GetDynamicPinballObjects()) {
+    //        m_RTRPhysicsEngine->DetermineCollisionType(dynaObject, object2);
+    //    }
+    //    for (RTRSphere* sphere : m_RTRWorld->GetDynamicObjects()) {
+    //        m_RTRPhysicsEngine->DetermineCollisionType(dynaObject, sphere);
     //    }
     //}
 
@@ -249,8 +237,8 @@ void MainApp::UpdateState(unsigned int td_milli)
                 float posZ = BALL_START_POS - dynaObject->GetPosition().z - 1.1f;
                 m_RTRPhysicsEngine->TranslateBall(dynaObject, 0, 0, posZ);
 
-                dynaObject->SetVerticalPower(-m_RTRPhysicsEngine->GetPower() + dynaObject->GetVerticalPower());
-                dynaObject->SetHorizontalPower(m_RTRPhysicsEngine->GetPower() + dynaObject->GetHorizontalPower());
+                dynaObject->SetVerticalPower(-m_RTRPhysicsEngine->GetPower());
+                dynaObject->SetHorizontalPower(m_RTRPhysicsEngine->GetPower());
                 dynaObject->SetMovingForward(true);
             }
         }
